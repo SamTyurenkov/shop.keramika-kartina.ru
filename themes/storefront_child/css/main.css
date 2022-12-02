@@ -2,7 +2,7 @@
     font-family: "Neucha";
     font-style: normal;
     font-weight: normal;
-    src: local("Neucha"), url("https://shop.keramika-kartina.ru/wp-content/themes/storefront_child/fonts/Neucha-Regular.ttf");
+    src: local("Neucha"), url("/wp-content/themes/storefront_child/fonts/Neucha-Regular.ttf");
     font-display: swap;  
 }
 html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
@@ -17,4 +17,60 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
 }
 * {
 	outline: none !important;
+}
+
+.wpfMainWrapper {
+	display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.wpfFilterWrapper {
+    flex: 0 0 calc(16% - 25px);
+	margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+	.wpfFilterWrappe {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+.wpfFilterWrapper i {
+	display: none !important;
+}
+.wpfFilterButton.wpfButton, .wpfClearButton.wpfButton {
+	font-family: "Neucha";
+    white-space: nowrap;
+	font-size: 15px;
+	height: 52px;
+}
+.site-content .wpfFilterWrapper .ui-slider-horizontal {
+    margin-top: 5px !important;
+	margin-bottom: 0;
+}
+.site-content .wpfFilterWrapper .wpfPriceInputs {
+	margin-top: 0;
+	font-size: 14px;
+	font-family: "Neucha";
+}
+.site-content .ui-slider.ui-widget-content .ui-slider-handle {
+    background: #fff;
+    border: 1px solid #000 !important;
+    border-radius: 5px;
+	height: 1em;
+}
+
+.site-content .ui-slider.ui-widget-content .ui-slider-handle:hover, .site-content .ui-slider.ui-widget-content .ui-slider-handle.ui-state-hover, .site-content .ui-slider.ui-widget-content .ui-slider-handle.ui-state-active {
+    border-color: #000 !important;
+	background: #444 !important;
+}
+
+.wpfFilterButtons {
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+}
+
+.wpfPreviewLoader {
+	display: none !important;
 }
