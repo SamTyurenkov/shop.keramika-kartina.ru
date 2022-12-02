@@ -23,12 +23,19 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
 	display: flex;
     flex-wrap: wrap;
     gap: 20px;
+	justify-content: space-between;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+	padding-top: 5px;
+    padding-bottom: 5px;
 }
 .wpfFilterWrapper {
     flex: 0 0 calc(16% - 25px);
 	margin: 0 !important;
 }
-
+.wpfFilterTitle {
+	pointer-events: none;
+}
 @media (min-width: 768px) {
 	.wpfFilterWrappe {
 		margin-top: 0;
@@ -39,10 +46,10 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
 	display: none !important;
 }
 .wpfFilterButton.wpfButton, .wpfClearButton.wpfButton {
-	font-family: "Neucha";
-    white-space: nowrap;
-	font-size: 15px;
-	height: 52px;
+    font-family: "Neucha";
+    white-space: nowrap !important;
+    height: 52px;
+    width: 100% !important;
 }
 .site-content .wpfFilterWrapper .ui-slider-horizontal {
     margin-top: 5px !important;
