@@ -37,10 +37,14 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
     border-bottom: 1px solid #f0f0f0;
 	padding-top: 5px;
     padding-bottom: 5px;
+	margin-bottom: 35px;
 }
 .wpfFilterWrapper {
     flex: 0 0 calc(16% - 25px);
 	margin: 0 !important;
+}
+.wpfFilterContent option:hover {
+	background-color: #f2f2f2;
 }
 @media(max-width:600px) {
 	.menu-toggle {
