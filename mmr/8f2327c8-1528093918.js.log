@@ -1,8 +1,0 @@
-2018-12-06T13:41:14+00:00 - MERGED:
- - jquery-core - /wp-includes/js/jquery/jquery.js
- - jquery-migrate - /wp-includes/js/jquery/jquery-migrate.min.js - unminified version used
- - zxcvbn-async - /wp-includes/js/zxcvbn-async.min.js - unminified version used
- - password-strength-meter - /wp-admin/js/password-strength-meter.min.js - unminified version used
- - virtue_smoothscroll - https://apanties.ru/wp-content/themes/virtue_premium/assets/js/min/nicescroll-min.js
-2018-12-06T13:41:19+00:00 - COMPRESSING WITH MINIFY (PHP exec not available or java not found)
-2018-12-06T13:41:19+00:00 - COMPRESSION COMPLETE - 10.33K saved

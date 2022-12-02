@@ -1,6 +1,0 @@
-2018-11-13T21:15:57+00:00 - MERGED:
- - jquery-core - /wp-includes/js/jquery/jquery.js
- - jquery-migrate - /wp-includes/js/jquery/jquery-migrate.min.js - unminified version used
- - virtue_smoothscroll - https://apanties.ru/wp-content/themes/virtue_premium/assets/js/min/nicescroll-min.js
-2018-11-13T21:15:58+00:00 - COMPRESSING WITH MINIFY (PHP exec not available or java not found)
-2018-11-13T21:15:58+00:00 - COMPRESSION COMPLETE - 9.08K saved
