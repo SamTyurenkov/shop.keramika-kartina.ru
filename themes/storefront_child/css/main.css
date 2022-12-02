@@ -18,7 +18,16 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
 * {
 	outline: none !important;
 }
-
+.button, .search-field {
+	border-radius: 5px;
+}
+.menu li:hover a:not(.cart-contents) {
+	text-decoration: underline;
+	color: #000 !important;
+}
+.site-header {
+	margin-bottom: 40px !important;
+}
 .wpfMainWrapper {
 	display: flex;
     flex-wrap: wrap;
@@ -33,15 +42,39 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
     flex: 0 0 calc(16% - 25px);
 	margin: 0 !important;
 }
+@media(max-width:600px) {
+	.menu-toggle {
+		padding: 0 !important;
+		border: none !important;
+	}
+	.menu-toggle span {
+		font-size: 18px;
+	}
+	button.menu-toggle::before, button.menu-toggle::after, button.menu-toggle span::before {
+		left: -25px;
+	}
+	.site-branding .site-title {
+		display: flex;
+	}
+	.site-branding .site-title a {
+		font-size: 22px;
+		line-height: 26px;
+	}
+	.wpfFilterWrapper, .wpfFilterButtons {
+		min-width: 145px !important;
+	}
+}
+
+@media(max-width:400px) {
+	.wpfFilterWrapper, .wpfFilterButtons {
+		min-width: 135px !important;
+	}
+}
+
 .wpfFilterTitle {
 	pointer-events: none;
 }
-@media (min-width: 768px) {
-	.wpfFilterWrappe {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
-}
+
 .wpfFilterWrapper i {
 	display: none !important;
 }

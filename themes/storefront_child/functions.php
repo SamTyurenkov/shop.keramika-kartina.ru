@@ -31,5 +31,6 @@ remove_action( 'woocommerce_before_shop_loop', 'storefront_sorting_wrapper_close
 add_action( 'woocommerce_before_shop_loop', 'storefront_child_filter', 9 );
 
 function storefront_child_filter() {
+	if(!is_search() && (is_home() || is_front_page()))
 	echo do_shortcode('[wpf-filters id=1]');
 }
