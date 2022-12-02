@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Neucha";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Neucha"), url("https://shop.keramika-kartina.ru/wp-content/themes/storefront_child/fonts/Neucha-Regular.ttf");
+    font-display: swap;  
+}
+html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
+	font-family: "Neucha";
+}
+@media (min-width: 768px) {
+	.right-sidebar .content-area {
+		width: 100%;
+		float: left;
+		margin-right: 0;
+	}
+}
+* {
+	outline: none !important;
+}

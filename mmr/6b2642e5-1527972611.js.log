@@ -1,0 +1,14 @@
+2018-12-06T13:41:15+00:00 - MERGED:
+ - contact-form-7 - https://apanties.ru/wp-content/plugins/contact-form-7/includes/js/scripts.js
+ - wc-add-to-cart - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js - unminified version used
+ - jquery-blockui - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js - unminified version used
+ - js-cookie - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js - unminified version used
+ - woocommerce - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js - unminified version used
+ - wc-country-select - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/country-select.min.js - unminified version used
+ - wc-address-i18n - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/address-i18n.min.js - unminified version used
+ - wc-cart - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/cart.min.js - unminified version used
+ - selectWoo - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js - unminified version used
+ - wc-password-strength-meter - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/password-strength-meter.min.js - unminified version used
+ - wc-cart-fragments - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js - unminified version used
+2018-12-06T13:41:19+00:00 - COMPRESSING WITH MINIFY (PHP exec not available or java not found)
+2018-12-06T13:41:19+00:00 - COMPRESSION COMPLETE - 85.87K saved

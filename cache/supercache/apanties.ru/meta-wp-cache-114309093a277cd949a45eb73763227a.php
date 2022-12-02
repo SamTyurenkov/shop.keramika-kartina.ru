@@ -1,0 +1,1 @@
+<?php die(); ?>{"headers":{"Vary":"Vary: Accept-Encoding, Cookie","Content-Type":"Content-Type: text\/html; charset=UTF-8","Link":"Link: <https:\/\/apanties.ru\/wp-json\/>; rel=\"https:\/\/api.w.org\/\"","Last-Modified":"Last-Modified: Sun, 02 Jun 2019 20:35:00 GMT"},"uri":"apanties.ru\/","blog_id":1,"post":0,"key":"apanties.ru81\/"}

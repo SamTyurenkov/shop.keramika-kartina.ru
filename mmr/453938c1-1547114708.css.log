@@ -1,0 +1,12 @@
+2019-01-11T04:15:15+00:00 - MERGED:
+ - wp-block-library - /wp-includes/css/dist/block-library/style.min.css
+ - contact-form-7 - https://apanties.ru/wp-content/plugins/contact-form-7/includes/css/styles.css
+ - siteorigin-panels-front - https://apanties.ru/wp-content/plugins/siteorigin-panels/css/front-flex.min.css
+ - virtue_main - https://apanties.ru/wp-content/themes/virtue_premium/assets/css/virtue.css
+ - virtue_woo - https://apanties.ru/wp-content/themes/virtue_premium/assets/css/virtue-woocommerce.css
+ - virtue_so_pb - https://apanties.ru/wp-content/themes/virtue_premium/assets/css/virtue-so-page-builder.css
+ - virtue_icons - https://apanties.ru/wp-content/themes/virtue_premium/assets/css/virtue_icons.css
+ - virtue_skin - https://apanties.ru/wp-content/themes/virtue_premium/assets/css/skins/default.css
+ - virtue_child - https://apanties.ru/wp-content/themes/virtue_asp/style.css
+2019-01-11T04:15:24+00:00 - COMPRESSING CSS
+2019-01-11T04:15:24+00:00 - COMPRESSION COMPLETE - 920.00B saved

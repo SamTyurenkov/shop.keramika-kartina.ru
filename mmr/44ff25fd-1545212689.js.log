@@ -1,0 +1,9 @@
+2018-12-19T10:50:03+00:00 - MERGED:
+ - contact-form-7 - https://apanties.ru/wp-content/plugins/contact-form-7/includes/js/scripts.js
+ - jquery-blockui - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js - unminified version used
+ - wc-add-to-cart - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js - unminified version used
+ - js-cookie - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js - unminified version used
+ - woocommerce - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js - unminified version used
+ - wc-cart-fragments - https://apanties.ru/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js - unminified version used
+2018-12-19T11:31:48+00:00 - COMPRESSING WITH MINIFY (PHP exec not available or java not found)
+2018-12-19T11:31:48+00:00 - COMPRESSION COMPLETE - 16.98K saved

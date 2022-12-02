@@ -1,0 +1,5 @@
+2019-01-04T14:45:34+00:00 - MERGED:
+ - jquery-core - /wp-includes/js/jquery/jquery.js
+ - jquery-migrate - /wp-includes/js/jquery/jquery-migrate.min.js - unminified version used
+ - zxcvbn-async - /wp-includes/js/zxcvbn-async.min.js - unminified version used
+ - password-strength-meter - /wp-admin/js/password-strength-meter.min.js - unminified version used
