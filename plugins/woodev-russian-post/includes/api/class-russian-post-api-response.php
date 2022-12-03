@@ -9,8 +9,11 @@ class WC_Russian_Post_API_Response extends Woodev_API_JSON_Response {
 		$errors = array();
 		
 		if ( $this->errors ) {
+
 			foreach( ( array ) $this->errors as $error_codes ) {
-				if( $error_codes->{'error-codes'} ) {
+				if (is_string($error_codes)) {
+					$errors[ 'UNKNOWN_SINGLE_ERROR' ] = $error_codes;
+				} else if( $error_codes->{'error-codes'} ) {
 					foreach( $error_codes->{'error-codes'} as $error ) {
 						$errors[ $error->code ] = $error->description;
 					}
