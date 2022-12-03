@@ -377,7 +377,7 @@ class WC_Russian_Post_Shipping_Simple extends WC_Russian_Post_Shipping {
 			$mailtypes = wc_russian_post_get_mail_types( $mail_type );
 			if(is_array($mailtypes)) implode(',',$mailtypes);
 
-			$this->get_plugin()->log( sprintf( 'Тип отправления %s недоступен для данного пользователя',  ) );
+			$this->get_plugin()->log( sprintf( 'Тип отправления %s недоступен для данного пользователя', $mailtypes ) );
 			return;
 		}
 		
