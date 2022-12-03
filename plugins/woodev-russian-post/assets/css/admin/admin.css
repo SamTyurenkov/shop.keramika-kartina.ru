@@ -1,0 +1,118 @@
+.widefat .wc_actions .export_to_russian_post,
+#wc_russian_post_order_meta_box .wc_actions .export_to_russian_post,
+.widefat .wc_actions .remove_to_russian_post,
+#wc_russian_post_order_meta_box .wc_actions .remove_to_russian_post {
+    display: block;
+    text-indent: -9999px;
+    position: relative;
+    height: 1em;
+    width: 1em;
+    padding: 0 !important;
+    height: 2em !important;
+    width: 2em
+}
+
+.widefat .wc_actions .export_to_russian_post:after,
+#wc_russian_post_order_meta_box .wc_actions .export_to_russian_post:after,
+.widefat .wc_actions .remove_to_russian_post:after,
+#wc_russian_post_order_meta_box .wc_actions .remove_to_russian_post:after {
+    font-family: 'dashicons';
+    speak: none;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    text-indent: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.widefat .wc_actions .export_to_russian_post:after,
+#wc_russian_post_order_meta_box .wc_actions .export_to_russian_post:after {
+	content: "";
+}
+
+.widefat .wc_actions .remove_to_russian_post:after,
+#wc_russian_post_order_meta_box .wc_actions .remove_to_russian_post:after {
+	content: "\f182";
+}
+
+.widefat td.column-russian_post_status,
+#wc_russian_post_order_meta_box td.column-russian_post_status {
+    padding-top: 10px
+}
+
+.widefat .column-russian_post_status,
+.widefat .russian_post_status,
+#wc_russian_post_order_meta_box .column-russian_post_status,
+#wc_russian_post_order_meta_box .russian_post_status {
+    width: 75px;
+    text-align: center
+}
+
+.widefat .column-russian_post_status mark,
+.widefat .russian_post_status mark,
+#wc_russian_post_order_meta_box .column-russian_post_status mark,
+#wc_russian_post_order_meta_box .russian_post_status mark {
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 2px;
+    background: #999;
+    font-size: 11px;
+    line-height: 2.5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    margin: 0;
+    color: #fff;
+    font-weight: bold
+}
+
+.widefat .column-russian_post_status mark.new,
+.widefat .russian_post_status mark.new,
+#wc_russian_post_order_meta_box .column-russian_post_status mark.new,
+#wc_russian_post_order_meta_box .russian_post_status mark.new {
+    background-color: #999
+}
+
+.widefat .column-russian_post_status mark.shipped,
+.widefat .column-russian_post_status mark.completed,
+.widefat .russian_post_status mark.shipped,
+.widefat .russian_post_status mark.completed,
+#wc_russian_post_order_meta_box .column-russian_post_status mark.shipped,
+#wc_russian_post_order_meta_box .column-russian_post_status mark.completed,
+#wc_russian_post_order_meta_box .russian_post_status mark.shipped,
+#wc_russian_post_order_meta_box .russian_post_status mark.completed {
+    background-color: #a0658b
+}
+
+.widefat .column-russian_post_status mark.failed,
+.widefat .russian_post_status mark.failed,
+#wc_russian_post_order_meta_box .column-russian_post_status mark.failed,
+#wc_russian_post_order_meta_box .russian_post_status mark.failed,
+.widefat .column-russian_post_status mark.deleted,
+.widefat .russian_post_status mark.deleted,
+#wc_russian_post_order_meta_box .column-russian_post_status mark.deleted,
+#wc_russian_post_order_meta_box .russian_post_status mark.deleted {
+	background: #eba3a3;
+    color: #761919;
+}
+
+#wc_russian_post_order_meta_box {
+    text-align: left
+}
+
+#wc_russian_post_order_meta_box a.button {
+    margin-top: 10px
+}
+
+#wc_russian_post_order_meta_box th {
+    width: 48%
+}

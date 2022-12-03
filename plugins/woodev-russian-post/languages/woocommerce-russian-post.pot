@@ -1,0 +1,274 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Woocommerce edostavka\n"
+"POT-Creation-Date: 2021-03-07 13:44+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Maksim <maksim@martirosoff.ru>\n"
+"Language-Team: Woodev <info@woodev.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_attr_e;esc_html__;esc_html_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/admin/class-wc-russian-post-admin.php:80
+#: includes/class-wc-russian-post-order.php:245
+#: includes/emails/class-wc-russian-post-order-exception-email.php:150
+msgid "N/A"
+msgstr ""
+
+#: includes/admin/class-wc-russian-post-admin.php:220
+#, php-format
+msgid "%1$s статус изменён."
+msgid_plural "%1$s статусы изменены."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: includes/class-wc-russian-gateway-cod.php:61
+msgid "Pay by card?"
+msgstr ""
+
+#: includes/class-wc-russian-gateway-cod.php:83
+msgid "Payment method description that the customer will see on your checkout."
+msgstr ""
+
+#: includes/class-wc-russian-gateway-cod.php:88
+msgid "Description"
+msgstr ""
+
+#: includes/class-wc-russian-gateway-cod.php:90
+msgid "Payment method description that the customer will see on your website."
+msgstr ""
+
+#: includes/class-wc-russian-gateway-cod.php:95
+msgid "Instructions"
+msgstr ""
+
+#: includes/class-wc-russian-gateway-cod.php:97
+msgid "Instructions that will be added to the thank you page."
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:119
+msgid "Failed to set pickup point"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:191
+#: includes/class-wc-russian-post-checkout.php:205
+msgid "Follow delivery status"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:276
+msgid "SMS notices"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:280
+msgid "I would like get SMS notices"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:522
+#: templates/html-modal-map.php:13
+msgid "Choose delivery point"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:534
+msgid "You have chosen delivery point"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:535
+msgid "Another delivery point"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:541
+#: templates/html-modal-map.php:30
+msgid "Delivery point"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:575
+#, php-format
+msgid "from %s"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:576
+#: includes/class-wc-russian-post-checkout.php:582
+#, php-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: includes/class-wc-russian-post-checkout.php:578
+#, php-format
+msgctxt "количество дней ДО"
+msgid " to %s"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:584
+#, php-format
+msgctxt "количество дней ДО"
+msgid "to %s"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:588
+msgid "Time of delivery"
+msgstr ""
+
+#: includes/class-wc-russian-post-checkout.php:694
+msgid "To continue you must select delivery point (post office) on the map"
+msgstr ""
+
+#: includes/emails/class-wc-russian-post-order-exception-email.php:162
+msgid "Plain text"
+msgstr ""
+
+#: includes/emails/class-wc-russian-post-order-exception-email.php:163
+msgid "HTML"
+msgstr ""
+
+#: includes/emails/class-wc-russian-post-order-exception-email.php:164
+msgid "Multipart"
+msgstr ""
+
+#: templates/html-modal-map.php:15
+msgid "Close"
+msgstr ""
+
+#: templates/html-modal-map.php:30
+msgid "Office"
+msgstr ""
+
+#: templates/html-modal-map.php:52
+msgid "Pay by card"
+msgstr ""
+
+#: templates/html-modal-map.php:53
+msgid "Pay by cash"
+msgstr ""
+
+#: templates/html-modal-map.php:54
+msgid "Prepay only"
+msgstr ""
+
+#: templates/html-modal-map.php:64
+msgid "Content checking"
+msgstr ""
+
+#: templates/html-modal-map.php:65
+msgid "Partian redemption"
+msgstr ""
+
+#: templates/html-modal-map.php:66
+msgid "Fitting"
+msgstr ""
+
+#: templates/html-modal-map.php:67
+msgid "Functionality checking"
+msgstr ""
+
+#: templates/html-modal-map.php:72
+msgid "Show more..."
+msgstr ""
+
+#: templates/html-modal-map.php:74
+msgid "Pick-up here"
+msgstr ""
+
+#: templates/html-modal-map.php:76
+msgid "Unable to deliver to this pickup point"
+msgstr ""
+
+#: woodev-russian-post.php:307
+msgid "New"
+msgstr ""
+
+#: woodev-russian-post.php:308
+msgid "Failed"
+msgstr ""
+
+#: woodev-russian-post.php:309
+msgid "Shipped"
+msgstr ""
+
+#: woodev-russian-post.php:310
+msgid "Deleted"
+msgstr ""
+
+#: woodev/bootstrap.php:133
+msgid ""
+"Следующий плагин отключен, потому что он устарел и несовместим с новыми "
+"плагинами на вашем сайте:"
+msgid_plural ""
+"Следующие плагины отключены, потому что они устарели и несовместимы с новыми "
+"плагинами на вашем сайте:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: woodev/bootstrap.php:144
+#, php-format
+msgid ""
+"Что бы решить эту проблему, пожалуйста %1$sобновите%2$s (рекомендуется) "
+"%3$sили%4$s %5$sдеактивируйте%6$s вышеуказанный плагин, или "
+"%7$sдеактивируйте эти%8$s:"
+msgid_plural ""
+"Что бы решить эту проблему, пожалуйста %1$sобновите%2$s (рекомендуется) "
+"%3$sили%4$s %5$sдеактивируйте%6$s вышеуказанные плагины, или "
+"%7$sдеактивируйте эти%8$s:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: woodev/class-helper.php:393
+msgctxt "coordinating conjunction for a list of items: a, b, and c"
+msgid "and"
+msgstr ""
+
+#: woodev/class-plugin-compatibility.php:141
+msgid "WooCommerce"
+msgstr ""
+
+#: woodev/class-plugin.php:167
+msgid "Указать лицензию"
+msgstr ""
+
+#: woodev/class-plugin.php:168
+msgid "Закрыть"
+msgstr ""
+
+#: woodev/class-plugin.php:170
+msgid ""
+"Во время загрузки данных о лицензии произошла ошибка. Закройте это окно и "
+"попробуйте снова."
+msgstr ""
+
+#: woodev/class-plugin.php:257
+#, php-format
+msgid ""
+"Для работы %1$s необходимо PHP расширение %2$s. Свяжитесь с вашим хостинг "
+"провайдером, что бы установить нужное расширение/библиотеку."
+msgid_plural ""
+"Для работы %1$s необходимы PHP расширения %2$s. Свяжитесь с вашим хостинг "
+"провайдером, что бы установить все нужные для работы расширения/библиотеки."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: woodev/class-plugin.php:277
+#, php-format
+msgid ""
+"Для %1$s необходимо наличие PHP функции %2$s. Свяжитесь с вашим хостинг "
+"провайдером, что бы установить нужную функцию."
+msgid_plural ""
+"Для %1$s необходимо наличие PHP функций %2$s. Свяжитесь с вашим хостинг "
+"провайдером, что бы установить нужные функции."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
