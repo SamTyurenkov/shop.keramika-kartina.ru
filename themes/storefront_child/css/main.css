@@ -18,6 +18,21 @@ html,body,h1,h2,h3,h4,h5,h6,p,span,td,a,input,select,option {
 * {
 	outline: none !important;
 }
+input[type=text], input[type=number], input[type=email], input[type=tel], input[type=url], input[type=password], input[type=search], textarea, .input-text {
+    background-color: #fff;
+    color: #43454b;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    font-weight: 400;
+    display: block;
+    padding-left: 8px;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 select option:hover {
 	background-color: #444;
 	cursor: pointer;
