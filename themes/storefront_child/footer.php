@@ -56,7 +56,22 @@
         ecommerce:"dataLayer"
    });
 
-	//ym(91289676, 'reachGoal', 'purchase');
+	
+ $(document).on('click','.add_to_cart_button',function(){
+	ym(91289676, 'reachGoal', 'add_to_cart');
+ });
+
+ $(document).on('click','.single_add_to_cart_button',function(){
+	ym(91289676, 'reachGoal', 'add_to_cart');
+ });
+
+ $(document).on('click','.checkout-button',function(){
+	ym(91289676, 'reachGoal', 'checkout');
+ });
+
+ $(document).on('submit','.woocommerce-checkout',function(){
+	ym(91289676, 'reachGoal', 'kassa');
+ });
 
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/91289676" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
