@@ -56,7 +56,7 @@
         ecommerce:"dataLayer"
    });
 
-	
+ $ = jQuery;
  $(document).on('click','.add_to_cart_button',function(){
 	ym(91289676, 'reachGoal', 'add_to_cart');
  });
