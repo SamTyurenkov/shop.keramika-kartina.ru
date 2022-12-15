@@ -115,7 +115,7 @@ class WC_Russian_Post_Shipping_Simple extends WC_Russian_Post_Shipping {
 				if( $point->{'available-products'} ) {
 					
 					foreach( ( array ) $point->{'available-products'} as $product ) {
-						if( ! in_array( $product->{'mail-type'}, array_keys( $mail_type_options[ $post_code ] ) ) ) {
+						if(!is_array($mail_type_options[ $post_code ]) || !in_array( $product->{'mail-type'}, array_keys( $mail_type_options[ $post_code ] ) ) ) {
 							continue;
 						}
 						
@@ -396,7 +396,7 @@ class WC_Russian_Post_Shipping_Simple extends WC_Russian_Post_Shipping {
 			$mail_category = 'ORDERED';
 		}
 		
-		if( ! in_array( $mail_category, $this->user_profile_options[ $this->shipping_point ]['mail_category'][ $mail_type ] ) ) {
+		if(!is_array( $this->user_profile_options[ $this->shipping_point ]['mail_category'][ $mail_type ]) || !in_array( $mail_category, $this->user_profile_options[ $this->shipping_point ]['mail_category'][ $mail_type ] ) ) {
 			$this->get_plugin()->log( sprintf( 'Категория РПО %s недоступена для данного отправления', wc_russian_post_get_category_parcel( $mail_category ) ) );
 			return;
 		}

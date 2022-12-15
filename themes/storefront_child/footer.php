@@ -69,7 +69,8 @@
 	ym(91289676, 'reachGoal', 'checkout');
  });
 
- $(document).on('submit','.woocommerce-checkout',function(){
+ $( 'form.checkout' ).on( 'checkout_place_order_success', function() {
+	console.log('kassa');
 	ym(91289676, 'reachGoal', 'kassa');
  });
 
