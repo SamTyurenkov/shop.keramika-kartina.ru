@@ -96,7 +96,9 @@ select option:hover {
     background-color: #444;
     cursor: pointer;
 }
-
+.woocommerce-pagination .page-numbers li .page-numbers.current {
+    border-radius: 5px;
+}
 .button,
 .search-field {
     border-radius: 5px;
