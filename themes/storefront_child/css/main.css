@@ -24,6 +24,18 @@ option {
     font-family: "Neucha";
 }
 
+@media(min-width:992px) {
+
+	.site-description {
+		font-size: 18px;
+	}
+
+	.main-navigation ul.menu>li>a, .main-navigation ul.nav-menu>li>a {
+		padding: 22px 1em;
+		font-size: 18px;
+	}
+}
+
 @media (min-width: 768px) {
     .right-sidebar .content-area {
         width: 100%;
@@ -63,6 +75,39 @@ option {
 }
 .shipping-calculator-button:hover {
 background: #000;
+}
+.price {
+	font-size: 18px;
+    color: #000 !important;
+}
+.woocommerce-loop-product__title {
+	font-size: 20px !important;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.woocommerce-loop-product__link {
+	text-align: left;
+}
+.products .product .button {
+	position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.products .product {
+	padding: 15px;
+}
+.products .product img {
+    height: 300px;
+    object-fit: contain;
+	object-position: bottom;
+    width: auto;
+}
+.shopcard-attributes {
+	margin-bottom: 10px;
+}
+.shopcard-attributes__element {
+	color: #000;
 }
 * {
     outline: none !important;
