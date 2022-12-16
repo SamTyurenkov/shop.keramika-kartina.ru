@@ -49,11 +49,18 @@ function storefront_child_show_attributes()
 		'value' => $product->get_attribute('pa_avtory'),
 	);
 
-	if ($product->has_dimensions())
+	if ($product->has_dimensions()) :
 		$attributes[] = array(
 			'name' => 'Размер',
 			'value' => $product->get_dimensions(),
-		); ?>
+		); 
+	else :
+		$attributes[] = array(
+			'name' => 'Размер',
+			'value' => 'Не указан',
+		); 
+	endif;
+		?>
 	<div class="shopcard-attributes">
 		<?php
 
