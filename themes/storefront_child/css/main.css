@@ -94,6 +94,11 @@ background: #000;
 	font-size: 18px;
     color: #000 !important;
 }
+.wpfFilterWrapper select {
+    border: 0;
+    border-top: 1px solid;
+    font-size: 14px;
+}
 .woocommerce-loop-product__title {
 	white-space: nowrap;
     text-overflow: ellipsis;
@@ -251,10 +256,16 @@ select option:hover {
 }
 
 .site-content .wpfFilterWrapper .ui-slider-horizontal {
-    margin-top: 5px !important;
-    margin-bottom: 0;
-}
 
+		margin-top: 0 !important;
+		margin-bottom: 0;
+		border: 0 !important;
+		border-top: 1px solid !important;
+	
+}
+.site-content .wpfFilterWrapper .ui-slider-range {
+	height: 0;
+}
 .site-content .wpfFilterWrapper .wpfPriceInputs {
     margin-top: 0;
     font-size: 14px;
@@ -265,7 +276,7 @@ select option:hover {
     background: #fff;
     border: 1px solid #000 !important;
     border-radius: 5px;
-    height: 1em;
+    height: 15px;
 }
 
 .site-content .ui-slider.ui-widget-content .ui-slider-handle:hover,
