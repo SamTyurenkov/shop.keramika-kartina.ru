@@ -94,9 +94,6 @@ background: #000;
     bottom: 25px;
     right: 10px;
 }
-.products .product {
-	padding: 15px;
-}
 .products .product img {
     height: 300px;
     object-fit: contain;
