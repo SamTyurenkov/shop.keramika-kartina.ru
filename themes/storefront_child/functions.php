@@ -44,9 +44,12 @@ function storefront_child_show_attributes()
 	global $product;
 
 	$attributes = array();
+
+	$avtory = $product->get_attribute('pa_avtory');
+	if(!empty($avtory))
 	$attributes[] = array(
 		'name' => 'Авторы',
-		'value' => $product->get_attribute('pa_avtory'),
+		'value' => $avtory,
 	);
 
 	if ($product->has_dimensions()) :
@@ -60,6 +63,15 @@ function storefront_child_show_attributes()
 			'value' => 'Не указан',
 		); 
 	endif;
+
+
+	$materialy = $product->get_attribute('pa_materialy');
+	if(!empty($materialy))
+	$attributes[] = array(
+		'name' => 'Материалы',
+		'value' => $materialy,
+	);
+
 		?>
 	<div class="shopcard-attributes">
 		<?php
