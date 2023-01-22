@@ -144,7 +144,6 @@ h1 {
 }
 
 .products .product img {
-    height: 300px;
     object-fit: contain;
     object-position: bottom;
     width: auto;
