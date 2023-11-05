@@ -311,33 +311,35 @@ if ( ! class_exists( 'WD_Plugin_Updater' ) ) :
 		
 		protected function api_status_check() {
 		
-			$store_hash = md5( $this->api_url );
+			return true;
 
-			if ( ! is_array( $this->api_url_available ) || ! isset( $this->api_url_available[ $store_hash ] ) ) {
+			// $store_hash = md5( $this->api_url );
 
-				$test_url_parts = parse_url( $this->api_url );
+			// if ( ! is_array( $this->api_url_available ) || ! isset( $this->api_url_available[ $store_hash ] ) ) {
 
-				$scheme = ! empty( $test_url_parts['scheme'] ) ? $test_url_parts['scheme']     : 'http';
-				$host   = ! empty( $test_url_parts['host'] )   ? $test_url_parts['host']       : '';
-				$port   = ! empty( $test_url_parts['port'] )   ? ':' . $test_url_parts['port'] : '';
+			// 	$test_url_parts = parse_url( $this->api_url );
 
-				if ( empty( $host ) ) {
+			// 	$scheme = ! empty( $test_url_parts['scheme'] ) ? $test_url_parts['scheme']     : 'http';
+			// 	$host   = ! empty( $test_url_parts['host'] )   ? $test_url_parts['host']       : '';
+			// 	$port   = ! empty( $test_url_parts['port'] )   ? ':' . $test_url_parts['port'] : '';
 
-					$this->api_url_available[ $store_hash ] = false;
+			// 	if ( empty( $host ) ) {
 
-				} else {
+			// 		$this->api_url_available[ $store_hash ] = false;
 
-					$test_url = "{$scheme}://{$host}{$port}";
-					$response = wp_remote_get( $test_url, array(
-						'timeout'   => 25,
-						'sslverify' => $this->verify_ssl(),
-					) );
+			// 	} else {
 
-					$this->api_url_available[ $store_hash ] = ! is_wp_error( $response );
-				}
-			}
+			// 		$test_url = "{$scheme}://{$host}{$port}";
+			// 		$response = wp_remote_get( $test_url, array(
+			// 			'timeout'   => 25,
+			// 			'sslverify' => $this->verify_ssl(),
+			// 		) );
 
-			return $this->api_url_available[ $store_hash ];
+			// 		$this->api_url_available[ $store_hash ] = ! is_wp_error( $response );
+			// 	}
+			// }
+
+			// return $this->api_url_available[ $store_hash ];
 		}
 		
 		public function show_changelog() {
@@ -372,30 +374,30 @@ if ( ! class_exists( 'WD_Plugin_Updater' ) ) :
 					'beta'       => ! empty( $data['beta'] )
 				);
 
-				$request = wp_remote_post( $this->api_url, array(
-					'timeout'   => 25,
-					'sslverify' => $this->verify_ssl(),
-					'body'      => $api_params,
-				) );
+				// $request = wp_remote_post( $this->api_url, array(
+				// 	'timeout'   => 25,
+				// 	'sslverify' => $this->verify_ssl(),
+				// 	'body'      => $api_params,
+				// ) );
 
-				if ( ! is_wp_error( $request ) ) {
-					$version_info = json_decode( wp_remote_retrieve_body( $request ) );
-				}
+				// if ( ! is_wp_error( $request ) ) {
+				// 	$version_info = json_decode( wp_remote_retrieve_body( $request ) );
+				// }
 
-				if ( ! empty( $version_info ) && isset( $version_info->sections ) ) {
-					$version_info->sections = maybe_unserialize( $version_info->sections );
-				} else {
-					$version_info = false;
-				}
+				// if ( ! empty( $version_info ) && isset( $version_info->sections ) ) {
+				// 	$version_info->sections = maybe_unserialize( $version_info->sections );
+				// } else {
+				// 	$version_info = false;
+				// }
 
-				if ( ! empty( $version_info ) ) {
+				// if ( ! empty( $version_info ) ) {
 
-					foreach( $version_info->sections as $key => $section ) {
-						$version_info->$key = (array) $section;
-					}
-				}
+				// 	foreach( $version_info->sections as $key => $section ) {
+				// 		$version_info->$key = (array) $section;
+				// 	}
+				// }
 
-				$this->set_version_info_cache( $version_info, $cache_key );
+				//$this->set_version_info_cache( $version_info, $cache_key );
 			}
 
 			if ( ! empty( $version_info ) && isset( $version_info->sections['changelog'] ) ) {

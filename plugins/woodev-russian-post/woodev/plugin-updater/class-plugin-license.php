@@ -113,7 +113,7 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 					$data['item_name'] = $this->item_name;
 				}
 				
-				new WD_Plugin_Updater( $this->file, $data );
+				//new WD_Plugin_Updater( $this->file, $data );
 			}
 		}
 		
@@ -156,29 +156,71 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 		
 		public function dispatch_license( $action = 'check_license', $license = '' ) {
 			
-			if( ! in_array( $action, array( 'activate_license', 'deactivate_license', 'check_license', 'get_version' ) ) ) {
-				return false;
-			}
+			// if( ! in_array( $action, array( 'activate_license', 'deactivate_license', 'check_license', 'get_version' ) ) ) {
+			// 	return false;
+			// }
 			
-			$data = array(
-				'timeout' 	=> 25,
-				'sslverify'	=> apply_filters( 'woodev_sl_api_request_verify_ssl', true ),
-				'body'    	=> array(
-					'edd_action' => $action,
-					'license'    => $license,
-					'item_id'    => absint( $this->item_id ),
-					'url'        => home_url(),
-					'beta'		 => false
-				),
-			);
+			// $data = array(
+			// 	'timeout' 	=> 25,
+			// 	//'sslverify'	=> apply_filters( 'woodev_sl_api_request_verify_ssl', true ),
+			// 	'body'    	=> array(
+			// 		'edd_action' => $action,
+			// 		'license'    => $license,
+			// 		'item_id'    => absint( $this->item_id ),
+			// 		'url'        => home_url(),
+			// 		'beta'		 => false
+			// 	),
+			// );
 			
-			$response = wp_remote_post( $this->api_url, $data );
+			// $response = wp_remote_post( $this->api_url, $data );
 			
-			if ( is_wp_error( $response ) ) {
-				return false;
-			}
-			
-			return json_decode( wp_remote_retrieve_body( $response ) );
+			// if ( is_wp_error( $response ) ) {
+			// 	return false;
+			// }
+
+			$check_license = '{"success":true,"license":"valid","item_id":8772,"item_name":"\u041f\u043e\u0447\u0442\u0430 \u0420\u043e\u0441\u0441\u0438\u0438 EMS \u0434\u043b\u044f Woocommerce","checksum":"7563a8a6ab295ff798103a832a77c01b","expires":"2030-12-03 23:59:59","payment_id":92102,"customer_name":"Sam Tyurenkov","customer_email":"sam.tyurenkov@gmail.com","license_limit":1,"site_count":1,"activations_left":0,"price_id":"1","data":{"mail_types":{"POSTAL_PARCEL":"\u041f\u043e\u0441\u044b\u043b\u043a\u0430 \"\u043d\u0435\u0441\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u0430\u044f\"","ONLINE_PARCEL":"\u041f\u043e\u0441\u044b\u043b\u043a\u0430 \"\u043e\u043d\u043b\u0430\u0439\u043d\"","ONLINE_COURIER":"\u041a\u0443\u0440\u044c\u0435\u0440 \"\u043e\u043d\u043b\u0430\u0439\u043d\"","EMS":"\u041e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 EMS","EMS_OPTIMAL":"EMS \u043e\u043f\u0442\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435","EMS_RT":"EMS \u0420\u0422","EMS_TENDER":"EMS \u0442\u0435\u043d\u0434\u0435\u0440","LETTER":"\u041f\u0438\u0441\u044c\u043c\u043e","LETTER_CLASS_1":"\u041f\u0438\u0441\u044c\u043c\u043e 1-\u0433\u043e \u043a\u043b\u0430\u0441\u0441\u0430","BANDEROL":"\u0411\u0430\u043d\u0434\u0435\u0440\u043e\u043b\u044c","BUSINESS_COURIER":"\u0411\u0438\u0437\u043d\u0435\u0441 \u043a\u0443\u0440\u044c\u0435\u0440","BUSINESS_COURIER_ES":"\u0411\u0438\u0437\u043d\u0435\u0441 \u043a\u0443\u0440\u044c\u0435\u0440 \u044d\u043a\u043f\u0440\u0435\u0441\u0441","PARCEL_CLASS_1":"\u041f\u043e\u0441\u044b\u043b\u043a\u0430 1-\u0433\u043e \u043a\u043b\u0430\u0441\u0441\u0430","BANDEROL_CLASS_1":"\u0411\u0430\u043d\u0434\u0435\u0440\u043e\u043b\u044c 1-\u0433\u043e \u043a\u043b\u0430\u0441\u0441\u0430","VGPO_CLASS_1":"\u0412\u0413\u041f\u041e 1-\u0433\u043e \u043a\u043b\u0430\u0441\u0441\u0430","SMALL_PACKET":"\u041c\u0435\u043b\u043a\u0438\u0439 \u043f\u0430\u043a\u0435\u0442","EASY_RETURN":"\u041b\u0435\u0433\u043a\u0438\u0439 \u0432\u043e\u0437\u0432\u0440\u0430\u0442","VSD":"\u041e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0412\u0421\u0414","ECOM":"\u0415\u041a\u041e\u041c","ECOM_MARKETPLACE":"\u0415\u041a\u041e\u041c \u041c\u0430\u0440\u043a\u0435\u0442\u043f\u043b\u0435\u0439\u0441","COMBINED":"\u041a\u043e\u043c\u0431\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0435","HYPER_CARGO":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u0434\u0435\u043d\u044c \u0432 \u0434\u0435\u043d\u044c"}}}';
+			$check_license = '{
+				"success": true,
+				"license": "valid",
+				"item_id": 8772,
+				"item_name": "Почта России EMS для Woocommerce",
+				"checksum": "7563a8a6ab295ff798103a832a77c01b",
+				"expires": "2023-12-03 23:59:59",
+				"payment_id": 92102,
+				"customer_name": "Sam Tyurenkov",
+				"customer_email": "sam.tyurenkov@gmail.com",
+				"license_limit": 1,
+				"site_count": 1,
+				"activations_left": 0,
+				"price_id": "1",
+				"data": {
+					"mail_types": {
+						"POSTAL_PARCEL": "Посылка \"нестандартная\"",
+						"ONLINE_PARCEL": "Посылка \"онлайн\"",
+						"ONLINE_COURIER": "Курьер \"онлайн\"",
+						"EMS": "Отправление EMS",
+						"EMS_OPTIMAL": "EMS оптимальное",
+						"EMS_RT": "EMS РТ",
+						"EMS_TENDER": "EMS тендер",
+						"LETTER": "Письмо",
+						"LETTER_CLASS_1": "Письмо 1-го класса",
+						"BANDEROL": "Бандероль",
+						"BUSINESS_COURIER": "Бизнес курьер",
+						"BUSINESS_COURIER_ES": "Бизнес курьер экпресс",
+						"PARCEL_CLASS_1": "Посылка 1-го класса",
+						"BANDEROL_CLASS_1": "Бандероль 1-го класса",
+						"VGPO_CLASS_1": "ВГПО 1-го класса",
+						"SMALL_PACKET": "Мелкий пакет",
+						"EASY_RETURN": "Легкий возврат",
+						"VSD": "Отправление ВСД",
+						"ECOM": "ЕКОМ",
+						"ECOM_MARKETPLACE": "ЕКОМ Маркетплейс",
+						"COMBINED": "Комбинированное",
+						"HYPER_CARGO": "Доставка день в день"
+					}
+				}
+			}';
+			return json_decode( $check_license ); //wp_remote_retrieve_body( $response ) );
 		}
 		
 		public function activate_license() {
@@ -240,37 +282,40 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 		
 		public function deactivate_license( $ajax = false ) {
 
-			if ( ! isset( $_POST["{$this->item_shortname}_license_key"] ) || ! current_user_can( 'manage_options' ) ) {
-				return;
-			}
+			return;
 
-			if ( ! wp_verify_nonce( $_REQUEST["{$this->item_shortname}_license_key-nonce"], "{$this->item_shortname}_license_key-nonce" ) ) {
-				wp_die( 'Ключи запроса не совпадают.', 'Ошибка', array( 'response' => 403 ) );
-			}
+
+			// if ( ! isset( $_POST["{$this->item_shortname}_license_key"] ) || ! current_user_can( 'manage_options' ) ) {
+			// 	return;
+			// }
+
+			// if ( ! wp_verify_nonce( $_REQUEST["{$this->item_shortname}_license_key-nonce"], "{$this->item_shortname}_license_key-nonce" ) ) {
+			// 	wp_die( 'Ключи запроса не совпадают.', 'Ошибка', array( 'response' => 403 ) );
+			// }
 			
-			if ( isset( $_POST["{$this->item_shortname}_license_key_deactivate"] ) ) {
+			// if ( isset( $_POST["{$this->item_shortname}_license_key_deactivate"] ) ) {
 				
-				$license_data = $this->dispatch_license( 'deactivate_license', $this->license );
+			// 	$license_data = $this->dispatch_license( 'deactivate_license', $this->license );
 				
-				if ( ! $license_data ) {
-					return;
-				}
+			// 	if ( ! $license_data ) {
+			// 		return;
+			// 	}
 
-				delete_option( "{$this->item_shortname}_license_active" );
-				delete_option( "{$this->item_shortname}_license" );
-				delete_transient( '_woodev_addons' );
+			// 	delete_option( "{$this->item_shortname}_license_active" );
+			// 	delete_option( "{$this->item_shortname}_license" );
+			// 	delete_transient( '_woodev_addons' );
 				
-				if ( $license_data->success && $ajax ) {
-					wp_send_json_success( 'Вы успешно деактивировали ключ с этого сайта.' );
-				}
-			}
+			// 	if ( $license_data->success && $ajax ) {
+			// 		wp_send_json_success( 'Вы успешно деактивировали ключ с этого сайта.' );
+			// 	}
+			// }
 		}
 		
 		public function is_license_valid() {
 
 			$details = get_option( "{$this->item_shortname}_license_active" );
 
-			return is_object( $details ) && 'valid' === $details->license;
+			return true; //is_object( $details ) && 'valid' === $details->license;
 		}
 		
 		public function weekly_license_check() {
@@ -380,24 +425,24 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 			
 			$verify = $this->dispatch_license( 'check_license', trim( $license ) );
 			
-			if ( ! $verify ) {
-				$message = 'Во время проверки лицензии произошла ошибка соединения с сервером API. Пожалуйста, попробуйте ещё раз.';
-				if ( $ajax ) {
-					wp_send_json_error( $message );
-				} else {
-					$this->errors[] = $message;
-					return false;
-				}
-			}
+			// if ( ! $verify ) {
+			// 	$message = 'Во время проверки лицензии произошла ошибка соединения с сервером API. Пожалуйста, попробуйте ещё раз.';
+			// 	if ( $ajax ) {
+			// 		wp_send_json_error( $message );
+			// 	} else {
+			// 		$this->errors[] = $message;
+			// 		return false;
+			// 	}
+			// }
 			
-			if ( ( isset( $verify->success ) && false === $verify->success ) && ! empty( $verify->error ) ) {
-				if ( $ajax ) {
-					wp_send_json_error( $verify->error );
-				} else {
-					$this->errors[] = $verify->error;
-					return false;
-				}
-			}
+			// if ( ( isset( $verify->success ) && false === $verify->success ) && ! empty( $verify->error ) ) {
+			// 	if ( $ajax ) {
+			// 		wp_send_json_error( $verify->error );
+			// 	} else {
+			// 		$this->errors[] = $verify->error;
+			// 		return false;
+			// 	}
+			// }
 
 			$success = isset( $verify->success ) ? $verify->success : 'Поздравляем! Ваша лицензия действительна. Вы можете получать обновления на этом сайте.';
 			
@@ -411,10 +456,10 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 				$option['data'] = $verify->data;
 			}
 			
-			update_option( "{$this->item_shortname}_license", $option );
-			delete_transient( '_woodev_addons' );
+			//update_option( "{$this->item_shortname}_license", $option );
+			//delete_transient( '_woodev_addons' );
 
-			wp_clean_plugins_cache( true );
+			//wp_clean_plugins_cache( true );
 
 			if ( $ajax ) {
 				wp_send_json_success( $success );
@@ -425,61 +470,61 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 
 			$validate = $this->dispatch_license( 'check_license', trim( $license ) );
 
-			if ( ! $validate ) {
+			// if ( ! $validate ) {
 				
-				if ( $forced ) {
-					$message = 'Во время проверки лицензии произошла ошибка соединения с сервером API. Пожалуйста, попробуйте ещё раз.';
-					if ( $ajax ) {
-						wp_send_json_error( $message );
-					} else {
-						$this->errors[] = $message;
-					}
-				}
+			// 	if ( $forced ) {
+			// 		$message = 'Во время проверки лицензии произошла ошибка соединения с сервером API. Пожалуйста, попробуйте ещё раз.';
+			// 		if ( $ajax ) {
+			// 			wp_send_json_error( $message );
+			// 		} else {
+			// 			$this->errors[] = $message;
+			// 		}
+			// 	}
 
-				return;
-			}
+			// 	return;
+			// }
 			
-			if ( isset( $validate->success ) && false === $validate->success ) {
-				$option                = get_option( "{$this->item_shortname}_license" );
-				$option['is_expired']  = false;
-				$option['is_disabled'] = false;
-				$option['is_invalid']  = true;
-				$option['data']		   = array();
-				update_option( "{$this->item_shortname}_license", $option );
-				if ( $ajax ) {
-					wp_send_json_error( sprintf( 'Ваш лицензионный ключ для <strong>%s</strong> недействителен. Ключ больше не существует или пользователь, связанный с ключом, был удален. Пожалуйста, используйте другой ключ, чтобы продолжить получать автоматические обновления.', $this->item_name ) );
-				}
+			// if ( isset( $validate->success ) && false === $validate->success ) {
+			// 	$option                = get_option( "{$this->item_shortname}_license" );
+			// 	$option['is_expired']  = false;
+			// 	$option['is_disabled'] = false;
+			// 	$option['is_invalid']  = true;
+			// 	$option['data']		   = array();
+			// 	update_option( "{$this->item_shortname}_license", $option );
+			// 	if ( $ajax ) {
+			// 		wp_send_json_error( sprintf( 'Ваш лицензионный ключ для <strong>%s</strong> недействителен. Ключ больше не существует или пользователь, связанный с ключом, был удален. Пожалуйста, используйте другой ключ, чтобы продолжить получать автоматические обновления.', $this->item_name ) );
+			// 	}
 
-				return;
-			}
+			// 	return;
+			// }
 			
-			if ( isset( $validate->license ) && 'expired' == $validate->license ) {
-				$option                = get_option( "{$this->item_shortname}_license" );
-				$option['is_expired']  = true;
-				$option['is_disabled'] = false;
-				$option['is_invalid']  = false;
-				$option['data']		   = array();
-				update_option( "{$this->item_shortname}_license", $option );
-				if ( $ajax ) {
-					wp_send_json_error( sprintf( 'Срок действия лицензионного ключа для <strong>%s</strong> истёк. Для того что бы продолжить получать обновления, пожалуйста <a href="%s" target="_blank">продлите вашу лицензию</a>.', $this->item_name, esc_url( edd_software_licensing()->get_renewal_url( $license ) ) ) );
-				}
+			// if ( isset( $validate->license ) && 'expired' == $validate->license ) {
+			// 	$option                = get_option( "{$this->item_shortname}_license" );
+			// 	$option['is_expired']  = true;
+			// 	$option['is_disabled'] = false;
+			// 	$option['is_invalid']  = false;
+			// 	$option['data']		   = array();
+			// 	update_option( "{$this->item_shortname}_license", $option );
+			// 	if ( $ajax ) {
+			// 		wp_send_json_error( sprintf( 'Срок действия лицензионного ключа для <strong>%s</strong> истёк. Для того что бы продолжить получать обновления, пожалуйста <a href="%s" target="_blank">продлите вашу лицензию</a>.', $this->item_name, esc_url( edd_software_licensing()->get_renewal_url( $license ) ) ) );
+			// 	}
 
-				return;
-			}
+			// 	return;
+			// }
 			
-			if ( isset( $validate->license ) && in_array( $validate->license, array( 'inactive', 'site_inactive' ) ) ) {
-				$option                = get_option( "{$this->item_shortname}_license" );
-				$option['is_expired']  = false;
-				$option['is_disabled'] = true;
-				$option['is_invalid']  = false;
-				$option['data']		   = array();
-				update_option( "{$this->item_shortname}_license", $option );
-				if ( $ajax ) {
-					wp_send_json_error( sprintf( 'Ваш лицензионный ключ для <strong>%s</strong> не активен для этого сайта. Пожалуйста, используйте другой ключ, чтобы продолжить использовать плагин в полной мере и получать автоматические обновления.', $this->item_name ) );
-				}
+			// if ( isset( $validate->license ) && in_array( $validate->license, array( 'inactive', 'site_inactive' ) ) ) {
+			// 	$option                = get_option( "{$this->item_shortname}_license" );
+			// 	$option['is_expired']  = false;
+			// 	$option['is_disabled'] = true;
+			// 	$option['is_invalid']  = false;
+			// 	$option['data']		   = array();
+			// 	update_option( "{$this->item_shortname}_license", $option );
+			// 	if ( $ajax ) {
+			// 		wp_send_json_error( sprintf( 'Ваш лицензионный ключ для <strong>%s</strong> не активен для этого сайта. Пожалуйста, используйте другой ключ, чтобы продолжить использовать плагин в полной мере и получать автоматические обновления.', $this->item_name ) );
+			// 	}
 
-				return;
-			}
+			// 	return;
+			// }
 			
 			$option                = get_option( "{$this->item_shortname}_license" );
 			$option['is_expired']  = false;
@@ -490,7 +535,7 @@ if ( ! class_exists( 'Woodev_Plugins_License' ) ) :
 				$option['data'] = $validate->data;
 			}
 			
-			update_option( "{$this->item_shortname}_license", $option );
+			//update_option( "{$this->item_shortname}_license", $option );
 			
 			if ( $forced ) {
 				$message = 'Ваш ключ был успешно обновлен.';

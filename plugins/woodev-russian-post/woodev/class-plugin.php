@@ -180,7 +180,7 @@ abstract class Woodev_Plugin {
 		}
 		
 		$license = $this->get_license_instance()->get_license();
-
+		
 		$this->get_license_instance()->validate_license( $license ? $license : __return_empty_string(), true, true );
 	}
 	
