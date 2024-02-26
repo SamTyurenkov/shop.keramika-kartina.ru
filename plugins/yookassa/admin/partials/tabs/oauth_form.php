@@ -5,11 +5,26 @@
  * @var bool $isTestShop
  * @var bool $isFiscalizationEnabled
  * @var int $shopId
+ * @var bool $isSberLoanAvailable
  */
 ?>
 <div class="col-md-12 oauth-form">
     <?php if ($isOauthTokenGotten) : ?>
         <?php if ($validCredentials === 0 && $shopId) : ?>
+            <?php if ($isSberLoanAvailable) : ?>
+                <div class="row mt-3">
+                    <div class="col-md-8 col-lg-9">
+                        <div class="alert alert-warning">
+                            <span><strong><?= __('У вас подключен способ оплаты «Покупки в кредит» от СберБанка', 'yookassa'); ?></strong></span><br>
+                            <span>
+                                <?= __('В него входит <a href="https://yookassa.ru/developers/payment-acceptance/integration-scenarios/manual-integration/other/sber-loan#payment-method-overview-loan-options" target="_blank">кредит и рассрочка</a>.', 'yookassa'); ?>
+                                <?= __('Если покупатель платит в рассрочку, в CMS может отображаться неверная сумма покупки (верная будет <a href="https://yookassa.ru/my/payments" target="_blank">в личном кабинете ЮKassa</a>). На покупателя это никак не повлияет — он всегда оплатит верную сумму.', 'yookassa'); ?>
+                            </span><br><br>
+                            <span><?= __('Чтобы суммы не расходились — проверьте, что ваша CMS настроена <a href="https://yookassa.ru/docs/support/payments/onboarding/integration/cms-module/woocommerce#sber" target="_blank">по этим параметрам</a>', 'yookassa'); ?></span>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="row qa-oauth-info">
                 <div class="col-md-6">
                     <?=$isTestShop
@@ -37,7 +52,7 @@
             <div class="col-md-8 col-lg-9">
                 <div class="row form-footer">
                     <div class="col-md-12">
-                        <button class="btn btn-warning btn_oauth_connect qa-change-shop-button">
+                        <button class="btn btn-default btn_oauth_connect qa-change-shop-button">
                             <?= __('Сменить магазин', 'yookassa'); ?>
                         </button>
                         <?php if ($validCredentials === 0) : ?>
@@ -57,7 +72,7 @@
         </div>
         <div class="row">
             <div class="col-md-8 col-lg-9">
-                <button class="btn btn-warning btn_oauth_connect qa-connect-shop-button">
+                <button class="btn btn-default btn_oauth_connect qa-connect-shop-button">
                     <?= __('Подключить магазин', 'yookassa'); ?>
                 </button>
             </div>

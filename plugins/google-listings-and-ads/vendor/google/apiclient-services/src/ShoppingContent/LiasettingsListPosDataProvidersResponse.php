@@ -15,15 +15,19 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class LiasettingsListPosDataProvidersResponse extends \Google\Collection
+class LiasettingsListPosDataProvidersResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'posDataProviders';
   /**
    * @var string
    */
   public $kind;
+  /**
+   * @var PosDataProviders[]
+   */
+  public $posDataProviders;
   protected $posDataProvidersType = PosDataProviders::class;
   protected $posDataProvidersDataType = 'array';
 

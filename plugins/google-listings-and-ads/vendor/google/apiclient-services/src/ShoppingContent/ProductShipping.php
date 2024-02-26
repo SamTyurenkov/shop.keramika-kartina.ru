@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ProductShipping extends \Google\Model
+class ProductShipping extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
@@ -51,6 +51,10 @@ class ProductShipping extends \Google\Model
    * @var string
    */
   public $postalCode;
+  /**
+   * @var Price
+   */
+  public $price;
   protected $priceType = Price::class;
   protected $priceDataType = '';
   /**

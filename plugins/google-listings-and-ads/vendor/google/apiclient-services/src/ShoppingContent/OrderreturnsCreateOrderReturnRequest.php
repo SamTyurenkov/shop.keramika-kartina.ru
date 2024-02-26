@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderreturnsCreateOrderReturnRequest extends \Google\Collection
+class OrderreturnsCreateOrderReturnRequest extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'lineItems';
+  /**
+   * @var OrderreturnsLineItem[]
+   */
+  public $lineItems;
   protected $lineItemsType = OrderreturnsLineItem::class;
   protected $lineItemsDataType = 'array';
   /**

@@ -29,7 +29,7 @@ class YooKassaGatewayCash extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/gp.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/gp.png';
 
         $this->method_description = __('Наличные', 'yookassa');
         $this->method_title       = __('Наличные', 'yookassa');

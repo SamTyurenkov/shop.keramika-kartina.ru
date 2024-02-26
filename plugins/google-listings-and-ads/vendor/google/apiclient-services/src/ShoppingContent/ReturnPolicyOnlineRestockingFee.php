@@ -15,10 +15,14 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ReturnPolicyOnlineRestockingFee extends \Google\Model
+class ReturnPolicyOnlineRestockingFee extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
+  /**
+   * @var PriceAmount
+   */
+  public $fixedFee;
   protected $fixedFeeType = PriceAmount::class;
   protected $fixedFeeDataType = '';
   /**

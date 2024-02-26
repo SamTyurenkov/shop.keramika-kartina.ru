@@ -19,7 +19,7 @@ class YooKassaGatewayAlfabank extends YooKassaGateway
         parent::__construct();
 
         $this->paymentMethod      = new PaymentDataAlfabank();
-        $this->icon               = YooKassa::$pluginUrl.'/assets/images/ab.png';
+        $this->icon               = YooKassa::$pluginUrl.'assets/images/ab.png';
 
         $this->method_description = __('Оплата через Альфа банк', 'yookassa');
         $this->method_title       = __('Альфа-Клик', 'yookassa');

@@ -2,6 +2,7 @@
 
 namespace Tests\YooKassa\Request\Payments\Payment;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AmountInterface;
@@ -52,6 +53,27 @@ class CreateCaptureRequestBuilderTest extends TestCase
         } else {
             self::assertNotNull($instance->getDeal());
             self::assertEquals($options['deal'], $instance->getDeal()->toArray());
+        }
+    }
+
+    /**
+     * @dataProvider validDataProvider
+     *
+     * @param $options
+     */
+    public function testSetAirline($options)
+    {
+        $builder = new CreateCaptureRequestBuilder();
+        if (!empty($options['airline'])) {
+            $builder->setAirline($options['airline']);
+        }
+        $instance = $builder->build();
+
+        if (empty($options['airline'])) {
+            self::assertNull($instance->getAirline());
+        } else {
+            self::assertNotNull($instance->getAirline());
+            self::assertEquals($options['airline'], $instance->getAirline()->toArray());
         }
     }
 
@@ -155,7 +177,10 @@ class CreateCaptureRequestBuilderTest extends TestCase
         foreach ($options['receiptItems'] as $item) {
             if ($item instanceof ReceiptItem) {
                 $builder->addReceiptItem(
-                    $item->getDescription(), $item->getPrice()->getValue(), $item->getQuantity(), $item->getVatCode()
+                    $item->getDescription(),
+                    $item->getPrice()->getValue(),
+                    $item->getQuantity(),
+                    $item->getVatCode()
                 );
             } else {
                 $builder->addReceiptItem($item['title'], $item['price'], $item['quantity'], $item['vatCode']);
@@ -187,7 +212,9 @@ class CreateCaptureRequestBuilderTest extends TestCase
         foreach ($options['receiptItems'] as $item) {
             if ($item instanceof ReceiptItem) {
                 $builder->addReceiptShipping(
-                    $item->getDescription(), $item->getPrice()->getValue(), $item->getVatCode()
+                    $item->getDescription(),
+                    $item->getPrice()->getValue(),
+                    $item->getVatCode()
                 );
             } else {
                 $builder->addReceiptShipping($item['title'], $item['price'], $item['vatCode']);
@@ -503,6 +530,7 @@ class CreateCaptureRequestBuilderTest extends TestCase
                         'account_id' => Random::str(36),
                         'amount' => new MonetaryAmount(Random::int(1, 1000), 'RUB'),
                         'platform_fee_amount' => new MonetaryAmount(Random::int(1, 1000), 'RUB'),
+                        'description' => Random::str(1, Transfer::MAX_LENGTH_DESCRIPTION),
                     )),
                 ),
                 'deal' => array(

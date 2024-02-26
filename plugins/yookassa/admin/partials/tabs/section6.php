@@ -1,5 +1,6 @@
 <?php
 
+/** @var string $yookassaNonce */
 ?>
 <form id="yoomoney-form-6" class="yoomoney-form">
     <div class="col-md-12">
@@ -13,7 +14,7 @@
         </div>
         <div class="row form-footer">
             <div class="col-md-12 text-center">
-                <button class="btn btn-light btn-back qa-back-to-settings-button" data-tab="section1" style="margin:0;"><?= __('К настройкам', 'yookassa') ?></button>
+                <button class="btn btn-default btn-back qa-back-to-settings-button" data-tab="section1" style="margin:0;"><?= __('К настройкам', 'yookassa') ?></button>
             </div>
         </div>
     </div>

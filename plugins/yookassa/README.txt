@@ -3,8 +3,8 @@ Contributors: yoomoney
 Tags: юkassa, yookassa, юmoney, yoomoney, woocommerce, payment, gateway
 Requires PHP: 5.6.20
 Requires at least: 5.2
-Tested up to: 6.1
-Stable tag: 2.4.3
+Tested up to: 6.4.1
+Stable tag: 2.6.3
 License: License Agreement
 License URI: https://yoomoney.ru/doc.xml?id=527132
 
@@ -99,6 +99,38 @@ Your own Merchant Profile at the YooKassa website. Use it to make refunds, creat
 8. Оплата на стороне ЮKassa - Выбор способа оплаты
 
 == Changelog ==
+= 2.6.3 =
+* Исправлено подключение ассетов
+
+= 2.6.2 =
+* Отправка СНО во втором чеке
+
+= 2.6.1 =
+* Поддержка High-Performance Order Storage
+
+= 2.6.0 =
+* Добавлен метод оплаты Покупай со Сбером
+* Добавлен пересчет скидки в заказах при оплате в рассрочку через Покупай со Сбером
+* Добавлены ограничения для самозанятых на оплату через Покупай со Сбером
+* Обновлена поддерживаемая версия WordPress
+* Обновление SDK до версии 2.9.1
+
+= 2.5.2 =
+* Добавлено ограничение на нулевые суммы для самозанятых
+* Изменено подключение виджета, удален лишний параметр
+* Обновление SDK до версии 2.9.0
+
+= 2.5.1 =
+* Отключен способ оплаты Альфа-Клик
+* Обновление SDK до версии 2.8.1
+
+= 2.5.0 =
+* Добавлена поддержка самозанятых
+* Обновлена поддерживаемая версия WooCommerce
+
+= 2.4.4 =
+* Обновлен SDK до версии 2.7.5
+
 = 2.4.3 =
 * Обновлены поддерживаемые версии WordPress и WooCommerce
 * Обновлен SDK до версии 2.6.1

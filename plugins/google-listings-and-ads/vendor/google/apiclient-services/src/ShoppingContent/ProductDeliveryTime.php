@@ -15,13 +15,21 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ProductDeliveryTime extends \Google\Collection
+class ProductDeliveryTime extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'areaDeliveryTimes';
+  /**
+   * @var ProductDeliveryTimeAreaDeliveryTime[]
+   */
+  public $areaDeliveryTimes;
   protected $areaDeliveryTimesType = ProductDeliveryTimeAreaDeliveryTime::class;
   protected $areaDeliveryTimesDataType = 'array';
+  /**
+   * @var ProductId
+   */
+  public $productId;
   protected $productIdType = ProductId::class;
   protected $productIdDataType = '';
 

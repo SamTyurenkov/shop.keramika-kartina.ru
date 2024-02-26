@@ -15,14 +15,26 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ProductAmount extends \Google\Model
+class ProductAmount extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
+  /**
+   * @var Price
+   */
+  public $priceAmount;
   protected $priceAmountType = Price::class;
   protected $priceAmountDataType = '';
+  /**
+   * @var Price
+   */
+  public $remittedTaxAmount;
   protected $remittedTaxAmountType = Price::class;
   protected $remittedTaxAmountDataType = '';
+  /**
+   * @var Price
+   */
+  public $taxAmount;
   protected $taxAmountType = Price::class;
   protected $taxAmountDataType = '';
 

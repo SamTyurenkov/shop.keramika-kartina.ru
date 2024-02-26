@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShippingsettingsGetSupportedHolidaysResponse extends \Google\Collection
+class ShippingsettingsGetSupportedHolidaysResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'holidays';
+  /**
+   * @var HolidaysHoliday[]
+   */
+  public $holidays;
   protected $holidaysType = HolidaysHoliday::class;
   protected $holidaysDataType = 'array';
   /**

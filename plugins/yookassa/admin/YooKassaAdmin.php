@@ -3,6 +3,7 @@
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataRate;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataType;
+use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\Receipt\PaymentMode;
 use YooKassa\Model\Receipt\PaymentSubject;
 
@@ -166,10 +167,9 @@ class YooKassaAdmin
         register_setting('woocommerce-yookassa', 'yookassa_shipping_payment_mode_default');
         register_setting('woocommerce-yookassa', 'yookassa_kassa_currency');
         register_setting('woocommerce-yookassa', 'yookassa_kassa_currency_convert');
-        register_setting('woocommerce-yookassa', 'yookassa_test_shop');
         register_setting('woocommerce-yookassa', 'yookassa_access_token');
-        register_setting('woocommerce-yookassa', 'yookassa_fiscalization_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_save_card');
+        register_setting('woocommerce-yookassa', 'yookassa_self_employed');
 
         update_option(
             'yookassa_sbbol_tax_rates_enum',
@@ -209,6 +209,7 @@ class YooKassaAdmin
 
     private function get_all_settings()
     {
+        $shopInfo               = $this->getShopInfo();
         $wcTaxes                = $this->getAllTaxes();
         $wcCalcTaxes            = get_option('woocommerce_calc_taxes');
         $ymTaxRatesEnum         = get_option('yookassa_tax_rates_enum');
@@ -236,9 +237,18 @@ class YooKassaAdmin
         $kassaCurrency          = get_option('yookassa_kassa_currency');
         $kassaCurrencyConvert   = get_option('yookassa_kassa_currency_convert');
         $isOauthTokenGotten     = (bool)get_option('yookassa_access_token', '0');
-        $isTestShop             = (bool)get_option('yookassa_test_shop', '0');
-        $isFiscalizationEnabled = (bool)get_option('yookassa_fiscalization_enabled', '0');
+
+        $isTestShop = false;
+        $isFiscalizationEnabled = false;
+        $isSberLoanAvailable = false;
+        if ($shopInfo) {
+            $isTestShop = isset($shopInfo['test']) && $shopInfo['test'];
+            $isFiscalizationEnabled = isset($shopInfo['fiscalization_enabled']) && $shopInfo['fiscalization_enabled'];
+            $isSberLoanAvailable = isset($shopInfo['payment_methods']) && in_array(PaymentMethodType::SBER_LOAN, $shopInfo['payment_methods']);
+        }
+
         $isSaveCard             = (bool)get_option('yookassa_save_card', '1');
+        $isSelfEmployed         = (bool)get_option('yookassa_self_employed', '0');
 
         $validCredentials = null;
 
@@ -318,6 +328,8 @@ class YooKassaAdmin
             'isFiscalizationEnabled' => $isFiscalizationEnabled,
             'yookassaNonce'          => wp_create_nonce('yookassa-nonce'),
             'isSaveCard'             => $isSaveCard,
+            'isSelfEmployed'         => $isSelfEmployed,
+            'isSberLoanAvailable'    => $isSberLoanAvailable,
         );
     }
 
@@ -497,7 +509,7 @@ class YooKassaAdmin
         try {
             $client = YooKassaClientFactory::getYooKassaClient();
             YookassaWebhookSubscriber::subscribe($client);
-            $this->saveShopInfoByOauth();
+            $this->saveShopIdByOauth();
         } catch (Exception $e) {
             YooKassaLogger::error('Error occurred during creating webhooks: ' . $e->getMessage());
             echo json_encode(array('error' => $e->getMessage()));
@@ -542,23 +554,36 @@ class YooKassaAdmin
     }
 
     /**
-     * Получает информацию о магазине при загрузке страницы с настройками модуля
+     * @return array|void|null
+     */
+    private function getShopInfo()
+    {
+        try {
+            $apiClient = YooKassaClientFactory::getYooKassaClient();
+            $shopInfo = $apiClient->me();
+            YooKassaLogger::info('Shop Info ' . json_encode($shopInfo));
+            return $shopInfo;
+        } catch (Exception $e) {
+            YooKassaLogger::error('Failed get /me information. Error: ' . $e->getMessage());
+            return;
+        }
+    }
+
+    /**
+     * Сохраняет shop_id при получении oauth токена
      *
      * @return void
      * @throws \Exception
      */
-    private function saveShopInfoByOauth()
+    private function saveShopIdByOauth()
     {
-        $apiClient = YooKassaClientFactory::getYooKassaClient();
-        $shopInfo = $apiClient->me();
+        $shopInfo = $this->getShopInfo();
 
-        if (!isset($shopInfo['account_id'], $shopInfo['test'], $shopInfo['fiscalization_enabled'])) {
-            throw new \Exception('Failed to save shop info');
+        if (!isset($shopInfo['account_id'])) {
+            throw new \Exception('Failed to save shop id');
         }
 
         update_option('yookassa_shop_id', $shopInfo['account_id']);
-        update_option('yookassa_test_shop', $shopInfo['test']);
-        update_option('yookassa_fiscalization_enabled', $shopInfo['fiscalization_enabled']);
     }
 
     /**

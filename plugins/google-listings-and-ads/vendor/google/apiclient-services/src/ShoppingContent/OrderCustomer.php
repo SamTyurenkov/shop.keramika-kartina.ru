@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderCustomer extends \Google\Model
+class OrderCustomer extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
@@ -27,8 +27,16 @@ class OrderCustomer extends \Google\Model
    * @var string
    */
   public $invoiceReceivingEmail;
+  /**
+   * @var OrderCustomerLoyaltyInfo
+   */
+  public $loyaltyInfo;
   protected $loyaltyInfoType = OrderCustomerLoyaltyInfo::class;
   protected $loyaltyInfoDataType = '';
+  /**
+   * @var OrderCustomerMarketingRightsInfo
+   */
+  public $marketingRightsInfo;
   protected $marketingRightsInfoType = OrderCustomerMarketingRightsInfo::class;
   protected $marketingRightsInfoDataType = '';
 

@@ -1,3 +1,66 @@
+## 19.2.0
+*   Added support for v14 of Google Ads API.
+*   Updated AddPerformanceMaxForTravelGoalsCampaign example.
+*   Removed code examples:
+    * GenerateForecastMetrics
+    * GenerateHistoricalMetrics
+    * GetCampaignCriterionBidModifierSimulations
+
+## 19.1.0
+*   Added support for v13_1 of Google Ads API.
+*   Renamed the HotelAds example directory to Travel.
+*   Added AddThingsToDoAd example.
+*   Updated AddPerformanceMaxForTravelGoalsCampaign example.
+
+## 19.0.0
+*   Removed support for v11 of Google Ads API.
+*   Updated CreateExperiment example.
+
+## 18.0.0
+*   Added support for v13 of Google Ads API.
+*   Removed support for v10 of Google Ads API.
+*   Updated code examples:
+    * AddCustomerMatchUserList
+    * AddPerformanceMaxRetailCampaign
+    * GetAdGroupBidModifiers
+    * GetChangeDetails
+*   Reworked code examples to address the deprecation of combined rule user lists
+    and expression rule user lists:
+    * Edited SetUpAdvancedRemarketing and SetUpRemarketing
+    * Renamed AddCombinedRuleUserList to AddFlexibleRuleUserList
+    * Removed AddExpressionRuleUserList
+
+## 17.1.0
+*   Added support for v12 of Google Ads API.
+*   Renamed HandleExpandedTextAdPolicyViolations to HandleResponsiveSearchAdPolicyViolations
+    and made it work with responsive search ads instead.
+*   Removed code examples:
+    * All examples in the Migration/ directory
+        * Moved CampaignReportToCsv to the Misc/ directory
+    * AddDynamicPageFeed
+    * AddLocalCampaign
+    * AddSmartDisplayAd
+    * AddShoppingSmartAd
+*   Updated code examples:
+    * AddPerformanceMaxRetailCampaign
+    * AddSmartCampaign
+    * CreateExperiment
+    * ForecastReach
+
+## 17.0.0
+*   Added support for v11_1 of Google Ads API.
+*   Updated the FieldMasks utility to better handle empty message fields. For
+    more details on how field masks work, visit
+    https://developers.google.com/google-ads/api/docs/client-libs/php/fieldmasks.
+*   Updated the minimum required version of `google/protobuf` to 3.21.5.
+*   Added a code example: GenerateHistoricalMetrics
+*   Reworked code examples to address the deprecation of Expanded Text Ads (ETA):
+    * Edited AddAdCustomizer
+    * Renamed UpdateExpandedTextAd to UpdateResponsiveSearchAd
+    * Renamed ValidateTextAd to ValidateAd
+    * Removed AddExpandedTextAds
+    * Removed AddExpandedTextAdWithUpgradedUrls
+
 ## 16.0.0
 *   Removed support for v9 of Google Ads API.
 *   Cleaned up the FieldMasks util to remove reference to protocol buffer's wrapper types.

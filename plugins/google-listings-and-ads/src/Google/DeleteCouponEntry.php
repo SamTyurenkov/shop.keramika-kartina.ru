@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Automattic\WooCommerce\GoogleListingsAndAds\Google;
 
-use Automattic\WooCommerce\GoogleListingsAndAds\Coupon\WCCouponAdapter;
-use Google\Service\ShoppingContent\Promotion as GooglePromotion;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent\Promotion as GooglePromotion;
 defined( 'ABSPATH' ) || exit();
 
 /**
@@ -41,7 +40,8 @@ class DeleteCouponEntry {
 	public function __construct(
 		int $wc_coupon_id,
 		GooglePromotion $google_promotion,
-		array $synced_google_ids ) {
+		array $synced_google_ids
+	) {
 		$this->wc_coupon_id      = $wc_coupon_id;
 		$this->google_promotion  = $google_promotion;
 		$this->synced_google_ids = $synced_google_ids;

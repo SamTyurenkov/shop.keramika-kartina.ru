@@ -7,7 +7,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\Merchant;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\Settings;
 use Automattic\WooCommerce\GoogleListingsAndAds\DB\Query\ShippingRateQuery;
 use Automattic\WooCommerce\GoogleListingsAndAds\DB\Query\ShippingTimeQuery;
-use Automattic\WooCommerce\GoogleListingsAndAds\Exception\MerchantApiException;
+use Automattic\WooCommerce\GoogleListingsAndAds\Exception\ExceptionWithResponseData;
 use Automattic\WooCommerce\GoogleListingsAndAds\Google\GoogleHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Infrastructure\Service;
 use Automattic\WooCommerce\GoogleListingsAndAds\Internal\ContainerAwareTrait;
@@ -21,9 +21,9 @@ use Automattic\WooCommerce\GoogleListingsAndAds\PluginHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
 use Automattic\WooCommerce\GoogleListingsAndAds\Utility\AddressUtility;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent\AccountAddress;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent\AccountBusinessInformation;
 use DateTime;
-use Google\Service\ShoppingContent\AccountAddress;
-use Google\Service\ShoppingContent\AccountBusinessInformation;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -59,7 +59,7 @@ class MerchantCenterService implements ContainerAwareInterface, OptionsAwareInte
 	public function __construct() {
 		add_filter(
 			'woocommerce_gla_custom_merchant_issues',
-			function( array $issues, DateTime $cache_created_time ) {
+			function ( array $issues, DateTime $cache_created_time ) {
 				return $this->maybe_add_contact_info_issue( $issues, $cache_created_time );
 			},
 			10,
@@ -300,7 +300,7 @@ class MerchantCenterService implements ContainerAwareInterface, OptionsAwareInte
 
 		try {
 			$contact_info = $this->container->get( ContactInformation::class )->get_contact_information();
-		} catch ( MerchantApiException $exception ) {
+		} catch ( ExceptionWithResponseData $exception ) {
 			do_action(
 				'woocommerce_gla_debug_message',
 				'Error retrieving Merchant Center account\'s business information.',
@@ -383,7 +383,7 @@ class MerchantCenterService implements ContainerAwareInterface, OptionsAwareInte
 
 			// Check if all target countries have a shipping time.
 			$saved_shipping_time = count( $shipping_time_rows ) === count( $target_countries ) &&
-								   empty( array_diff( $target_countries, $saved_time_countries ) );
+				empty( array_diff( $target_countries, $saved_time_countries ) );
 		}
 
 		// Shipping rates saved if: 'manual', 'automatic', OR there are records for all countries
@@ -406,7 +406,7 @@ class MerchantCenterService implements ContainerAwareInterface, OptionsAwareInte
 
 			// Check if all target countries have a shipping rate.
 			$saved_shipping_rate = count( $shipping_rate_rows ) === count( $target_countries ) &&
-								   empty( array_diff( $target_countries, $saved_rates_countries ) );
+				empty( array_diff( $target_countries, $saved_rates_countries ) );
 		}
 
 		return $saved_shipping_rate && $saved_shipping_time;

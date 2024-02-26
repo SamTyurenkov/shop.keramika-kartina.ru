@@ -15,10 +15,14 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderReportTransaction extends \Google\Model
+class OrderReportTransaction extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
+  /**
+   * @var Price
+   */
+  public $disbursementAmount;
   protected $disbursementAmountType = Price::class;
   protected $disbursementAmountDataType = '';
   /**
@@ -45,6 +49,10 @@ class OrderReportTransaction extends \Google\Model
    * @var string
    */
   public $orderId;
+  /**
+   * @var ProductAmount
+   */
+  public $productAmount;
   protected $productAmountType = ProductAmount::class;
   protected $productAmountDataType = '';
   /**

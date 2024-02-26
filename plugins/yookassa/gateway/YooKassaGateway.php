@@ -340,7 +340,26 @@ class YooKassaGateway extends WC_Payment_Gateway
     {
         global $woocommerce;
 
-        $order                   = new WC_Order($order_id);
+        $order = new WC_Order($order_id);
+
+        if (YooKassaHandler::isReceiptEnabled() && YooKassaHandler::isSelfEmployed()) {
+            try {
+                YooKassaHandler::checkConditionForSelfEmployed($order);
+            } catch (Exception $e) {
+                YooKassaLogger::warning(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id) . ' ' . strip_tags($e->getMessage()));
+                wc_add_notice($e->getMessage(), 'error');
+                return array('result' => 'fail', 'redirect' => '');
+            }
+        }
+
+        if (
+            $this->paymentMethod === PaymentMethodType::SBER_LOAN
+            && !YooKassaGatewaySberLoan::isCorrectAmountForSberLoan((float)$order->get_total())
+        ) {
+            YooKassaLogger::warning(sprintf(__('Не удалось создать платеж для заказа %1$s. Сумма заказ %2$s не подходит для "Покупай со Сбером"', 'yookassa'), $order_id, $order->get_total()));
+            wc_add_notice(__('С этим способом оплаты заказ должен быть от 3 000 до 600 000 ₽. Добавьте другие позиции в корзину или уберите лишние — и попробуйте заплатить ещё раз.', 'yookassa'), 'error');
+            return array('result' => 'fail', 'redirect' => '');
+        }
 
         if (class_exists('WC_Subscriptions_Cart')
             && WC_Subscriptions_Cart::cart_contains_subscription()) {
@@ -401,7 +420,7 @@ class YooKassaGateway extends WC_Payment_Gateway
                         'redirect' => $this->get_success_fail_url('yookassa_success', $order),
                     );
                 } else {
-                    YooKassaLogger::warning(sprintf(__('Неудалось создать платеж. Для заказа %1$s',
+                    YooKassaLogger::warning(sprintf(__('Не удалось создать платеж. Для заказа %1$s',
                         'yookassa'), $order_id));
                     wc_add_notice(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты',
                         'yookassa'), 'error');
@@ -411,7 +430,7 @@ class YooKassaGateway extends WC_Payment_Gateway
                 }
             }
         } else {
-            YooKassaLogger::warning(sprintf(__('Неудалось создать платеж. Для заказа %1$s', 'yookassa'),
+            YooKassaLogger::warning(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'),
                 $order_id));
             wc_add_notice(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты', 'yookassa'),
                 'error');
@@ -499,6 +518,7 @@ class YooKassaGateway extends WC_Payment_Gateway
             PaymentMethodType::YOO_MONEY,
             PaymentMethodType::GOOGLE_PAY,
             PaymentMethodType::APPLE_PAY,
+            PaymentMethodType::SBER_LOAN,
         );
         $enableHold = get_option('yookassa_enable_hold')
                       && in_array($this->paymentMethod, $paymentMethodsForHold);

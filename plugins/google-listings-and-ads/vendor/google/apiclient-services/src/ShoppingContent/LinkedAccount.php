@@ -15,15 +15,19 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class LinkedAccount extends \Google\Collection
+class LinkedAccount extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'services';
   /**
    * @var string
    */
   public $linkedAccountId;
+  /**
+   * @var LinkService[]
+   */
+  public $services;
   protected $servicesType = LinkService::class;
   protected $servicesDataType = 'array';
 

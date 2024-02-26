@@ -1,5 +1,254 @@
 *** WooCommerce Google Listings and Ads Changelog ***
 
+= 2.5.18 - 2024-02-20 =
+* Fix - Prevent product queries by IDs if no arguments are supplied.
+
+= 2.5.17 - 2024-02-07 =
+* Dev - Add manual QIT workflow.
+* Dev - Upload coverage report for JS unit tests to codecov.
+* Fix - Only sync selected categories as product type.
+* Fix - Prevent notifications from sending request to Google API when disconnected.
+* Tweak - WC 8.6 compatibility.
+
+= 2.5.16 - 2024-01-30 =
+* Add - Include connected accounts in tracks from the backend.
+* Add - Include plugin version, Google Merchant Center account ID, and Google Ads account ID in all frontend tracking events.
+* Add - Send the related tracking event with the account ID to be connected when connecting to an existing Google Merchant Center or Google Ads account.
+* Add - Tracking for completed events.
+* Dev - Generate coverage report with xdebug.
+* Fix - Context not tracked in Create Campaign FAQs.
+* Fix - WordPress 6.4 Compatibility: Set an appropriate width for the content in the Popover component.
+
+= 2.5.15 - 2024-01-09 =
+* Dev - Update link for developer.woo.com.
+* Tweak - WC 8.5 compatibility.
+* Update - Upgrade google/apiclient for PHP 8.3 compatibility.
+
+= 2.5.14 - 2023-12-18 =
+* Dev - Include PHP 8.3 in tested versions for PHPunit.
+* Fix - Item price in purchase event.
+* Tweak - Track Budgets and Audience in Onboarding.
+* Tweak - WC 8.4 compatibility.
+* Update - Change to require Google Ads connection during the onboarding.
+
+= 2.5.13 - 2023-12-06 =
+* Fix - Change Budget Recommendations values.
+* Tweak - Use a single daily budget instead of a range.
+
+= 2.5.12 - 2023-11-22 =
+* Dev - Fix E2E gtag events tests.
+* Dev - Update WordPress CS to 3.0.
+* Dev - Update phpunit polyfills to 1.1 for WP 6.4.
+* Tweak - Add filter to be able to build custom shipping method rate handers.
+* Tweak - Remove rewrite rules flush.
+
+= 2.5.11 - 2023-11-07 =
+* Add - Record tracking events for moving steps on the campaign creation and editing pages.
+* Tweak - Add tracking for campaign count.
+* Tweak - WC 8.3 compatibility.
+* Tweak - WP 6.4 compatibility.
+* Update - Use new Woo.com domain.
+
+= 2.5.10 - 2023-10-18 =
+* Tweak - Add correct Destinations for Supported Countries in Coupons.
+* Tweak - Declare cart_checkout_blocks feature compatibility.
+
+= 2.5.9 - 2023-10-10 =
+* Dev - E2E - Setup Google Ads Step 2 - Create your paid campaign.
+* Dev - E2E - Setup Google Ads Step 3 - Setup billing data.
+* Dev - E2E tests - Track gtag event on specific page.
+* Dev - Prevent Prefix Vendor to be added twice.
+* Fix - Avoid creating two campaigns after completing the Google Ads onboarding.
+* Fix - The auto-refresh processing of billing status in the Google Ads onboarding flow.
+
+= 2.5.8 - 2023-10-03 =
+* Add - Privacy policy guide section.
+* Add - The missing tracking to onboarding when changing steps.
+* Dev - Adjust the conditions for loading JS and CSS assets, and configure them with lazy loading and code splitting.
+* Dev - E2E - Onboarding Step 4 - Complete your campaign.
+* Fix - Remove AttributeMapping new feature inbox notification.
+* Tweak - Add UTM parameters to documentation link.
+* Tweak - The properties of the gla_setup_mc and gla_setup_ads tracking events to reduce their confusion.
+* Tweak - WC 8.2 compatibility.
+
+= 2.5.7 - 2023-09-20 =
+* Dev - E2E - Ads a paid campaign Step 1 - Connect Ads Account.
+* Dev - E2E - Onboarding Step 2 - Configure product listings.
+* Dev - E2E - Onboarding Step 3 - Confirm store requirements.
+* Fix - Performance issue with GoogleAdsFailures::init.
+
+= 2.5.6 - 2023-09-14 =
+* Dev - E2E - Onboarding Step 1 - Set up accounts - Connect Merchant Center account.
+* FIx - Undesired margin in Paid Campaign Creation Success Modal.
+* Fix - Adjust target on click events preventing GLA ID to be Undefined.
+* Fix - Tweak E2E tests for WC 8.1.
+* Fix - WooCommerce Subscriptions compatibility: Fix the visible issue of the "Google Listings and Ads" tab and "Channel visibility" meta box for some unsupported product types.
+* Tweak - WC 8.1.0 compatibility.
+
+= 2.5.5 - 2023-09-05 =
+* Dev - Add E2E tests - Dashboard - Edit Free Listings.
+* Dev - Clean up workarounds for WooCommerce < 6.8.
+* Dev - Externalize all WooCommerce JavaScript packages via Dependency Extraction Webpack Plugin (DEWP) and remove the selective bundling implementation that gradually externalizes packages into DEWP.
+* Dev - Update DEWP related tools and docs.
+* Fix - Fix Taxonomy Attribute Mapping for Product Variations.
+
+= 2.5.4 - 2023-08-29 =
+* Dev - Override vulnerability packages: xmlhttprequest-ssl and ws.
+* Dev - Update trigger method in Hooks Generator Workflow.
+
+= 2.5.3 - 2023-08-22 =
+* Dev - Add Action for Hooks Documentation Generator.
+* Dev - Allow E2E testing with Release Candidates.
+* Dev - Convert E2E tests from Puppeteer to Playwright.
+* Dev - Externalize all WordPress JavaScript packages via Dependency Extraction Webpack Plugin (DEWP).
+* Dev - Fetch WooCommerce L-1 versions for our tests.
+* Dev - Remove legacy HooksDocsGenerator.php file.
+* Dev - Use `merge-trunk-develop-pr` action.
+* Tweak - Apply consistent admin theme colors to common UI components.
+* Update - Google API Client Services package to v0.312.
+* Update - Google Ads library to API V14. (package v19.2.0).
+
+= 2.5.2 - 2023-08-08 =
+* Fix - Remove `add_woocommerce_extended_task_list_item` and `remove_woocommerce_extended_task_list_item` hooks.
+* Fix - WordPress 6.3 compatibility: The forms and image selector may not work due to "setImmediate" deprecation.
+* Tweak - Use the latest API to add an item to the WC tasks list.
+* Tweak - WC 8.0 compatibility.
+* Tweak - WP 6.3 compatibility.
+
+= 2.5.1 - 2023-08-01 =
+* Dev - Setup wp-env for E2E tests.
+* Dev - automate merging trunk to develop after a release.
+* Fix - Fix support for "add_to_cart" event in Products (Beta) block.
+* Fix - Prevent PHP 8.2 deprecation messages.
+* Tweak - Ability to filter products for syncing via `gla_filter_product_query_args` apply_filters hook.
+* Update - Show validation errors on steps 2 and 3 of the onboarding flow when unable to continue.
+
+= 2.5.0 - 2023-07-18 =
+* Tweak - Add Tip with information with Campaign assets are imported.
+* Tweak - Provide more detailed error reasons when unable to complete site verification for the Google Merchant Center account being connected in the onboarding flow.
+
+= 2.4.11 - 2023-07-11 =
+* Add - Client name and plugin version to requests.
+* Dev - Enable unit testing for PHP 8.1.
+* Dev - Set engines for the repository.
+* Fix - Avoid continuing to save settings to Google Merchant Center after the shipping time save failed on the Edit Free Listings page.
+* Fix - Avoid errors when clearing all audience countries in the onboarding flow.
+* Fix - Incorrectly display South America in the audience location selector after selecting Saudi Arabia.
+* Fix - Remove deprecated $border-width-focus variable.
+* Fix - Show a general error message when the phone number verification request is failed.
+* Tweak - Add placeholder in the Attribute Mapping table when there are no rules available.
+* Tweak - Changes for title, descriptions and FAQ in PMAX Optimized Campaigns.
+* Tweak - Make some error messages clearer when errors occur in querying or modifying data.
+* Tweak - Make the error message clearer for errors that occur in getting or updating a Google Merchant Center account.
+* Tweak - WC 7.9 compatibility.
+
+= 2.4.10 - 2023-06-13 =
+* Tweak - WC 7.8 compatibility.
+
+= 2.4.9 - 2023-06-08 =
+* Fix - Prefix psr/http-client package.
+
+= 2.4.8 - 2023-06-08 =
+* Fix - Prefix Psr\Http\Message package to prevent conflicts with other plugins.
+
+= 2.4.7 - 2023-06-07 =
+* Fix - Adapt the `is_virtual` property value for Product Bundles to avoid applying incorrect shipping rates in products synchronization.
+* Update - Google API Client Services package to v0.302.
+* Update - Google API Client package to v2.15.
+* Update - Google Ads library to API V13. (package v19.1.0).
+
+= 2.4.6 - 2023-05-30 =
+* Add - Filters for manually mapping product IDs.
+* Tweak - Adjust the MCM filter to always show in channels.
+
+= 2.4.5 - 2023-05-09 =
+* Fix - Bug in Attribute Mapping with Taxonomy based rules not being applied in variations.
+* Fix - Missing spaces between the card layouts on the Get Started page.
+* Tweak - WC 7.7 compatibility.
+
+= 2.4.4 - 2023-05-02 =
+* Dev - Fix SEMGREP warnings.
+* Fix - Prefix Psr\Container package to prevent conflicts with other plugins.
+
+= 2.4.3 - 2023-04-25 =
+* Dev - Add PHP Code coverage report as GitHub action.
+* Dev - Unit test support for PHP 8.2.
+* Dev - Use "willReturnOnConsecutiveCalls" instead of "at" for unit tests.
+* Fix - Prevent creating assets for non-Performance Max campaigns.
+* Fix - The fatal errors caused by adding any US Armed Forces location to WooCommerce Shipping setting.
+* Fix - Use Ads account currency in the WooCommerce marketing dashboard.
+* Tweak - Redirect users between Dashboard and Get Started pages as required.
+
+= 2.4.2 - 2023-03-29 =
+* Tweak - WC 7.6 compatibility.
+
+= 2.4.1 - 2023-03-14 =
+* Tweak - WC 7.5 compatibility.
+* Tweak - WP 6.2 compatibility.
+
+= 2.4.0 - 2023-03-07 =
+* Add - Support for the Assets of Performance Max campaigns.
+* Dev - Externalize Panel, PanelBody, and PanelRow.
+* Dev - Externalize the KeyboardShortcuts component.
+* Dev - Increase maximum payload size in the test proxy.
+* Fix - The blank Product Feed page after completing the onboarding flow.
+* Tweak - Make the popover of the tooltip can be closed properly.
+
+= 2.3.10 - 2023-02-21 =
+* Add "Working with DEWP.md" to exclude list.
+* Add - Integration with WooCommerce Multichannel Marketing.
+* Tweak - Remove unnecessary PMax migration banners.
+* Tweak - Remove unnecessary woocommerce_loop_add_to_cart_link filter param.
+
+= 2.3.9 - 2023-02-15 =
+* Dev - Update phpunit to version 9.5.
+* Fix - Prefix Google Service packages to prevent plugin conflicts.
+* Tweak - Improve PHP 8.1 compatibility.
+* Tweak - Show admin notice when PHP 32 bits is being used.
+* Tweak - WC 7.4 compatibility.
+* Update - Google Ads library to API V12.
+* Update - Google Content library to API 2.13.
+
+= 2.3.8 - 2023-01-24 =
+* Fix - Product feed table footer rendering a zero when there are no products.
+
+= 2.3.7 - 2023-01-17 =
+* Tweak - Pre-select a default MC account.
+
+= 2.3.6 - 2023-01-10 =
+* Dev - Use extracted Button component from @wordpress/components package.
+* Fix - i18n for "View Reports" button.
+* Tweak - WooCommerce 7.3 Compatibility with Customer Effort Score prompt.
+
+= 2.3.5 - 2022-12-28 =
+* Tweak - Adjust copy in Attribute Mapping section.
+* Tweak - Retrieve a published product as a landing page URL.
+* Tweak - Simplify report controller parameters.
+
+= 2.3.4 - 2022-12-20 =
+* Tweak - Improve image validation error messages.
+
+= 2.3.3 - 2022-12-14 =
+* Fix - Tours API Endpoint.
+* Tweak - WC 7.2 compatibility.
+* Update - Drop support for WordPress < 5.9.
+
+= 2.3.2 - 2022-12-06 =
+* Dev - Adjusted parts of the post-install process to work on machines without `grep` and `find`. .
+* Dev - Adjusted post-install process to mention when files have their class-expectations modified but retain their original namespace.
+* Fix - Certain inbox notifications were shown before setup completed.
+* Fix - Delete products in GMC when force delete a product or change catalog visibility to hidden.
+
+= 2.3.1 - 2022-11-22 =
+* Add -  Attribute Mapping Feature.
+* Dev - Add script to list DEWPed dependencies' versions for a given WC version.
+* Fix - Incorrect product statistics count.
+* Fix - Yoast global identifiers for variable products.
+* Tweak - Remove unused GRPC packages.
+* Tweak - WC 7.1 compatibility.
+* Update - Change multipack attribute input to be native number input, to improve accessibility.
+* Update - Drop support for WC < 6.9.
+
 = 2.2.1 - 2022-11-15 =
 * Add - Declare compatibility for High Performance Order Storage.
 * Dev - Selectively externalize bundled packages.

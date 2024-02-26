@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShippingsettingsListResponse extends \Google\Collection
+class ShippingsettingsListResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'resources';
   /**
@@ -28,6 +28,10 @@ class ShippingsettingsListResponse extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var ShippingSettings[]
+   */
+  public $resources;
   protected $resourcesType = ShippingSettings::class;
   protected $resourcesDataType = 'array';
 

@@ -13,11 +13,11 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Options\OptionsAwareTrait;
 use Automattic\WooCommerce\GoogleListingsAndAds\Options\OptionsInterface;
 use Exception;
 use Google\Ads\GoogleAds\Util\FieldMasks;
-use Google\Ads\GoogleAds\Util\V11\ResourceNames;
-use Google\Ads\GoogleAds\V11\Enums\AccessRoleEnum\AccessRole;
-use Google\Ads\GoogleAds\V11\Enums\MerchantCenterLinkStatusEnum\MerchantCenterLinkStatus;
-use Google\Ads\GoogleAds\V11\Resources\MerchantCenterLink;
-use Google\Ads\GoogleAds\V11\Services\MerchantCenterLinkOperation;
+use Google\Ads\GoogleAds\Util\V14\ResourceNames;
+use Google\Ads\GoogleAds\V14\Enums\AccessRoleEnum\AccessRole;
+use Google\Ads\GoogleAds\V14\Enums\MerchantCenterLinkStatusEnum\MerchantCenterLinkStatus;
+use Google\Ads\GoogleAds\V14\Resources\MerchantCenterLink;
+use Google\Ads\GoogleAds\V14\Services\MerchantCenterLinkOperation;
 use Google\ApiCore\ApiException;
 use Google\ApiCore\ValidationException;
 
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Ads implements OptionsAwareInterface {
 
-	use ApiExceptionTrait;
+	use ExceptionTrait;
 	use OptionsAwareTrait;
 
 	/**
@@ -72,7 +72,7 @@ class Ads implements OptionsAwareInterface {
 		} catch ( ApiException $e ) {
 			do_action( 'woocommerce_gla_ads_client_exception', $e, __METHOD__ );
 
-			$errors = $this->get_api_exception_errors( $e );
+			$errors = $this->get_exception_errors( $e );
 
 			// Return an empty list if the user has not signed up to ads yet.
 			if ( isset( $errors['NOT_ADS_USER'] ) ) {
@@ -252,6 +252,15 @@ class Ads implements OptionsAwareInterface {
 	}
 
 	/**
+	 * Returns true if the Ads id exists in the options.
+	 *
+	 * @return bool
+	 */
+	public function ads_id_exists(): bool {
+		return ! empty( $this->options->get( OptionsInterface::ADS_ID ) );
+	}
+
+	/**
 	 * Update the billing flow URL so we can retrieve it again later.
 	 *
 	 * @param string $url Billing flow URL.
@@ -314,5 +323,4 @@ class Ads implements OptionsAwareInterface {
 
 		throw new Exception( __( 'Merchant link is not available to accept', 'google-listings-and-ads' ) );
 	}
-
 }

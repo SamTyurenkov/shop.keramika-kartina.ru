@@ -5,6 +5,8 @@
 /* @var int $isHoldEnabled */
 /* @var int $isSbBOLEnabled */
 /** @var array $isSaveCard */
+/** @var string $wcCalcTaxes */
+/** @var string $yookassaNonce */
 ?>
 <form id="yoomoney-form-2" class="yoomoney-form">
     <div class="col-md-12">
@@ -197,7 +199,7 @@
 
         <div class="row form-footer">
             <div class="col-md-12">
-                <button class="btn btn-light btn-back qa-back-button" data-tab="section1"><?= __('Назад', 'yookassa'); ?></button>
+                <button class="btn btn-default btn-back qa-back-button" data-tab="section1"><?= __('Назад', 'yookassa'); ?></button>
                 <button class="btn btn-primary btn-forward qa-forward-button" data-tab="section3"><?= __('Сохранить и продолжить', 'yookassa'); ?></button>
             </div>
         </div>

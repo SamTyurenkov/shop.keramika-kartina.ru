@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,8 @@ use YooKassa\Model\PaymentMethodType;
 /**
  * PaymentDataAlfabank
  * Платежные данные для проведения оплаты через Альфа Клик или Альфа Молнию.
+ * @deprecated Будет удален в следующих версиях
+ *
  * @property string $login Имя пользователя в Альфа-Клике
  */
 class PaymentDataAlfabank extends AbstractPaymentData
@@ -45,7 +47,7 @@ class PaymentDataAlfabank extends AbstractPaymentData
 
     public function __construct()
     {
-        $this->_setType(PaymentMethodType::ALFABANK);
+        $this->setType(PaymentMethodType::ALFABANK);
     }
 
     /**
@@ -69,7 +71,10 @@ class PaymentDataAlfabank extends AbstractPaymentData
             $this->_login = (string)$value;
         } else {
             throw new InvalidPropertyValueTypeException(
-                'Invalid login value type', 0, 'PaymentDataAlfabank.login', $value
+                'Invalid login value type',
+                0,
+                'PaymentDataAlfabank.login',
+                $value
             );
         }
     }

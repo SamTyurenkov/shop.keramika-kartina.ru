@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class DatafeedsListResponse extends \Google\Collection
+class DatafeedsListResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'resources';
   /**
@@ -28,6 +28,10 @@ class DatafeedsListResponse extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var Datafeed[]
+   */
+  public $resources;
   protected $resourcesType = Datafeed::class;
   protected $resourcesDataType = 'array';
 

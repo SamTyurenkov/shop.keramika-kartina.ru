@@ -40,6 +40,15 @@ trait PluginHelper {
 	}
 
 	/**
+	 * Get the client name for this plugin.
+	 *
+	 * @return string
+	 */
+	protected function get_client_name(): string {
+		return 'google-listings-and-ads';
+	}
+
+	/**
 	 * Get the plugin slug.
 	 *
 	 * @return string
@@ -143,7 +152,7 @@ trait PluginHelper {
 	 * @return string
 	 */
 	protected function get_documentation_url(): string {
-		return 'https://docs.woocommerce.com/document/google-listings-and-ads/';
+		return 'https://woo.com/document/google-listings-and-ads/?utm_source=wordpress&utm_medium=all-plugins-page&utm_campaign=doc-link&utm_content=google-listings-and-ads';
 	}
 
 	/**
@@ -190,5 +199,4 @@ trait PluginHelper {
 	protected function strip_url_protocol( string $url ): string {
 		return preg_replace( '#^https?://#', '', untrailingslashit( $url ) );
 	}
-
 }

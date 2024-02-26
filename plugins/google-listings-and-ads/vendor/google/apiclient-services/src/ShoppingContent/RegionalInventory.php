@@ -15,27 +15,39 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class RegionalInventory extends \Google\Collection
+class RegionalInventory extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'customAttributes';
   /**
    * @var string
    */
   public $availability;
+  /**
+   * @var CustomAttribute[]
+   */
+  public $customAttributes;
   protected $customAttributesType = CustomAttribute::class;
   protected $customAttributesDataType = 'array';
   /**
    * @var string
    */
   public $kind;
+  /**
+   * @var Price
+   */
+  public $price;
   protected $priceType = Price::class;
   protected $priceDataType = '';
   /**
    * @var string
    */
   public $regionId;
+  /**
+   * @var Price
+   */
+  public $salePrice;
   protected $salePriceType = Price::class;
   protected $salePriceDataType = '';
   /**

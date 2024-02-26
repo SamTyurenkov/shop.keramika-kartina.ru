@@ -15,15 +15,19 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ListCollectionsResponse extends \Google\Collection
+class ListCollectionsResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'resources';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var Collection[]
+   */
+  public $resources;
   protected $resourcesType = Collection::class;
   protected $resourcesDataType = 'array';
 

@@ -15,14 +15,18 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class DatafeedsCustomBatchRequestEntry extends \Google\Model
+class DatafeedsCustomBatchRequestEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
    */
   public $batchId;
+  /**
+   * @var Datafeed
+   */
+  public $datafeed;
   protected $datafeedType = Datafeed::class;
   protected $datafeedDataType = '';
   /**

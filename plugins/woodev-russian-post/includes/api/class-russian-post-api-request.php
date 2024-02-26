@@ -8,7 +8,7 @@ class WC_Russian_Post_API_Request extends Woodev_API_JSON_Request {
 	* Расчет стоимости пересылки
 	*/
 	public function get_tariff( $params ) {
-		$this->path   = '/1.0/tariff';
+		$this->path   = '/';
 		$this->method = 'POST';
 		$this->params = $params;
 	}

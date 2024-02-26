@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ namespace YooKassa\Common;
 use YooKassa\Common\Exceptions\InvalidPropertyValueException;
 use YooKassa\Common\Exceptions\InvalidPropertyValueTypeException;
 use YooKassa\Model\AmountInterface;
-use YooKassa\Model\Deal\PaymentDealInfo;
 use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Receipt;
 use YooKassa\Model\Receipt\ReceiptItemAmount;
@@ -193,34 +192,37 @@ abstract class AbstractPaymentRequestBuilder extends AbstractRequestBuilder
             } else {
                 if (empty($item['title']) && empty($item['description'])) {
                     throw new InvalidPropertyValueException(
-                        'Item#'.$index.' title or description not specified',
+                        'Item#' . $index . ' title or description not specified',
                         0,
-                        'AbstractPaymentRequestBuilder.items['.$index.'].title',
+                        'AbstractPaymentRequestBuilder.items[' . $index . '].description',
                         json_encode($item)
                     );
                 }
-                foreach (array('price', 'quantity', 'vatCode') as $property) {
+                if (empty($item['price']) && empty($item['amount'])) {
+                    throw new InvalidPropertyValueException(
+                        'Item#' . $index . ' amount or price not specified',
+                        0,
+                        'AbstractPaymentRequestBuilder.items[' . $index . '].amount',
+                        json_encode($item)
+                    );
+                }
+                foreach (array('quantity', 'vatCode') as $property) {
                     if (empty($item[$property])) {
                         throw new InvalidPropertyValueException(
-                            'Item#'.$index.' '.$property.' not specified',
+                            'Item#' . $index . ' ' . $property . ' not specified',
                             0,
-                            'AbstractPaymentRequestBuilder.items['.$index.'].'.$property,
+                            'AbstractPaymentRequestBuilder.items[' . $index . '].' . $property,
                             json_encode($item)
                         );
                     }
                 }
-                $this->addReceiptItem(
-                    empty($item['title']) ? $item['description'] : $item['title'],
-                    $item['price'],
-                    $item['quantity'],
-                    $item['vatCode'],
-                    isset($item['payment_mode']) ? $item['payment_mode'] : null,
-                    isset($item['payment_subject']) ? $item['payment_subject'] : null,
-                    isset($item['product_code']) ? $item['product_code'] : null,
-                    isset($item['country_of_origin_code']) ? $item['country_of_origin_code'] : null,
-                    isset($item['customs_declaration_number']) ? $item['customs_declaration_number'] : null,
-                    isset($item['excise']) ? $item['excise'] : null
+
+                $item['description'] = empty($item['title']) ? $item['description'] : $item['title'];
+                $item['amount'] = array(
+                    'value' => !empty($item['amount']['value']) ? $item['amount']['value'] : $item['price'],
+                    'currency' => !empty($item['amount']['currency']) ? $item['amount']['currency'] : $this->amount->getCurrency(),
                 );
+                $this->receipt->addItem(new ReceiptItem($item));
             }
             $index++;
         }

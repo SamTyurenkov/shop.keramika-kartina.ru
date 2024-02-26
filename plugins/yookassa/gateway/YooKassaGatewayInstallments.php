@@ -15,7 +15,7 @@ class YooKassaGatewayInstallments extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/installments.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/installments.png';
 
         $this->method_description = __('Заплатить по частям', 'yookassa');
         $this->method_title       = __('Заплатить по частям', 'yookassa');

@@ -15,11 +15,11 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class Promotion extends \Google\Collection
+class Promotion extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
-  protected $collection_key = 'shippingServiceNames';
+  protected $collection_key = 'storeCodeExclusion';
   /**
    * @var string[]
    */
@@ -44,6 +44,10 @@ class Promotion extends \Google\Collection
    * @var string
    */
   public $freeGiftItemId;
+  /**
+   * @var PriceAmount
+   */
+  public $freeGiftValue;
   protected $freeGiftValueType = PriceAmount::class;
   protected $freeGiftValueDataType = '';
   /**
@@ -78,20 +82,36 @@ class Promotion extends \Google\Collection
    * @var int
    */
   public $limitQuantity;
+  /**
+   * @var PriceAmount
+   */
+  public $limitValue;
   protected $limitValueType = PriceAmount::class;
   protected $limitValueDataType = '';
   /**
    * @var string
    */
   public $longTitle;
+  /**
+   * @var PriceAmount
+   */
+  public $minimumPurchaseAmount;
   protected $minimumPurchaseAmountType = PriceAmount::class;
   protected $minimumPurchaseAmountDataType = '';
   /**
    * @var int
    */
   public $minimumPurchaseQuantity;
+  /**
+   * @var PriceAmount
+   */
+  public $moneyBudget;
   protected $moneyBudgetType = PriceAmount::class;
   protected $moneyBudgetDataType = '';
+  /**
+   * @var PriceAmount
+   */
+  public $moneyOffAmount;
   protected $moneyOffAmountType = PriceAmount::class;
   protected $moneyOffAmountDataType = '';
   /**
@@ -126,18 +146,36 @@ class Promotion extends \Google\Collection
    * @var string
    */
   public $promotionDisplayDates;
+  /**
+   * @var TimePeriod
+   */
+  public $promotionDisplayTimePeriod;
   protected $promotionDisplayTimePeriodType = TimePeriod::class;
   protected $promotionDisplayTimePeriodDataType = '';
   /**
    * @var string
    */
   public $promotionEffectiveDates;
+  /**
+   * @var TimePeriod
+   */
+  public $promotionEffectiveTimePeriod;
   protected $promotionEffectiveTimePeriodType = TimePeriod::class;
   protected $promotionEffectiveTimePeriodDataType = '';
   /**
    * @var string
    */
   public $promotionId;
+  /**
+   * @var PromotionPromotionStatus
+   */
+  public $promotionStatus;
+  protected $promotionStatusType = PromotionPromotionStatus::class;
+  protected $promotionStatusDataType = '';
+  /**
+   * @var string
+   */
+  public $promotionUrl;
   /**
    * @var string[]
    */
@@ -146,6 +184,18 @@ class Promotion extends \Google\Collection
    * @var string[]
    */
   public $shippingServiceNames;
+  /**
+   * @var string
+   */
+  public $storeApplicability;
+  /**
+   * @var string[]
+   */
+  public $storeCode;
+  /**
+   * @var string[]
+   */
+  public $storeCodeExclusion;
   /**
    * @var string
    */
@@ -614,6 +664,34 @@ class Promotion extends \Google\Collection
     return $this->promotionId;
   }
   /**
+   * @param PromotionPromotionStatus
+   */
+  public function setPromotionStatus(PromotionPromotionStatus $promotionStatus)
+  {
+    $this->promotionStatus = $promotionStatus;
+  }
+  /**
+   * @return PromotionPromotionStatus
+   */
+  public function getPromotionStatus()
+  {
+    return $this->promotionStatus;
+  }
+  /**
+   * @param string
+   */
+  public function setPromotionUrl($promotionUrl)
+  {
+    $this->promotionUrl = $promotionUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getPromotionUrl()
+  {
+    return $this->promotionUrl;
+  }
+  /**
    * @param string[]
    */
   public function setRedemptionChannel($redemptionChannel)
@@ -640,6 +718,48 @@ class Promotion extends \Google\Collection
   public function getShippingServiceNames()
   {
     return $this->shippingServiceNames;
+  }
+  /**
+   * @param string
+   */
+  public function setStoreApplicability($storeApplicability)
+  {
+    $this->storeApplicability = $storeApplicability;
+  }
+  /**
+   * @return string
+   */
+  public function getStoreApplicability()
+  {
+    return $this->storeApplicability;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoreCode($storeCode)
+  {
+    $this->storeCode = $storeCode;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoreCode()
+  {
+    return $this->storeCode;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoreCodeExclusion($storeCodeExclusion)
+  {
+    $this->storeCodeExclusion = $storeCodeExclusion;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoreCodeExclusion()
+  {
+    return $this->storeCodeExclusion;
   }
   /**
    * @param string

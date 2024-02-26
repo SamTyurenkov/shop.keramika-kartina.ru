@@ -15,7 +15,7 @@ class YooKassaGatewaySberbank extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/sb.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/sb.png';
 
         $this->method_description = __('Оплата через Сбербанк', 'yookassa');
         $this->method_title       = __('SberPay', 'yookassa');

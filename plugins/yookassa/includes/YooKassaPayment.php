@@ -12,6 +12,7 @@ use YooKassa\Common\Exceptions\UnauthorizedException;
 use YooKassa\Model\Notification\NotificationFactory;
 use YooKassa\Model\NotificationEventType;
 use YooKassa\Model\PaymentMethod\PaymentMethodBankCard;
+use YooKassa\Model\PaymentMethod\PaymentMethodSberLoan;
 use YooKassa\Model\PaymentMethod\PaymentMethodYooMoney;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
@@ -20,6 +21,7 @@ use YooKassa\Request\Refunds\RefundResponse;
 use Yoomoney\Includes\PaymentsTableModel;
 use Yoomoney\Includes\CaptureNotificationChecker;
 use Yoomoney\Includes\SucceededNotificationChecker;
+use Automattic\WooCommerce\Utilities\NumberUtil;
 
 /**
  * The payment-facing functionality of the plugin.
@@ -130,6 +132,7 @@ class YooKassaPayment
         $shopPassword = get_option('yookassa_shop_password');
         $prefix       = substr($shopPassword, 0, 4);
         $testMode  = $prefix == "test";
+        $isSelfEmployed = YooKassaHandler::isSelfEmployed();
 
         if (get_option('yookassa_pay_mode') == '1') {
             $methods[] = 'YooKassaGatewayEPL';
@@ -146,15 +149,17 @@ class YooKassaPayment
                     $methods[] = 'YooKassaGatewayB2BSberbank';
                 }
                 $methods[] = 'YooKassaGatewayCard';
-                $methods[] = 'YooKassaGatewayAlfabank';
                 $methods[] = 'YooKassaGatewayQiwi';
                 $methods[] = 'YooKassaGatewayCash';
-
                 $methods[] = 'YooKassaGatewaySberbank';
                 $methods[] = 'YooKassaGatewayWallet';
                 $methods[] = 'YooKassaGatewayTinkoffBank';
-
                 $methods[] = 'YooKassaGatewaySbp';
+                if (!$isSelfEmployed) {
+                    $methods[] = 'YooKassaGatewaySberLoan';
+                } else {
+                    (new YooKassaGatewaySberLoan())->updateEnabledMethodOption();
+                }
             }
             if ($installmentsOn) {
                 $methods[] = 'YooKassaGatewayInstallments';
@@ -168,7 +173,6 @@ class YooKassaPayment
     {
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGateway.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayCard.php';
-        require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayAlfabank.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayQiwi.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayWebmoney.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayCash.php';
@@ -180,6 +184,7 @@ class YooKassaPayment
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayTinkoffBank.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewaySbp.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaWidgetGateway.php';
+        require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewaySberLoan.php';
     }
 
     public function processCallback()
@@ -334,12 +339,30 @@ class YooKassaPayment
             if ($succeededNtfChecker->isHandled($notificationModel)) {
                 return;
             }
+            $paymentMethod = $payment->paymentMethod;
+
+            if ($paymentMethod->getType() === PaymentMethodType::SBER_LOAN && $paymentMethod->getDiscountAmount()) {
+                /** @var PaymentMethodSberLoan $paymentMethod */
+                try {
+                    $discountAmount = $paymentMethod->getDiscountAmount()->value;
+                    YooKassaLogger::info('Adding discount to order. Discount amount: ' . $discountAmount);
+                    $this->wcOrderAddDiscount(
+                        $order,
+                        __('Рассрочка от СберБанка', 'yookassa'),
+                        $discountAmount
+                    );
+                } catch (Exception $e) {
+                    YooKassaLogger::error('Error adding discount to order - ' . json_encode($e));
+                    header("HTTP/1.1 500 Internal server error");
+                    header("Status: 500 Internal server error");
+                    exit();
+                }
+            }
+
             $updateData['paid'] = 'Y';
             $updateData['captured_at'] = date('Y-m-d H:i:s');
             $gateway->updatePaymentData($payment->getId(), $updateData);
 
-            /** @var PaymentMethodYooMoney $paymentMethod */
-            $paymentMethod = $payment->paymentMethod;
             $userId        = $payment->getMetadata()->offsetGet('wp_user_id');
 
             $isNeedSavedCard = $paymentMethod->getSaved() && !empty($userId);
@@ -359,9 +382,9 @@ class YooKassaPayment
             } else {
                 YooKassaLogger::info('Token not entered saved = ' . $paymentMethod->getSaved() . ' !empty($userId) = ' . $userId);
             }
+
             YooKassaLogger::info('Init complete order');
             YooKassaHandler::completeOrder($order, $payment);
-
             $order->set_transaction_id($payment->getId());
         } elseif ($payment->getStatus() === PaymentStatus::WAITING_FOR_CAPTURE) {
             if ($captureNtfChecker->isHandled($notificationModel)) {
@@ -377,6 +400,7 @@ class YooKassaPayment
                 PaymentMethodType::YOO_MONEY,
                 PaymentMethodType::GOOGLE_PAY,
                 PaymentMethodType::APPLE_PAY,
+                PaymentMethodType::SBER_LOAN,
             );
             if (in_array($payment->getPaymentMethod()->getType(), $capturePaymentMethods)) {
                 YooKassaHandler::holdOrder($order, $payment);
@@ -398,6 +422,102 @@ class YooKassaPayment
         $gateway->updatePaymentData($payment->getId(), $updateData);
 
         exit();
+    }
+
+    /**
+     * Добавление скидки в заказ (применяется к товарам и налогу)
+     * и пересчет общей стоимости заказа
+     *
+     * @param WC_Order $order Объект заказа
+     * @param string $title Название для скидки
+     * @param mixed $amount Сумма скидки
+     *
+     * @throws WC_Data_Exception
+     */
+    function wcOrderAddDiscount($order, $title, $amount)
+    {
+        $subtotal = $order->get_subtotal();
+
+        $discount = (float)str_replace(' ', '', $amount);
+        $discount = $discount > $subtotal ? -$subtotal : -$discount;
+
+        /** Высчитываем процент, по которому будем вычислять скидку для всех позиций в заказе */
+        $percentDiscount = round(100 / ($order->get_total() / (int)$amount), 1);
+        /** Расчитываем новую сумму для позиций в заказе с учетом процента */
+        foreach ($order->get_items(['line_item', 'shipping', 'tax']) as $item) {
+            if ($item instanceof WC_Order_Item_Tax) {
+                /** Задаем перерасчет для налогов на товары и доставку */
+                $item->set_tax_total($this->calculateTotalFromPercent((float)$item->get_tax_total(), $percentDiscount));
+                $item->set_shipping_tax_total($this->calculateTotalFromPercent((float)$item->get_shipping_tax_total(), $percentDiscount));
+            } else {
+                /** Задаем перерасчет для товаров и доставки */
+                $item->set_total($this->calculateTotalFromPercent((float)$item->get_total(), $percentDiscount));
+            }
+        }
+
+        /** Устанавливаем новую сумму для доставки, чтобы корректно отображалась в подытоге */
+        if ($order->get_shipping_method() && $order->get_shipping_total() > 0) {
+            $order->set_shipping_total($this->calculateTotalFromPercent((float)$order->get_shipping_total(), $percentDiscount));
+        }
+
+        /** Добавляем запись о скидке и ее сумме */
+        $item = new WC_Order_Item_Fee();
+        $item->set_name($title);
+        $item->set_amount($discount);
+        $item->set_total($discount);
+
+        if ('0' !== $item->get_tax_class() && 'taxable' === $item->get_tax_status() && wc_tax_enabled()) {
+            $tax_for   = array(
+                'country'   => $order->get_shipping_country(),
+                'state'     => $order->get_shipping_state(),
+                'postcode'  => $order->get_shipping_postcode(),
+                'city'      => $order->get_shipping_city(),
+                'tax_class' => $item->get_tax_class(),
+            );
+            $tax_rates = WC_Tax::find_rates($tax_for);
+            /** Высчитываем сумму скидки для каждого налога с учетом установленного % в налогах */
+            $taxes = WC_Tax::calc_tax($item->get_amount(), $tax_rates, $order->get_prices_include_tax());
+            $taxes_total = array_sum($taxes);
+            /** Высчитываем оставшуюся сумму скидки после подсчета общей суммы скидки по налогам */
+            $discount_total = $discount - $taxes_total;
+            $item->set_total($discount_total);
+
+            if (method_exists($item, 'get_subtotal')) {
+                $subtotal_taxes = WC_Tax::calc_tax($item->get_subtotal(), $tax_rates, $order->get_prices_include_tax());
+                $item->set_taxes(array('total' => $taxes, 'subtotal' => $subtotal_taxes));
+                $item->set_total_tax($taxes_total);
+            } else {
+                $item->set_taxes(array('total' => $taxes));
+                $item->set_total_tax($taxes_total);
+            }
+            $has_taxes = true;
+        } else {
+            $item->set_taxes(array());
+            $has_taxes = false;
+        }
+        /** Сохраняем заказ, чтобы применились все изменения по ценам до перерасчета общей стоимости */
+        $order->save();
+        /** Делаем перерасчет общей стоимости заказа с обновленными суммами в заказе */
+        $order->calculate_totals($has_taxes);
+        /** Сохраняем запись о скидке */
+        $item->save();
+        /** Добавляем в заказ запись о скидке уже после перерасчета, чтобы эта скидка не применилась еще раз */
+        $order->add_item($item);
+        /** Сохраняем заказ с добавленной записью о скидке */
+        $order->save();
+    }
+
+    /**
+     * Вычисление процента из числа
+     *
+     * @param float $total Общая сумма
+     * @param float $percent Процент, который хотим вычесть из числа
+     *
+     * @return float
+     */
+    private function calculateTotalFromPercent($total, $percent)
+    {
+        return $total - ($percent * ($total / 100));
     }
 
     public function validStatuses()
@@ -458,7 +578,11 @@ class YooKassaPayment
 
         try {
             $payment = $this->getApiClient()->getPaymentInfo($paymentId);
-
+            $paymentMethod = $payment->paymentMethod;
+            if ($paymentMethod->getType() === PaymentMethodType::SBER_LOAN && $paymentMethod->getDiscountAmount()) {
+                /** @var PaymentMethodSberLoan $paymentMethod */
+                $order->set_total($order->get_total() - $paymentMethod->getDiscountAmount()->value);
+            }
             $payment = YooKassaHandler::capturePayment($this->getApiClient(), $order, $payment);
             if ($payment->getStatus() === PaymentStatus::SUCCEEDED) {
                 $order->payment_complete($payment->getId());

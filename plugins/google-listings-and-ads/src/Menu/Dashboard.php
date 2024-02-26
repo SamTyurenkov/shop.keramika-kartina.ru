@@ -19,6 +19,8 @@ class Dashboard implements Service, Registerable, MerchantCenterAwareInterface {
 	use MerchantCenterAwareTrait;
 	use WooAdminNavigationTrait;
 
+	public const PATH = '/google/dashboard';
+
 	/**
 	 * Register a service.
 	 */
@@ -29,7 +31,7 @@ class Dashboard implements Service, Registerable, MerchantCenterAwareInterface {
 
 		add_action(
 			'admin_menu',
-			function() {
+			function () {
 				if ( $this->is_woo_nav_enabled() ) {
 					$this->register_navigation_pages();
 				} else {
@@ -38,7 +40,7 @@ class Dashboard implements Service, Registerable, MerchantCenterAwareInterface {
 							'id'     => 'google-listings-and-ads',
 							'title'  => __( 'Google Listings & Ads', 'google-listings-and-ads' ),
 							'parent' => 'woocommerce-marketing',
-							'path'   => '/google/dashboard',
+							'path'   => self::PATH,
 						]
 					);
 				}
@@ -55,7 +57,7 @@ class Dashboard implements Service, Registerable, MerchantCenterAwareInterface {
 				'id'       => 'google-listings-and-ads-category',
 				'title'    => __( 'Google Listings & Ads', 'google-listings-and-ads' ),
 				'parent'   => 'woocommerce',
-				'path'     => '/google/dashboard',
+				'path'     => self::PATH,
 				'nav_args' => [
 					'title'        => __( 'Google Listings & Ads', 'google-listings-and-ads' ),
 					'is_category'  => true,
@@ -70,7 +72,7 @@ class Dashboard implements Service, Registerable, MerchantCenterAwareInterface {
 				'id'       => 'google-dashboard',
 				'title'    => __( 'Dashboard', 'google-listings-and-ads' ),
 				'parent'   => 'google-listings-and-ads-category',
-				'path'     => '/google/dashboard',
+				'path'     => self::PATH,
 				'nav_args' => [
 					'order'  => 10,
 					'parent' => 'google-listings-and-ads-category',

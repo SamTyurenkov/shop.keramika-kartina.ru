@@ -82,7 +82,7 @@ HTML;
         if (get_option('yookassa_epl_installments') == '1') {
             echo <<<END
 <script>
-        jQuery.get("https://yoomoney.ru/credit/order/ajax/credit-pre-schedule?shopId={$shopId}&sum={$sum}", 
+        jQuery.get("https://yoomoney.ru/credit/order/ajax/credit-pre-schedule?shopId={$shopId}&sum={$sum}",
         function (data) {
             const yookassa_installments_amount_text = "{$extraLabel} {$extraInfo}";
             if (yookassa_installments_amount_text && data && data.amount) {
@@ -103,7 +103,7 @@ END;
     {
         wp_enqueue_style(
             $this->plugin_name,
-            YooKassa::$pluginUrl.'/assets/css/yookassa.css'
+            YooKassa::$pluginUrl.'assets/css/yookassa.css'
         );
     }
 

@@ -131,7 +131,7 @@ class THWCFD_Admin_Settings_General extends THWCFD_Admin_Settings{
 		$fields = THWCFD_Utils::get_fields($section);	
 	
 		?>            
-        <div class="wrap woocommerce"><div class="icon32 icon32-attributes" id="icon-woocommerce"><br /></div>
+        <div class="wrap woocommerce"><div class="icon32 icon32-attributes" id="icon-woocommerce"><br /></div></div>
 		<form method="post" id="thwcfd_checkout_fields_form" action="">
         	<table id="thwcfd_checkout_fields" class="wc_gateways widefat thpladmin_fields_table" cellspacing="0">
 				<thead>
@@ -199,6 +199,7 @@ class THWCFD_Admin_Settings_General extends THWCFD_Admin_Settings{
 			</table>
 			<?php wp_nonce_field( 'thwcfd_section_fields', 'thwcfd_security_manage_fields' ); ?>
         </form>
+
         <?php
         $this->field_form->output_field_forms();
 	}
@@ -249,7 +250,8 @@ class THWCFD_Admin_Settings_General extends THWCFD_Admin_Settings{
 			}
 			
 			$result = THWCFD_Utils::update_fields($section, $fields);
-			
+			THWCFD_Utils::setup_advanced_settings();
+
 			if($result == true) {
 				$this->print_notices(__('Your changes were saved.', 'woo-checkout-field-editor-pro' ), 'updated');
 			}else {
@@ -310,6 +312,8 @@ class THWCFD_Admin_Settings_General extends THWCFD_Admin_Settings{
 			$fields = THWCFD_Utils::sort_fields($fields);
 			$result = THWCFD_Utils::update_fields($section, $fields);
 
+			THWCFD_Utils::setup_advanced_settings();
+			
 			if($result == true) {
 				$this->print_notices(__('Your changes were saved.', 'woo-checkout-field-editor-pro'), 'updated');
 			}else {
@@ -377,8 +381,8 @@ class THWCFD_Admin_Settings_General extends THWCFD_Admin_Settings{
 			$field['validate'] = array('number');
 
 		}else if($type === 'checkbox'){
-			if(isset($posted['i_checked'])){
-				$field['default'] = 1;
+			if(isset($posted['i_default'])){
+				$field['default'] = sanitize_text_field($posted['i_default']);
 			}else{
 				$field['default'] = '';
 			}
@@ -444,7 +448,13 @@ class THWCFD_Admin_Settings_General extends THWCFD_Admin_Settings{
 		
 			foreach($fields as $name => $field){
 				if(THWCFD_Utils::is_active_custom_field($field) && isset($field['show_in_order']) && $field['show_in_order']  && !THWCFD_Utils::is_wc_handle_custom_field($field)){
-					$value = get_post_meta( $order_id, $name, true );
+					
+					$order = wc_get_order( $order_id );
+				
+					// $value = get_post_meta( $order_id, $key, true );
+					
+					$value = $order->get_meta( $name, true );
+
 					if(!empty($value)){
 						$value = THWCFD_Utils::get_option_text($field, $value);
 						$label = isset($field['label']) && $field['label'] ? esc_html($field['label'], 'woo-checkout-field-editor-pro') : $name;

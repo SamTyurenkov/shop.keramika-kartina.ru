@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class RegionalinventoryCustomBatchRequestEntry extends \Google\Model
+class RegionalinventoryCustomBatchRequestEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
@@ -35,6 +35,10 @@ class RegionalinventoryCustomBatchRequestEntry extends \Google\Model
    * @var string
    */
   public $productId;
+  /**
+   * @var RegionalInventory
+   */
+  public $regionalInventory;
   protected $regionalInventoryType = RegionalInventory::class;
   protected $regionalInventoryDataType = '';
 

@@ -84,7 +84,7 @@ class PaymentsRequestSerializerTest extends TestCase
                 'paymentMethod'      => $methods[mt_rand(0, count($methods) - 1)],
                 'status'             => $statuses[mt_rand(0, count($statuses) - 1)],
                 'limit'              => mt_rand(1, 100),
-                'cursor'             => $this->randomString(mt_rand(1, 30)),
+                'cursor'             => $this->randomString(mt_rand(2, 30)),
             );
             $result[] = array($request);
         }

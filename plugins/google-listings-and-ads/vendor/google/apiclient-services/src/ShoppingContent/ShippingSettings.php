@@ -15,19 +15,31 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShippingSettings extends \Google\Collection
+class ShippingSettings extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'warehouses';
   /**
    * @var string
    */
   public $accountId;
+  /**
+   * @var PostalCodeGroup[]
+   */
+  public $postalCodeGroups;
   protected $postalCodeGroupsType = PostalCodeGroup::class;
   protected $postalCodeGroupsDataType = 'array';
+  /**
+   * @var Service[]
+   */
+  public $services;
   protected $servicesType = Service::class;
   protected $servicesDataType = 'array';
+  /**
+   * @var Warehouse[]
+   */
+  public $warehouses;
   protected $warehousesType = Warehouse::class;
   protected $warehousesDataType = 'array';
 

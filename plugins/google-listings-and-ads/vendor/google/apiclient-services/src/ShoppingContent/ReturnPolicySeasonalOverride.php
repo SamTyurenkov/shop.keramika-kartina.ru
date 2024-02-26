@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ReturnPolicySeasonalOverride extends \Google\Model
+class ReturnPolicySeasonalOverride extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
@@ -27,6 +27,10 @@ class ReturnPolicySeasonalOverride extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var ReturnPolicyPolicy
+   */
+  public $policy;
   protected $policyType = ReturnPolicyPolicy::class;
   protected $policyDataType = '';
   /**

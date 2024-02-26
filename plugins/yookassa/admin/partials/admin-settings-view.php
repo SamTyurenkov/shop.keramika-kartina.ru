@@ -14,6 +14,7 @@
  * @var bool|null $validCredentials
  * @var string $active_tab
  * @var bool $isNeededShowNps
+ * @var string $yookassaNonce
  */
 
 ?>
@@ -64,7 +65,7 @@
                                     <a href="#section3" class="nav-link" role="tab" data-toggle="tab"><?= __('Доп. функции', 'yookassa'); ?></a>
                                 </li>
                                 <li id="tab-section4" class="nav-item" role="presentation">
-                                    <a href="#section4" class="nav-link" role="tab" data-toggle="tab"><?= __('54-ФЗ', 'yookassa'); ?></a>
+                                    <a href="#section4" class="nav-link" role="tab" data-toggle="tab"><?= __('Чеки', 'yookassa'); ?></a>
                                 </li>
                                 <li id="tab-section5" class="nav-item" role="presentation">
                                     <a href="#section5" class="nav-link" role="tab" data-toggle="tab"><?= __('Настройка уведомлений', 'yookassa');?></a>

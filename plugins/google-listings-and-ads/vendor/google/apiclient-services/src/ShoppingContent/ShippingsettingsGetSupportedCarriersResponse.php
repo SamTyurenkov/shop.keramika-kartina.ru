@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShippingsettingsGetSupportedCarriersResponse extends \Google\Collection
+class ShippingsettingsGetSupportedCarriersResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'carriers';
+  /**
+   * @var CarriersCarrier[]
+   */
+  public $carriers;
   protected $carriersType = CarriersCarrier::class;
   protected $carriersDataType = 'array';
   /**

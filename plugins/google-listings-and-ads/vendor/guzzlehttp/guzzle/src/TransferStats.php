@@ -2,9 +2,9 @@
 
 namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\GuzzleHttp;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Psr\Http\Message\RequestInterface;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Psr\Http\Message\ResponseInterface;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * Represents data at the point after it was transferred either successfully
@@ -46,8 +46,8 @@ final class TransferStats
      */
     public function __construct(
         RequestInterface $request,
-        ?ResponseInterface $response = null,
-        ?float $transferTime = null,
+        ResponseInterface $response = null,
+        float $transferTime = null,
         $handlerErrorData = null,
         array $handlerStats = []
     ) {

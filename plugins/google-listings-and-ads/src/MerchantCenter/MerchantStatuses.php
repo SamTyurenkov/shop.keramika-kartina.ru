@@ -20,7 +20,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Product\ProductRepository;
 use Automattic\WooCommerce\GoogleListingsAndAds\Product\ProductSyncer;
 use Automattic\WooCommerce\GoogleListingsAndAds\Value\ChannelVisibility;
 use Automattic\WooCommerce\GoogleListingsAndAds\Value\MCStatus;
-use Google\Service\ShoppingContent\ProductStatus as GoogleProductStatus;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent\ProductStatus as GoogleProductStatus;
 use DateTime;
 use Exception;
 
@@ -350,7 +350,7 @@ class MerchantStatuses implements Service, ContainerAwareInterface {
 				continue;
 			}
 
-			$wc_product = get_post( $wc_product_id );
+			$wc_product = $product_helper->get_wc_product_by_wp_post( $wc_product_id );
 			if ( ! $wc_product || 'product' !== substr( $wc_product->post_type, 0, 7 ) ) {
 				// Should never reach here since the products IDS are retrieved from postmeta.
 				do_action(
@@ -599,23 +599,66 @@ class MerchantStatuses implements Service, ContainerAwareInterface {
 	}
 
 	/**
-	 * Calculate the product status statistics and update the transient.
+	 * Calculate the synced product status statistics. It will group
+	 * the variations for the same parent.
+	 *
+	 * For the case that one variation is approved and the other disapproved:
+	 * 1. Give each status a priority.
+	 * 2. Store the last highest priority status in `$parent_statuses`.
+	 * 3. Compare if a higher priority status is found for that variable product.
+	 * 4. Loop through the `$parent_statuses` array at the end to add the final status counts.
+	 *
+	 * @return array Product status statistics.
 	 */
-	protected function update_mc_statuses() {
+	protected function calculate_synced_product_statistics(): array {
 		$product_statistics = [
 			MCStatus::APPROVED           => 0,
 			MCStatus::PARTIALLY_APPROVED => 0,
 			MCStatus::EXPIRING           => 0,
 			MCStatus::PENDING            => 0,
 			MCStatus::DISAPPROVED        => 0,
-			MCSTATUS::NOT_SYNCED         => 0,
+			MCStatus::NOT_SYNCED         => 0,
 		];
 
-		foreach ( $this->product_statuses['products'] as $statuses ) {
+		$product_statistics_priority = [
+			MCStatus::APPROVED           => 6,
+			MCStatus::PARTIALLY_APPROVED => 5,
+			MCStatus::EXPIRING           => 4,
+			MCStatus::PENDING            => 3,
+			MCStatus::DISAPPROVED        => 2,
+			MCStatus::NOT_SYNCED         => 1,
+		];
+
+		$parent_statuses = [];
+
+		foreach ( $this->product_statuses['products'] as $product_id => $statuses ) {
 			foreach ( $statuses as $status => $num_products ) {
-				$product_statistics[ $status ] += $num_products;
+				$parent_id = $this->product_data_lookup[ $product_id ]['parent_id'];
+				if ( ! $parent_id ) {
+					$product_statistics[ $status ] += $num_products;
+				} elseif ( ! isset( $parent_statuses[ $parent_id ] ) ) {
+					$parent_statuses[ $parent_id ] = $status;
+				} else {
+					$current_parent_status = $parent_statuses[ $parent_id ];
+					if ( $product_statistics_priority[ $status ] < $product_statistics_priority[ $current_parent_status ] ) {
+						$parent_statuses[ $parent_id ] = $status;
+					}
+				}
 			}
 		}
+
+		foreach ( $parent_statuses as $parent_status ) {
+			$product_statistics[ $parent_status ] += 1;
+		}
+
+		return $product_statistics;
+	}
+
+	/**
+	 * Calculate the product status statistics and update the transient.
+	 */
+	protected function update_mc_statuses() {
+		$product_statistics = $this->calculate_synced_product_statistics();
 
 		/** @var ProductRepository $product_repository */
 		$product_repository                         = $this->container->get( ProductRepository::class );
@@ -750,13 +793,20 @@ class MerchantStatuses implements Service, ContainerAwareInterface {
 	/**
 	 * Parse the code and formatted issue text out of the presync validation error text.
 	 *
+	 * Converts the error strings:
+	 * "[attribute] Error message." > "Error message [attribute]"
+	 *
+	 * Note:
+	 * If attribute is an array the name can be "[attribute[0]]".
+	 * So we need to match the additional set of square brackets.
+	 *
 	 * @param string $text
 	 *
 	 * @return string[] With indexes `code` and `issue`
 	 */
 	protected function parse_presync_issue_text( string $text ): array {
 		$matches = [];
-		preg_match( '/^\[([^\]]+)\]\s*(.+)$/', $text, $matches );
+		preg_match( '/^\[([^\]]+\]?)\]\s*(.+)$/', $text, $matches );
 		if ( count( $matches ) !== 3 ) {
 			return [
 				'code'  => 'presync_error_attrib_' . md5( $text ),
@@ -764,10 +814,16 @@ class MerchantStatuses implements Service, ContainerAwareInterface {
 			];
 		}
 
-		// Convert imageLink to image
+		// Convert attribute name "imageLink" to "image".
 		if ( 'imageLink' === $matches[1] ) {
 			$matches[1] = 'image';
 		}
+
+		// Convert attribute name "additionalImageLinks[]" to "galleryImage".
+		if ( str_starts_with( $matches[1], 'additionalImageLinks' ) ) {
+			$matches[1] = 'galleryImage';
+		}
+
 		$matches[2] = trim( $matches[2], ' .' );
 		return [
 			'code'  => 'presync_error_' . $matches[1],
@@ -827,7 +883,7 @@ class MerchantStatuses implements Service, ContainerAwareInterface {
 		 */
 		if ( 'home_page_issue' === $issue['code'] ) {
 			$issue['issue']      = 'Website claim is lost, need to re verify and claim your website. Please reference the support link';
-			$issue['action_url'] = 'https://woocommerce.com/document/google-listings-and-ads-faqs/#reverify-website';
+			$issue['action_url'] = 'https://woo.com/document/google-listings-and-ads-faqs/#reverify-website';
 		}
 
 		return $issue;

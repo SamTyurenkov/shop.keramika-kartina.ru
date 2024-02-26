@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,8 +43,8 @@ use YooKassa\Helpers\TypeCast;
  *
  * @property string $operationId Идентификатор операции (тег в 54 ФЗ — 1271)
  * @property string $operation_id Идентификатор операции (тег в 54 ФЗ — 1271)
- * @property Datetime $createdAt Время создания операции (тег в 54 ФЗ — 1273)
- * @property Datetime $created_at Время создания операции (тег в 54 ФЗ — 1273)
+ * @property DateTime $createdAt Время создания операции (тег в 54 ФЗ — 1273)
+ * @property DateTime $created_at Время создания операции (тег в 54 ФЗ — 1273)
  * @property string $value Данные операции (тег в 54 ФЗ — 1272)
  */
 class OperationalDetails extends AbstractObject
@@ -60,7 +60,7 @@ class OperationalDetails extends AbstractObject
     private $_operationId;
 
     /**
-     * @var Datetime Время создания операции (тег в 54 ФЗ — 1273).
+     * @var DateTime Время создания операции (тег в 54 ФЗ — 1273).
      * Указывается по [UTC](https://ru.wikipedia.org/wiki/Всемирное_координированное_время) и передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
      */
     private $_createdAt;
@@ -102,7 +102,7 @@ class OperationalDetails extends AbstractObject
 
     /**
      * Возвращает время создания операции
-     * @return Datetime Время создания операции
+     * @return DateTime Время создания операции
      */
     public function getCreatedAt()
     {
@@ -111,7 +111,7 @@ class OperationalDetails extends AbstractObject
 
     /**
      * Устанавливает время создания операции
-     * @param string|Datetime $value Время создания операции
+     * @param string|DateTime $value Время создания операции
      * @throws \Exception
      */
     public function setCreatedAt($value)

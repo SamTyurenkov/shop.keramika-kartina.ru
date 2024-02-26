@@ -150,12 +150,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// Add product data for any add_to_cart link.
 		add_filter(
 			'woocommerce_loop_add_to_cart_link',
-			function ( $link, $product, $args ) {
+			function ( $link, $product ) {
 				$this->add_product_data( $product );
 				return $link;
 			},
 			10,
-			3
+			2
 		);
 
 		// Add display name for an available variation.
@@ -189,7 +189,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			}
 		);
 
-		$this->assets_handler->add( $gtag_events );
+		$this->assets_handler->register( $gtag_events );
 
 		add_action(
 			'wp_footer',
@@ -202,6 +202,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 					]
 				);
 
+				$this->register_js_for_fast_refresh_dev();
 				$this->assets_handler->enqueue( $gtag_events );
 			}
 		);
@@ -301,7 +302,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			$product_id   = $item->get_product_id();
 			$product_name = $item->get_name();
 			$quantity     = $item->get_quantity();
-			$price        = $item->get_subtotal();
+			$price        = $order->get_item_total( $item );
 			$item_info [] = sprintf(
 				'{
 				id: "gla_%s",
@@ -484,5 +485,40 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$query->set( 'customer', $customer_email );
 		$orders = $query->get_orders();
 		return count( $orders ) === 1 ? true : false;
+	}
+
+	/**
+	 * This method ONLY works during development in the Fast Refresh mode.
+	 *
+	 * The runtime.js and react-refresh-runtime.js files are created when the front-end development is
+	 * running `npm run start:hot`, and they need to be loaded to make the gtag-events scrips work.
+	 */
+	private function register_js_for_fast_refresh_dev() {
+		// This file exists only when running `npm run start:hot`
+		$runtime_path = "{$this->get_root_dir()}/js/build/runtime.js";
+
+		if ( ! file_exists( $runtime_path ) ) {
+			return;
+		}
+
+		$plugin_url = $this->get_plugin_url();
+
+		wp_enqueue_script(
+			'gla-webpack-runtime',
+			"{$plugin_url}/js/build/runtime.js",
+			[],
+			(string) filemtime( $runtime_path ),
+			false
+		);
+
+		// This script is one of the gtag-events dependencies, and its handle is wp-react-refresh-runtime.
+		// Ref: js/build/gtag-events.asset.php
+		wp_register_script(
+			'wp-react-refresh-runtime',
+			"{$plugin_url}/js/build-dev/react-refresh-runtime.js",
+			[ 'gla-webpack-runtime' ],
+			$this->get_version(),
+			false
+		);
 	}
 }

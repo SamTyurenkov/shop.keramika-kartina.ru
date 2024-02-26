@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrdersSetLineItemMetadataRequest extends \Google\Collection
+class OrdersSetLineItemMetadataRequest extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'annotations';
+  /**
+   * @var OrderMerchantProvidedAnnotation[]
+   */
+  public $annotations;
   protected $annotationsType = OrderMerchantProvidedAnnotation::class;
   protected $annotationsDataType = 'array';
   /**

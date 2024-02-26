@@ -152,6 +152,13 @@ class YooKassaSecondReceipt
                     ->setCustomer($customer)
                     ->setSend(true);
 
+                if (YooKassaHandler::isLegalEntity()) {
+                    $taxSystemCode = $lastReceipt->getTaxSystemCode() ?: get_option('yookassa_default_tax_system_code');
+                    if (!empty($taxSystemCode)) {
+                        $receiptBuilder->setTaxSystemCode($taxSystemCode);
+                    }
+                }
+
                 return $receiptBuilder->build();
             } catch (Exception $e) {
                 YooKassaLogger::error($e->getMessage() . '. Property name: '. $e->getProperty());
@@ -313,6 +320,10 @@ class YooKassaSecondReceipt
      */
     private function changeOrderStatus($order_id, $type)
     {
+        if (YooKassaHandler::isSelfEmployed()) {
+            return;
+        }
+
         YooKassaLogger::info('Init YooKassaSecondReceipt::' . $type);
 
         if (!$order_id) {

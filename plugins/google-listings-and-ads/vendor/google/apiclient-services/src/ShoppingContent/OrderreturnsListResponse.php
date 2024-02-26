@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderreturnsListResponse extends \Google\Collection
+class OrderreturnsListResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'resources';
   /**
@@ -28,6 +28,10 @@ class OrderreturnsListResponse extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var MerchantOrderReturn[]
+   */
+  public $resources;
   protected $resourcesType = MerchantOrderReturn::class;
   protected $resourcesDataType = 'array';
 

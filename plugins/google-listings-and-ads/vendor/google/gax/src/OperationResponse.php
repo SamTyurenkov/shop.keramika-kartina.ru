@@ -110,7 +110,7 @@ class OperationResponse
      *     @type string $operationErrorMessageMethod The method on the operation to get the error status
      * }
      */
-    public function __construct($operationName, $operationsClient, $options = [])
+    public function __construct(string $operationName, $operationsClient, array $options = [])
     {
         $this->operationName = $operationName;
         $this->operationsClient = $operationsClient;
@@ -234,7 +234,7 @@ class OperationResponse
      * @throws ValidationException
      * @return bool Indicates if the operation completed.
      */
-    public function pollUntilComplete($options = [])
+    public function pollUntilComplete(array $options = [])
     {
         if ($this->isDone()) {
             return true;
@@ -436,7 +436,6 @@ class OperationResponse
             return null;
         }
         // @TODO: This is probably not doing anything and can be removed in the next release.
-        // @phpstan-ignore-next-line
         if (is_null($any->getValue())) {
             return null;
         }

@@ -16,7 +16,7 @@ class YooKassaGatewayWebmoney extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/wm.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/wm.png';
 
         $this->method_description = __('Webmoney', 'yookassa');
         $this->method_title       = __('Webmoney', 'yookassa');

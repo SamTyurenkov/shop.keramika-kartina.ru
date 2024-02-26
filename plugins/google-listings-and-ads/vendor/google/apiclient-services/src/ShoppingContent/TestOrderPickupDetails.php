@@ -15,21 +15,29 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class TestOrderPickupDetails extends \Google\Collection
+class TestOrderPickupDetails extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'pickupPersons';
   /**
    * @var string
    */
   public $locationCode;
+  /**
+   * @var TestOrderAddress
+   */
+  public $pickupLocationAddress;
   protected $pickupLocationAddressType = TestOrderAddress::class;
   protected $pickupLocationAddressDataType = '';
   /**
    * @var string
    */
   public $pickupLocationType;
+  /**
+   * @var TestOrderPickupDetailsPickupPerson[]
+   */
+  public $pickupPersons;
   protected $pickupPersonsType = TestOrderPickupDetailsPickupPerson::class;
   protected $pickupPersonsDataType = 'array';
 

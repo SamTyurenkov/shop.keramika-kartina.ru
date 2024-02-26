@@ -15,15 +15,19 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class TransitTable extends \Google\Collection
+class TransitTable extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'transitTimeLabels';
   /**
    * @var string[]
    */
   public $postalCodeGroupNames;
+  /**
+   * @var TransitTableTransitTimeRow[]
+   */
+  public $rows;
   protected $rowsType = TransitTableTransitTimeRow::class;
   protected $rowsDataType = 'array';
   /**

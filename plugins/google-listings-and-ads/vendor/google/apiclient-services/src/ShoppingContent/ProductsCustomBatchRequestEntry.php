@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ProductsCustomBatchRequestEntry extends \Google\Model
+class ProductsCustomBatchRequestEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
@@ -35,6 +35,10 @@ class ProductsCustomBatchRequestEntry extends \Google\Model
    * @var string
    */
   public $method;
+  /**
+   * @var Product
+   */
+  public $product;
   protected $productType = Product::class;
   protected $productDataType = '';
   /**

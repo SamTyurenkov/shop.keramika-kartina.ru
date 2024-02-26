@@ -10,6 +10,7 @@ use YooKassa\Model\Deal\SettlementPayoutPaymentType;
 use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Receipt\PaymentMode;
 use YooKassa\Model\Receipt\PaymentSubject;
+use YooKassa\Model\Receipt\ReceiptItemMeasure;
 use YooKassa\Model\Transfer;
 use YooKassa\Request\Payments\Payment\CreateCaptureRequest;
 use YooKassa\Request\Payments\Payment\CreateCaptureRequestSerializer;
@@ -34,7 +35,7 @@ class CreateCaptureRequestSerializerTest extends TestCase
         if (!empty($options['receiptItems'])) {
             foreach ($options['receiptItems'] as $item) {
                 $itemArray = array(
-                    'description' => $item['title'],
+                    'description' => !empty($item['title']) ? $item['title'] : $item['description'],
                     'quantity' => $item['quantity'],
                     'amount' => array(
                         'value' => $item['price'],
@@ -54,6 +55,9 @@ class CreateCaptureRequestSerializerTest extends TestCase
                 }
                 if (!empty($item['country_of_origin_code'])) {
                     $itemArray['country_of_origin_code'] = $item['country_of_origin_code'];
+                }
+                if (!empty($item['measure'])) {
+                    $itemArray['measure'] = $item['measure'];
                 }
                 if (!empty($item['customs_declaration_number'])) {
                     $itemArray['customs_declaration_number'] = $item['customs_declaration_number'];
@@ -90,6 +94,9 @@ class CreateCaptureRequestSerializerTest extends TestCase
                                     : CurrencyCode::RUB
                         );
                     }
+                    if (!empty($transfers['description'])) {
+                        $transferData['description'] = $transfers['description'];
+                    }
                     $expected['transfers'][] = $transferData;
                 }
             }
@@ -122,7 +129,7 @@ class CreateCaptureRequestSerializerTest extends TestCase
                 array(
                     'receiptItems' => array(
                         array(
-                            'title' => Random::str(10),
+                            'description' => Random::str(10),
                             'quantity' => round(Random::float(0.01, 10.00), 2),
                             'price' => round(Random::float(10.00, 100.00), 2),
                             'vatCode' => Random::int(1, 6),
@@ -130,6 +137,7 @@ class CreateCaptureRequestSerializerTest extends TestCase
                             'payment_subject' => Random::value(PaymentSubject::getValidValues()),
                             'product_code' => Random::str(96, 96, '0123456789ABCDEF '),
                             'country_of_origin_code' => 'RU',
+                            'measure' => Random::value(ReceiptItemMeasure::getValidValues()),
                             'customs_declaration_number' => Random::str(32),
                             'excise' => Random::float(0.0, 99.99),
                         ),
@@ -141,6 +149,7 @@ class CreateCaptureRequestSerializerTest extends TestCase
                             'account_id' => Random::str(36),
                             'amount' => new MonetaryAmount(Random::int(1, 1000), 'RUB'),
                             'platform_fee_amount' => new MonetaryAmount(Random::int(1, 1000), 'RUB'),
+                            'description' => Random::str(1, Transfer::MAX_LENGTH_DESCRIPTION),
                         )),
                     ),
                     'deal' => array(
@@ -177,12 +186,13 @@ class CreateCaptureRequestSerializerTest extends TestCase
                                     'currency' => $currencies[mt_rand(0, count($currencies) - 1)],
                                 ),
                                 'quantity' => round(Random::float(0.01, 10.00), 2),
-                                'vat_code' => Random::int(1, 6)
+                                'vat_code' => Random::int(1, 6),
+                                'measure' => Random::value(ReceiptItemMeasure::getValidValues()),
                             )
                         ),
                         'customer' => array(
                             'phone' => Random::str(12, '0123456789'),
-                            'email' => Random::str(10 ),
+                            'email' => Random::str(10),
                             'full_name' => Random::str(1, 256),
                             'inn'    => Random::str(12, 12, '1234567890')
                         ),

@@ -101,15 +101,12 @@ class PaymentMethodFactoryTest extends TestCase
     public function invalidTypeDataProvider()
     {
         return array(
-            array(''),
             array(null),
             array(0),
             array(1),
             array(-1),
-            array('5'),
             array(array()),
             array(new \stdClass()),
-            array(Random::str(10)),
         );
     }
 
@@ -272,7 +269,6 @@ class PaymentMethodFactoryTest extends TestCase
     {
         return array(
             array(array()),
-            array(array('type' => 'test')),
         );
     }
 }

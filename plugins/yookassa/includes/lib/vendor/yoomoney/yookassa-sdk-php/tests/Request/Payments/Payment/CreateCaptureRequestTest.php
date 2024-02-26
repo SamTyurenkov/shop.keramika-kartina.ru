@@ -26,8 +26,8 @@ class CreateCaptureRequestTest extends TestCase
 
         $instance->setAmount($options['amount']);
         self::assertTrue($instance->hasAmount());
-        self::assertSame($options['amount'], $instance->getAmount());
-        self::assertSame($options['amount'], $instance->amount);
+        self::assertEquals($options['amount'], $instance->getAmount());
+        self::assertEquals($options['amount'], $instance->amount);
 
         $instance = new CreateCaptureRequest();
         self::assertFalse($instance->hasAmount());
@@ -36,8 +36,8 @@ class CreateCaptureRequestTest extends TestCase
 
         $instance->amount = $options['amount'];
         self::assertTrue($instance->hasAmount());
-        self::assertSame($options['amount'], $instance->getAmount());
-        self::assertSame($options['amount'], $instance->amount);
+        self::assertEquals($options['amount'], $instance->getAmount());
+        self::assertEquals($options['amount'], $instance->amount);
     }
 
     /**
@@ -76,6 +76,45 @@ class CreateCaptureRequestTest extends TestCase
             self::assertFalse($instance->hasDeal());
             self::assertSame($options['deal'], $instance->getDeal());
             self::assertSame($options['deal'], $instance->deal);
+        }
+    }
+
+    /**
+     * @dataProvider validDataProvider
+     * @param $options
+     */
+    public function testAirline($options)
+    {
+        $instance = new CreateCaptureRequest();
+        self::assertFalse($instance->hasAirline());
+        self::assertNull($instance->getAirline());
+        self::assertNull($instance->airline);
+
+        $instance->setAirline($options['airline']);
+        if (is_array($options['airline'])) {
+            self::assertTrue($instance->hasAirline());
+            self::assertSame($options['airline'], $instance->getAirline()->toArray());
+            self::assertSame($options['airline'], $instance->airline->toArray());
+        } else {
+            self::assertFalse($instance->hasAirline());
+            self::assertSame($options['airline'], $instance->getAirline());
+            self::assertSame($options['airline'], $instance->airline);
+        }
+
+        $instance = new CreateCaptureRequest();
+        self::assertFalse($instance->hasAirline());
+        self::assertNull($instance->getAirline());
+        self::assertNull($instance->airline);
+
+        $instance->airline = $options['airline'];
+        if (is_array($options['airline'])) {
+            self::assertTrue($instance->hasAirline());
+            self::assertSame($options['airline'], $instance->getAirline()->toArray());
+            self::assertSame($options['airline'], $instance->airline->toArray());
+        } else {
+            self::assertFalse($instance->hasAirline());
+            self::assertSame($options['airline'], $instance->getAirline());
+            self::assertSame($options['airline'], $instance->airline);
         }
     }
 
@@ -129,6 +168,23 @@ class CreateCaptureRequestTest extends TestCase
                 'deal' => $i % 2 ? array(
                     'settlements' => array()
                 ) : null,
+                'airline' => Random::bool() ? array(
+                    'booking_reference' => Random::str(3, 10),
+                    'ticket_number'     => Random::str(10, '0123456789'),
+                    'passengers'        => array(
+                        array(
+                            'first_name' => Random::str(3, 10),
+                            'last_name'  => Random::str(3, 10),
+                        ),
+                    ),
+                    'legs'              => array(
+                        array(
+                            'departure_airport'   => Random::str(3, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+                            'destination_airport' => Random::str(3, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+                            'departure_date'      => date('Y-m-d', Random::int(11111111, time())),
+                        ),
+                    ),
+                ) : null
             );
             $result[] = array($request);
         }

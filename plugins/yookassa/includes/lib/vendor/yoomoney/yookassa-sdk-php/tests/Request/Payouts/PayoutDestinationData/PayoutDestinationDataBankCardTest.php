@@ -80,7 +80,6 @@ class PayoutDestinationDataBankCardTest extends AbstractPayoutDestinationDataTes
     public function testSetInvalidCard($value)
     {
         $this->getTestInstance()->setCard($value);
-
     }
 
     /**
@@ -115,10 +114,10 @@ class PayoutDestinationDataBankCardTest extends AbstractPayoutDestinationDataTes
             array('5'),
             array(true),
             array(new \stdClass()),
-            array(new \Datetime()),
+            array(new \DateTime()),
             array(array('number' => '')),
             array(array('number' => null)),
-            array(array('number' => new \Datetime())),
+            array(array('number' => new \DateTime())),
             array(array('number' => Random::str(16))),
         );
     }

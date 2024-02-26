@@ -15,14 +15,18 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class LocalinventoryCustomBatchRequestEntry extends \Google\Model
+class LocalinventoryCustomBatchRequestEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
    */
   public $batchId;
+  /**
+   * @var LocalInventory
+   */
+  public $localInventory;
   protected $localInventoryType = LocalInventory::class;
   protected $localInventoryDataType = '';
   /**

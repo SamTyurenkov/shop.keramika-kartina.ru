@@ -20,7 +20,8 @@ jQuery(document).ready(function(){
 		postData: {
 			search: {
 				text_like: jQuery('#'+ tblId+ 'SearchTxt').val()
-			}
+			},
+			wpfNonce: window.wpfNonce
 		},
 		rowNum: 10,
 		rowList: [10, 20, 30, 1000],
@@ -169,7 +170,7 @@ jQuery(document).ready(function(){
 		if (listIds.length) {
 			jQuery.sendFormWpf({
 				btn: this,
-				data: {mod: 'woofilterpro', action: 'exportGroup', listIds: listIds},
+				data: {mod: 'woofilterpro', action: 'exportGroup', listIds: listIds, wpfNonce: window.wpfNonce},
 				onSuccess: function(res) {
 					if(!res.error) {
 						var blob = new Blob(
@@ -192,6 +193,7 @@ jQuery(document).ready(function(){
 	});
 	// *******  import filters START  *******
 	var $importForm = jQuery('#wpfImportForm');
+	jQuery('<input type="hidden" name="wpfNonce" value="'+window.wpfNonce+'">').appendTo($importForm);
 	var $importWnd = jQuery('#wpfImportWnd').dialog({
 		modal:    true,
 		autoOpen: false,
@@ -204,6 +206,7 @@ jQuery(document).ready(function(){
 		},
 		create:function () {
 			jQuery(this).closest('.ui-dialog').addClass('woobewoo-plugin');
+			if (WPF_DATA.isWCLicense) jQuery(this).closest('.ui-dialog').find('.ui-dialog-buttonset button').addClass('button button-primary');
 		}
 	});
 	var $importSubmitBtn = $importWnd.parents('.ui-dialog:first')
@@ -265,6 +268,7 @@ jQuery(document).ready(function(){
 		],
 		create:function () {
 			jQuery(this).closest('.ui-dialog').addClass('woobewoo-plugin');
+			if (WPF_DATA.isWCLicense) jQuery(this).closest('.ui-dialog').find('.ui-dialog-buttonset button').addClass('button button-primary');
 		}
 	}), $statDWnd = jQuery('#wpfStatsDWnd').dialog({
 		modal:    true,
@@ -281,6 +285,7 @@ jQuery(document).ready(function(){
 		],
 		create:function () {
 			jQuery(this).closest('.ui-dialog').addClass('woobewoo-plugin');
+			if (WPF_DATA.isWCLicense) jQuery(this).closest('.ui-dialog').find('.ui-dialog-buttonset button').addClass('button button-primary');
 		}
 	});
 				

@@ -16,7 +16,7 @@ class YooKassaGatewaySbp extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/sbp.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/sbp.png';
 
         $this->method_title       = __('СБП', 'yookassa');
         $this->method_description = __('Система быстрых платежей ЦБ РФ для мгновенного перевода денег в другие банки', 'yookassa');

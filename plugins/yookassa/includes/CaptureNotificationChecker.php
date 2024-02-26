@@ -2,7 +2,7 @@
 
 namespace Yoomoney\Includes;
 
-use Yookassa\Model\Notification\NotificationWaitingForCapture;
+use YooKassa\Model\Notification\AbstractNotification;
 
 class CaptureNotificationChecker
 {
@@ -14,7 +14,7 @@ class CaptureNotificationChecker
         $this->paymentsTableModel = $paymentsTableModel;
     }
 
-    public function isHandled(NotificationWaitingForCapture $notification)
+    public function isHandled(AbstractNotification $notification)
     {
         $paymentId = $notification->getObject()->getId();
 

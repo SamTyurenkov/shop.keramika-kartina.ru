@@ -9,7 +9,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Infrastructure\Service;
 use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterService;
 use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\TargetAudience;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
-use Google\Exception as GoogleException;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Exception as GoogleException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use WC_Coupon;
@@ -78,7 +78,8 @@ class CouponSyncer implements Service {
 		ValidatorInterface $validator,
 		MerchantCenterService $merchant_center,
 		TargetAudience $target_audience,
-		WC $wc ) {
+		WC $wc
+	) {
 		$this->google_service  = $google_service;
 		$this->coupon_helper   = $coupon_helper;
 		$this->validator       = $validator;

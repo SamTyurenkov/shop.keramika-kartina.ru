@@ -2,7 +2,7 @@
 
 namespace Yoomoney\Includes;
 
-use Yookassa\Model\Notification\NotificationSucceeded;
+use YooKassa\Model\Notification\AbstractNotification;
 
 class SucceededNotificationChecker
 {
@@ -14,7 +14,7 @@ class SucceededNotificationChecker
         $this->paymentsTableModel = $paymentsTableModel;
     }
 
-    public function isHandled(NotificationSucceeded $notification)
+    public function isHandled(AbstractNotification $notification)
     {
         $paymentId = $notification->getObject()->getId();
 

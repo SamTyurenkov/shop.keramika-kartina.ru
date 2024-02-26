@@ -4,7 +4,8 @@
  * @var int $isOauthTokenGotten
  * @var string $shopId
  * @var string $password
- */
+ * @var string $yookassaNonce
+*/
 ?>
 <?php if (!$isOauthTokenGotten && $shopId): ?>
 <div class="col-md-12">
@@ -49,7 +50,7 @@
             <div class="col-md-8 col-lg-9">
                 <div class="row form-footer">
                     <div class="col-md-12">
-                        <button class="btn btn-warning btn_oauth_connect qa-change-shop-button">
+                        <button class="btn btn-default btn_oauth_connect qa-change-shop-button">
                             <?= __('Сменить магазин', 'yookassa'); ?>
                         </button>
                         <button class="btn btn-primary btn-forward" data-tab="section2">

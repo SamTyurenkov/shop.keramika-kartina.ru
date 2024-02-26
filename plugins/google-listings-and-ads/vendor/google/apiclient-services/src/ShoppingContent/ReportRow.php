@@ -15,15 +15,107 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ReportRow extends \Google\Model
+class ReportRow extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
+  /**
+   * @var BestSellers
+   */
+  public $bestSellers;
+  protected $bestSellersType = BestSellers::class;
+  protected $bestSellersDataType = '';
+  /**
+   * @var Brand
+   */
+  public $brand;
+  protected $brandType = Brand::class;
+  protected $brandDataType = '';
+  /**
+   * @var CompetitiveVisibility
+   */
+  public $competitiveVisibility;
+  protected $competitiveVisibilityType = CompetitiveVisibility::class;
+  protected $competitiveVisibilityDataType = '';
+  /**
+   * @var Metrics
+   */
+  public $metrics;
   protected $metricsType = Metrics::class;
   protected $metricsDataType = '';
+  /**
+   * @var PriceCompetitiveness
+   */
+  public $priceCompetitiveness;
+  protected $priceCompetitivenessType = PriceCompetitiveness::class;
+  protected $priceCompetitivenessDataType = '';
+  /**
+   * @var PriceInsights
+   */
+  public $priceInsights;
+  protected $priceInsightsType = PriceInsights::class;
+  protected $priceInsightsDataType = '';
+  /**
+   * @var ProductCluster
+   */
+  public $productCluster;
+  protected $productClusterType = ProductCluster::class;
+  protected $productClusterDataType = '';
+  /**
+   * @var ProductView
+   */
+  public $productView;
+  protected $productViewType = ProductView::class;
+  protected $productViewDataType = '';
+  /**
+   * @var Segments
+   */
+  public $segments;
   protected $segmentsType = Segments::class;
   protected $segmentsDataType = '';
 
+  /**
+   * @param BestSellers
+   */
+  public function setBestSellers(BestSellers $bestSellers)
+  {
+    $this->bestSellers = $bestSellers;
+  }
+  /**
+   * @return BestSellers
+   */
+  public function getBestSellers()
+  {
+    return $this->bestSellers;
+  }
+  /**
+   * @param Brand
+   */
+  public function setBrand(Brand $brand)
+  {
+    $this->brand = $brand;
+  }
+  /**
+   * @return Brand
+   */
+  public function getBrand()
+  {
+    return $this->brand;
+  }
+  /**
+   * @param CompetitiveVisibility
+   */
+  public function setCompetitiveVisibility(CompetitiveVisibility $competitiveVisibility)
+  {
+    $this->competitiveVisibility = $competitiveVisibility;
+  }
+  /**
+   * @return CompetitiveVisibility
+   */
+  public function getCompetitiveVisibility()
+  {
+    return $this->competitiveVisibility;
+  }
   /**
    * @param Metrics
    */
@@ -37,6 +129,62 @@ class ReportRow extends \Google\Model
   public function getMetrics()
   {
     return $this->metrics;
+  }
+  /**
+   * @param PriceCompetitiveness
+   */
+  public function setPriceCompetitiveness(PriceCompetitiveness $priceCompetitiveness)
+  {
+    $this->priceCompetitiveness = $priceCompetitiveness;
+  }
+  /**
+   * @return PriceCompetitiveness
+   */
+  public function getPriceCompetitiveness()
+  {
+    return $this->priceCompetitiveness;
+  }
+  /**
+   * @param PriceInsights
+   */
+  public function setPriceInsights(PriceInsights $priceInsights)
+  {
+    $this->priceInsights = $priceInsights;
+  }
+  /**
+   * @return PriceInsights
+   */
+  public function getPriceInsights()
+  {
+    return $this->priceInsights;
+  }
+  /**
+   * @param ProductCluster
+   */
+  public function setProductCluster(ProductCluster $productCluster)
+  {
+    $this->productCluster = $productCluster;
+  }
+  /**
+   * @return ProductCluster
+   */
+  public function getProductCluster()
+  {
+    return $this->productCluster;
+  }
+  /**
+   * @param ProductView
+   */
+  public function setProductView(ProductView $productView)
+  {
+    $this->productView = $productView;
+  }
+  /**
+   * @return ProductView
+   */
+  public function getProductView()
+  {
+    return $this->productView;
   }
   /**
    * @param Segments

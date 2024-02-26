@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class DatafeedsCustomBatchRequest extends \Google\Collection
+class DatafeedsCustomBatchRequest extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'entries';
+  /**
+   * @var DatafeedsCustomBatchRequestEntry[]
+   */
+  public $entries;
   protected $entriesType = DatafeedsCustomBatchRequestEntry::class;
   protected $entriesDataType = 'array';
 

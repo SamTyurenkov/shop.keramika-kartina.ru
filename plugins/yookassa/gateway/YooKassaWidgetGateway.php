@@ -24,7 +24,7 @@ class YooKassaWidgetGateway extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon               = YooKassa::$pluginUrl . '/assets/images/ac_in.png';
+        $this->icon               = YooKassa::$pluginUrl . 'assets/images/ac_in.png';
 
         $this->method_title       = __('Платёжный виджет ЮKassa (карты, Apple Pay и Google Pay)', 'yookassa');
         $this->method_description = __('Покупатель вводит платёжные данные прямо во время заказа, без редиректа на страницу ЮKassa. Опция работает для платежей с карт (в том числе, через Apple Pay и Google Pay).', 'yookassa');
@@ -39,7 +39,7 @@ class YooKassaWidgetGateway extends YooKassaGateway
 
         wp_register_script(
             'yookassa-widget',
-            'https://yookassa.ru/checkout-ui/v2.js',
+            'https://yookassa.ru/checkout-widget/v1/checkout-widget.js',
             array(),
             YOOKASSA_VERSION,
             true
@@ -119,7 +119,6 @@ class YooKassaWidgetGateway extends YooKassaGateway
         const checkout = new window.YooMoneyCheckoutWidget({
             confirmation_token: '{$data['token']}',
             return_url: '{$data['return_url']}',
-            embedded_3ds: true,
             newDesign: true,
             error_callback: function (error) {
                 if (error.error === 'token_expired') {
@@ -158,6 +157,16 @@ JS;
         global $woocommerce;
 
         $order = new WC_Order($order_id);
+
+        if (YooKassaHandler::isReceiptEnabled() && YooKassaHandler::isSelfEmployed()) {
+            try {
+                YooKassaHandler::checkConditionForSelfEmployed($order);
+            } catch (Exception $e) {
+                YooKassaLogger::error(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id) . ' ' . $e->getMessage());
+                wc_add_notice($e->getMessage(), 'error');
+                return array('result' => 'fail', 'redirect' => '');
+            }
+        }
 
         $result     = $this->createPayment($order);
         $receiptUrl = $order->get_checkout_payment_url(true);
@@ -253,7 +262,7 @@ JS;
         clearstatcache();
         $rootDir = $_SERVER['DOCUMENT_ROOT'];
         $domainAssociationPath = $rootDir . '/.well-known/apple-developer-merchantid-domain-association';
-        $pluginAssociationPath = YooKassa::$pluginUrl .'/apple-developer-merchantid-domain-association';
+        $pluginAssociationPath = YooKassa::$pluginUrl .'apple-developer-merchantid-domain-association';
         if ($this->isVerifyApplePayFileExist()) {
             return false;
         }

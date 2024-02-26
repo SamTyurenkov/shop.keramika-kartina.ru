@@ -15,7 +15,7 @@ class YooKassaGatewayWallet extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon                   = YooKassa::$pluginUrl . '/assets/images/pc.png';
+        $this->icon                   = YooKassa::$pluginUrl . 'assets/images/pc.png';
         $this->method_description     = __('Оплата кошельком ЮMoney', 'yookassa');
         $this->method_title           = __('Кошелек ЮMoney', 'yookassa');
 

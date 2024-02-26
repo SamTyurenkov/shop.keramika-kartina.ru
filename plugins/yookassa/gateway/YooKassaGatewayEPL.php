@@ -18,7 +18,7 @@ class YooKassaGatewayEPL extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/kassa.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/kassa.png';
 
         $this->method_title       = __('ЮKassa (банковские карты, электронные деньги и другое)', 'yookassa');
         $this->method_description = __('ЮKassa (банковские карты, электронные деньги и другое)', 'yookassa');

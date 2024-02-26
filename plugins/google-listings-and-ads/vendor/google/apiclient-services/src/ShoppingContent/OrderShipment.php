@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderShipment extends \Google\Collection
+class OrderShipment extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'lineItems';
   /**
@@ -36,8 +36,16 @@ class OrderShipment extends \Google\Collection
    * @var string
    */
   public $id;
+  /**
+   * @var OrderShipmentLineItemShipment[]
+   */
+  public $lineItems;
   protected $lineItemsType = OrderShipmentLineItemShipment::class;
   protected $lineItemsDataType = 'array';
+  /**
+   * @var OrderShipmentScheduledDeliveryDetails
+   */
+  public $scheduledDeliveryDetails;
   protected $scheduledDeliveryDetailsType = OrderShipmentScheduledDeliveryDetails::class;
   protected $scheduledDeliveryDetailsDataType = '';
   /**

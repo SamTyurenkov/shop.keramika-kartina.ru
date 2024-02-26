@@ -5,6 +5,8 @@
 /** @var bool $forceClearCart */
 /** @var bool $isDebugEnabled */
 /** @var array $kassaCurrencies */
+/** @var string $kassaCurrency */
+/** @var string $yookassaNonce */
 ?>
 <form id="yoomoney-form-3" class="yoomoney-form">
     <div class="col-md-12">
@@ -159,7 +161,7 @@
 
         <div class="row form-footer">
             <div class="col-md-12">
-                <button class="btn btn-light btn-back qa-back-button" data-tab="section2"><?= __('Назад', 'yookassa'); ?></button>
+                <button class="btn btn-default btn-back qa-back-button" data-tab="section2"><?= __('Назад', 'yookassa'); ?></button>
                 <button class="btn btn-primary btn-forward qa-forward-button" data-tab="section4"><?= __('Сохранить и продолжить', 'yookassa'); ?></button>
             </div>
         </div>

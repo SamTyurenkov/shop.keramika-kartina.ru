@@ -107,12 +107,6 @@ class PaymentDataFactoryTest extends TestCase
         $result = array(
             array(
                 array(
-                    'type' => PaymentMethodType::ALFABANK,
-                    'login' => Random::str(10, 20),
-                ),
-            ),
-            array(
-                array(
                     'type' => PaymentMethodType::GOOGLE_PAY,
                     'paymentMethodToken' => Random::str(10, 20),
                     'googleTransactionId' => Random::str(10, 20),
@@ -180,6 +174,17 @@ class PaymentDataFactoryTest extends TestCase
         return array(
             array(array()),
             array(array('type' => 'test')),
+            array(
+                array(
+                    'type' => PaymentMethodType::ALFABANK,
+                    'login' => Random::str(10, 20),
+                ),
+            ),
+            array(
+                array(
+                    'type' => PaymentMethodType::UNKNOWN,
+                ),
+            ),
         );
     }
 }

@@ -70,7 +70,7 @@ class SettingsModelWpf extends ModelWpf {
 	 *
 	 * @return array
 	 */
-	public function getFilterSettings( $filterType, $order = array(), $filterBlockSettings = array(), $filterId = 0 ) {
+	public function getFilterSettings( $filterType, $order = array(), $filterBlockSettings = array(), $filterId = 0, $blockId = -1 ) {
 		$filterSettings = array();
 
 		if (!$order) {
@@ -84,7 +84,9 @@ class SettingsModelWpf extends ModelWpf {
 
 		foreach ($order as $index => $filterData) {
 			if ($filterData['id'] == $filterType) {
-				$filterSettings[] = $filterData;
+				if ($blockId < 0 || $index == $blockId) {
+					$filterSettings[] = $filterData;
+				}
 			}
 		}
 

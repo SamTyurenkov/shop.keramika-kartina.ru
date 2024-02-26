@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,8 +42,8 @@ use YooKassa\Helpers\TypeCast;
  *
  * @property string $federalId Идентификатор федерального органа исполнительной власти (тег в 54 ФЗ — 1262)
  * @property string $federal_id Идентификатор федерального органа исполнительной власти (тег в 54 ФЗ — 1262)
- * @property Datetime $documentDate Дата документа основания (тег в 54 ФЗ — 1263)
- * @property Datetime $document_date Дата документа основания (тег в 54 ФЗ — 1263)
+ * @property DateTime $documentDate Дата документа основания (тег в 54 ФЗ — 1263)
+ * @property DateTime $document_date Дата документа основания (тег в 54 ФЗ — 1263)
  * @property string $documentNumber Номер нормативного акта федерального органа исполнительной власти (тег в 54 ФЗ — 1264)
  * @property string $document_number Номер нормативного акта федерального органа исполнительной власти (тег в 54 ФЗ — 1264)
  * @property string $value Значение отраслевого реквизита (тег в 54 ФЗ — 1265)
@@ -63,7 +63,7 @@ class IndustryDetails extends AbstractObject
     private $_federalId;
 
     /**
-     * @var Datetime Дата документа основания (тег в 54 ФЗ — 1263). Передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+     * @var DateTime Дата документа основания (тег в 54 ФЗ — 1263). Передается в формате [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
      */
     private $_documentDate;
 
@@ -106,7 +106,7 @@ class IndustryDetails extends AbstractObject
 
     /**
      * Возвращает дату документа основания
-     * @return Datetime Дата документа основания
+     * @return DateTime Дата документа основания
      */
     public function getDocumentDate()
     {
@@ -115,7 +115,7 @@ class IndustryDetails extends AbstractObject
 
     /**
      * Устанавливает дату документа основания
-     * @param string|Datetime $value Дата документа основания
+     * @param string|DateTime $value Дата документа основания
      * @throws \Exception
      */
     public function setDocumentDate($value)

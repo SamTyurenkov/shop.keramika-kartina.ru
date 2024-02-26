@@ -15,15 +15,19 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ListRegionsResponse extends \Google\Collection
+class ListRegionsResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'regions';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var Region[]
+   */
+  public $regions;
   protected $regionsType = Region::class;
   protected $regionsDataType = 'array';
 

@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ReturnaddressCustomBatchResponse extends \Google\Collection
+class ReturnaddressCustomBatchResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'entries';
+  /**
+   * @var ReturnaddressCustomBatchResponseEntry[]
+   */
+  public $entries;
   protected $entriesType = ReturnaddressCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
   /**

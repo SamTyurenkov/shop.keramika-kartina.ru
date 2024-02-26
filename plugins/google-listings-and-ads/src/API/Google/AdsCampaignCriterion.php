@@ -3,12 +3,12 @@ declare( strict_types=1 );
 
 namespace Automattic\WooCommerce\GoogleListingsAndAds\API\Google;
 
-use Google\Ads\GoogleAds\Util\V11\ResourceNames;
-use Google\Ads\GoogleAds\V11\Common\LocationInfo;
-use Google\Ads\GoogleAds\V11\Enums\CampaignCriterionStatusEnum\CampaignCriterionStatus;
-use Google\Ads\GoogleAds\V11\Resources\CampaignCriterion;
-use Google\Ads\GoogleAds\V11\Services\CampaignCriterionOperation;
-use Google\Ads\GoogleAds\V11\Services\MutateOperation;
+use Google\Ads\GoogleAds\Util\V14\ResourceNames;
+use Google\Ads\GoogleAds\V14\Common\LocationInfo;
+use Google\Ads\GoogleAds\V14\Enums\CampaignCriterionStatusEnum\CampaignCriterionStatus;
+use Google\Ads\GoogleAds\V14\Resources\CampaignCriterion;
+use Google\Ads\GoogleAds\V14\Services\CampaignCriterionOperation;
+use Google\Ads\GoogleAds\V14\Services\MutateOperation;
 
 /**
  * Class AdsCampaignCriterion
@@ -17,7 +17,7 @@ use Google\Ads\GoogleAds\V11\Services\MutateOperation;
  */
 class AdsCampaignCriterion {
 
-	use ApiExceptionTrait;
+	use ExceptionTrait;
 
 	/**
 	 * Returns a set of operations to create multiple campaign criteria.

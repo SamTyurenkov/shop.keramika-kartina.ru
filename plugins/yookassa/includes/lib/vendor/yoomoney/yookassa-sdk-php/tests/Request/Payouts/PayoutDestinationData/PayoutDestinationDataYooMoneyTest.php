@@ -70,7 +70,6 @@ class PayoutDestinationDataYooMoneyTest extends AbstractPayoutDestinationDataTes
     public function testSetInvalidAccountNumber($value)
     {
         $this->getTestInstance()->setAccountNumber($value);
-
     }
 
     /**
@@ -102,7 +101,7 @@ class PayoutDestinationDataYooMoneyTest extends AbstractPayoutDestinationDataTes
             array(Random::str(34, 50, '0123456789')),
             array(true),
             array(new \stdClass()),
-            array(new \Datetime()),
+            array(new \DateTime()),
             array(Random::str(1, 10, '0123456789')),
         );
     }

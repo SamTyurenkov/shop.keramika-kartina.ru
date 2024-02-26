@@ -74,6 +74,7 @@ class Meta_ValuesModelWpf extends ModelWpf {
 
 	public function getMetaValueTerms( $keyId, $keys = array()) {
 		$cntField = ( empty($keys['fbv']) ? 'product_cnt' : 'variation_cnt' );
+		
 		if ( !isset($keys['field']) || ( 'id' == $keys['field'] ) ) {
 			$metaModel = FrameWpf::_()->getModule('meta')->getModel('meta');
 			$maxKeySize = $metaModel->maxKeySize;
@@ -103,6 +104,9 @@ class Meta_ValuesModelWpf extends ModelWpf {
 			$field = $keys['field'];
 			$where = ( 'int' === $field ) ? ' AND val_int IS NOT NULL' : '';
 			$query = "SELECT val_{$field} as id, val_{$field} as value, count(*) as cnt FROM @__meta_data WHERE key_id={$keyId} {$where} GROUP BY val_{$field}";
+			if (isset($keys['order'])) {
+				$query .= ' ORDER BY value ' . ( 'desc' == $keys['order'] ? 'desc' : 'asc' );
+			}
 			$data  = DbWpf::get( $query );
 		}
 		$terms = array();

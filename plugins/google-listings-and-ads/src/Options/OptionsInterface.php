@@ -38,6 +38,8 @@ interface OptionsInterface {
 	public const SYNCABLE_PRODUCTS_COUNT                   = 'syncable_products_count';
 	public const SYNCABLE_PRODUCTS_COUNT_INTERMEDIATE_DATA = 'syncable_products_count_intermediate_data';
 	public const TARGET_AUDIENCE                           = 'target_audience';
+	public const TOURS                                     = 'tours';
+	public const UPDATE_ALL_PRODUCTS_LAST_SYNC             = 'update_all_products_last_sync';
 	public const WP_TOS_ACCEPTED                           = 'wp_tos_accepted';
 
 	public const VALID_OPTIONS = [
@@ -67,6 +69,8 @@ interface OptionsInterface {
 		self::SYNCABLE_PRODUCTS_COUNT                   => true,
 		self::SYNCABLE_PRODUCTS_COUNT_INTERMEDIATE_DATA => true,
 		self::TARGET_AUDIENCE                           => true,
+		self::TOURS                                     => true,
+		self::UPDATE_ALL_PRODUCTS_LAST_SYNC             => true,
 		self::WP_TOS_ACCEPTED                           => true,
 	];
 
@@ -78,12 +82,12 @@ interface OptionsInterface {
 	/**
 	 * Get an option.
 	 *
-	 * @param string $name    The option name.
-	 * @param mixed  $default A default value for the option.
+	 * @param string $name          The option name.
+	 * @param mixed  $default_value A default value for the option.
 	 *
 	 * @return mixed
 	 */
-	public function get( string $name, $default = null );
+	public function get( string $name, $default_value = null );
 
 	/**
 	 * Add an option.

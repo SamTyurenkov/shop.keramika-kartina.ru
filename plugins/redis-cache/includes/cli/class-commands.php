@@ -9,15 +9,15 @@ namespace Rhubarb\RedisCache\CLI;
 
 use WP_CLI;
 use WP_CLI_Command;
-
-use WP_Filesystem;
+use Exception;
 
 use Rhubarb\RedisCache\Plugin;
+use Rhubarb\RedisCache\Predis;
 
 defined( '\\ABSPATH' ) || exit;
 
 /**
- * Enables, disabled, updates, and checks the status of the Redis object cache.
+ * Enables, disabled, flushes, and checks the status of the object cache.
  *
  * @package wp-cli
  */
@@ -60,6 +60,12 @@ class Commands extends WP_CLI_Command {
                 WP_CLI::error( __( 'A foreign object cache drop-in was found. To use Redis for object caching, run: `wp redis update-dropin`.', 'redis-cache' ) );
             }
         } else {
+            $flush = $this->flush_redis();
+
+            if ( is_string( $flush ) ) {
+                // translators: %s = The Redis connection error message.
+                WP_CLI::error( sprintf( __( "Object cache could not be enabled. Redis server is unreachable: %s", 'redis-cache' ), $flush ) );
+            }
 
             WP_Filesystem();
 
@@ -110,6 +116,8 @@ class Commands extends WP_CLI_Command {
                 WP_Filesystem();
 
                 if ( $wp_filesystem->delete( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+                    $this->flush_redis();
+
                     WP_CLI::success( __( 'Object cache disabled.', 'redis-cache' ) );
                 } else {
                     WP_CLI::error( __( 'Object cache could not be disabled.', 'redis-cache' ) );
@@ -144,6 +152,13 @@ class Commands extends WP_CLI_Command {
         );
 
         if ( $copy ) {
+            $flush = $this->flush_redis();
+
+            if ( is_string( $flush ) ) {
+                // translators: %s = The Redis connection error message.
+                WP_CLI::error( sprintf( __( "Object cache drop-in could not be updated. Redis server is unreachable: %s", 'redis-cache' ), $flush ) );
+            }
+
             WP_CLI::success( __( 'Updated object cache drop-in and enabled Redis object cache.', 'redis-cache' ) );
         } else {
             WP_CLI::error( __( 'Object cache drop-in could not be updated.', 'redis-cache' ) );
@@ -151,4 +166,18 @@ class Commands extends WP_CLI_Command {
 
     }
 
+    /**
+     * Flush the Redis cache via Predis.
+     *
+     * @return bool|string
+     */
+    protected function flush_redis() {
+        try {
+            return (new Predis)->flushOrFail();
+        } catch ( Exception $exception ) {
+            error_log( $exception ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+
+            return $exception->getMessage();
+        }
+    }
 }

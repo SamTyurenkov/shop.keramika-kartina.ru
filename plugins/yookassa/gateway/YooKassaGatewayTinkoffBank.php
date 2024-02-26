@@ -16,7 +16,7 @@ class YooKassaGatewayTinkoffBank extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'/assets/images/tks.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/tks.png';
 
         $this->method_description = __('Интернет-банк Тинькофф', 'yookassa');
         $this->method_title       = __('Интернет-банк Тинькофф', 'yookassa');

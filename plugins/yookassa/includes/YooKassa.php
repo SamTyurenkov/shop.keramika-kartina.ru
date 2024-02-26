@@ -55,7 +55,7 @@ class YooKassa
     {
 
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.4.3';
+        $this->version     = '2.6.3';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
 
         $this->loadDependencies();

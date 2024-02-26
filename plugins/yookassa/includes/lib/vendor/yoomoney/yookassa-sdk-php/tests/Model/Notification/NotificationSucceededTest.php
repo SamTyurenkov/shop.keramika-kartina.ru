@@ -73,6 +73,41 @@ class NotificationSucceededTest extends AbstractNotificationTest
             ),
         );
 
+        $payment_methods = array(
+            array(
+                'type' => PaymentMethodType::QIWI,
+            ),
+            array(
+                'type' => PaymentMethodType::TINKOFF_BANK,
+            ),
+            array(
+                'type' => PaymentMethodType::SBER_LOAN,
+                'loan_option' => Random::value(array(
+                    null,
+                    'loan',
+                    'installments_1',
+                    'installments_12',
+                    'installments_36',
+                )),
+                'discount_amount' => Random::value(array(
+                    null,
+                    array(
+                        'value' => Random::float(0.01, 100000.0),
+                        'currency' => Random::value(CurrencyCode::getValidValues()),
+                    ),
+                    array(
+                        'value' => Random::float(0.01, 1000000.0),
+                        'currency' => Random::value(CurrencyCode::getValidValues()),
+                    ),
+                )),
+            ),
+            array(
+                'type' => 'new_method',
+                'new_property' => 'new_property_value',
+            ),
+        );
+
+
         for ($i = 0; $i < 10; $i++) {
             $payment = array(
                 'id' => Random::str(36),
@@ -85,9 +120,7 @@ class NotificationSucceededTest extends AbstractNotificationTest
                     'value' => Random::float(0.01, 1000000.0),
                     'currency' => Random::value(CurrencyCode::getValidValues()),
                 ),
-                'payment_method' => array(
-                    'type' => PaymentMethodType::QIWI,
-                ),
+                'payment_method' => Random::value($payment_methods),
                 'created_at' => date(YOOKASSA_DATE, Random::int(1, time())),
                 'captured_at' => date(YOOKASSA_DATE, Random::int(1, time())),
                 'confirmation' => Random::value($confirmations),

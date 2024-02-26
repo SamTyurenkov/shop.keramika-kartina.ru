@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShippingsettingsCustomBatchRequestEntry extends \Google\Model
+class ShippingsettingsCustomBatchRequestEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
@@ -35,6 +35,10 @@ class ShippingsettingsCustomBatchRequestEntry extends \Google\Model
    * @var string
    */
   public $method;
+  /**
+   * @var ShippingSettings
+   */
+  public $shippingSettings;
   protected $shippingSettingsType = ShippingSettings::class;
   protected $shippingSettingsDataType = '';
 

@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderreportsListDisbursementsResponse extends \Google\Collection
+class OrderreportsListDisbursementsResponse extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'disbursements';
+  /**
+   * @var OrderReportDisbursement[]
+   */
+  public $disbursements;
   protected $disbursementsType = OrderReportDisbursement::class;
   protected $disbursementsDataType = 'array';
   /**

@@ -11,6 +11,8 @@ use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\AdsCampaignBudget;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\AdsCampaignCriterion;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\AdsConversionAction;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\AdsReport;
+use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\AdsAssetGroupAsset;
+use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\AdsAsset;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\Connection;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\Merchant;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\MerchantMetrics;
@@ -32,19 +34,20 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Options\TransientsInterface;
 use Automattic\WooCommerce\GoogleListingsAndAds\PluginHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Product\ProductHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Client;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\SiteVerification as SiteVerificationService;
 use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\GuzzleHttp\Client as GuzzleClient;
 use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\GuzzleHttp\ClientInterface;
 use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\GuzzleHttp\Exception\RequestException;
 use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\GuzzleHttp\HandlerStack;
 use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\League\Container\Argument\RawArgument;
 use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\League\Container\Definition\Definition;
-use Google\Client;
-use Google\Service\ShoppingContent;
-use Google\Service\SiteVerification as SiteVerificationService;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Psr\Container\ContainerInterface;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Psr\Http\Message\RequestInterface;
+use Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Psr\Http\Message\ResponseInterface;
+use Google\Ads\GoogleAds\Util\V14\GoogleAdsFailures;
 use Jetpack_Options;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -79,6 +82,8 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 		AdsCampaignBudget::class      => true,
 		AdsConversionAction::class    => true,
 		AdsReport::class              => true,
+		AdsAssetGroupAsset::class     => true,
+		AdsAsset::class               => true,
 		'connect_server_root'         => true,
 		Connection::class             => true,
 		GoogleProductService::class   => true,
@@ -103,9 +108,11 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 		$this->add( Settings::class, ContainerInterface::class );
 
 		$this->share( Ads::class, GoogleAdsClient::class );
-		$this->share( AdsAssetGroup::class, GoogleAdsClient::class );
+		$this->share( AdsAssetGroup::class, GoogleAdsClient::class, AdsAssetGroupAsset::class );
 		$this->share( AdsCampaign::class, GoogleAdsClient::class, AdsCampaignBudget::class, AdsCampaignCriterion::class, GoogleHelper::class );
 		$this->share( AdsCampaignBudget::class, GoogleAdsClient::class );
+		$this->share( AdsAssetGroupAsset::class, GoogleAdsClient::class, AdsAsset::class );
+		$this->share( AdsAsset::class, GoogleAdsClient::class, WP::class );
 		$this->share( AdsCampaignCriterion::class );
 		$this->share( AdsConversionAction::class, GoogleAdsClient::class );
 		$this->share( AdsReport::class, GoogleAdsClient::class );
@@ -123,11 +130,12 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 	 * Register guzzle with authorization middleware added.
 	 */
 	protected function register_guzzle() {
-		$callback = function() {
+		$callback = function () {
 			$handler_stack = HandlerStack::create();
 			$handler_stack->remove( 'http_errors' );
 			$handler_stack->push( $this->error_handler(), 'http_errors' );
 			$handler_stack->push( $this->add_auth_header() );
+			$handler_stack->push( $this->add_plugin_version_header(), 'plugin_version_header' );
 
 			// Override endpoint URL if we are using http locally.
 			if ( 0 === strpos( $this->get_connect_server_url_root()->getValue(), 'http://' ) ) {
@@ -145,7 +153,7 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 	 * Register ads client.
 	 */
 	protected function register_ads_client() {
-		$callback = function() {
+		$callback = function () {
 			return new GoogleAdsClient( $this->get_connect_server_endpoint() );
 		};
 
@@ -180,11 +188,19 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 	 * @return callable
 	 */
 	protected function error_handler(): callable {
-		return function( callable $handler ) {
-			return function( RequestInterface $request, array $options ) use ( $handler ) {
+		return function ( callable $handler ) {
+			return function ( RequestInterface $request, array $options ) use ( $handler ) {
 				return $handler( $request, $options )->then(
 					function ( ResponseInterface $response ) use ( $request ) {
 						$code = $response->getStatusCode();
+
+						$path = $request->getUri()->getPath();
+
+						// Partial Failures come back with a status code of 200, so it's necessary to call GoogleAdsFailures:init every time.
+						if ( strpos( $path, 'google-ads' ) !== false ) {
+							GoogleAdsFailures::init();
+						}
+
 						if ( $code < 400 ) {
 							return $response;
 						}
@@ -229,8 +245,8 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 	 * @return callable
 	 */
 	protected function add_auth_header(): callable {
-		return function( callable $handler ) {
-			return function( RequestInterface $request, array $options ) use ( $handler ) {
+		return function ( callable $handler ) {
+			return function ( RequestInterface $request, array $options ) use ( $handler ) {
 				try {
 					$request = $request->withHeader( 'Authorization', $this->generate_auth_header() );
 
@@ -249,11 +265,28 @@ class GoogleServiceProvider extends AbstractServiceProvider {
 	}
 
 	/**
+	 * Add client name and version headers to request
+	 *
+	 * @since 2.4.11
+	 *
+	 * @return callable
+	 */
+	public function add_plugin_version_header(): callable {
+		return function ( callable $handler ) {
+			return function ( RequestInterface $request, array $options ) use ( $handler ) {
+				$request = $request->withHeader( 'x-client-name', $this->get_client_name() )
+					->withHeader( 'x-client-version', $this->get_version() );
+				return $handler( $request, $options );
+			};
+		};
+	}
+
+	/**
 	 * @return callable
 	 */
 	protected function override_http_url(): callable {
-		return function( callable $handler ) {
-			return function( RequestInterface $request, array $options ) use ( $handler ) {
+		return function ( callable $handler ) {
+			return function ( RequestInterface $request, array $options ) use ( $handler ) {
 				$request = $request->withUri( $request->getUri()->withScheme( 'http' ) );
 				return $handler( $request, $options );
 			};

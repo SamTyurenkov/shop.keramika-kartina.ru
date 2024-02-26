@@ -15,24 +15,40 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class PosCustomBatchResponseEntry extends \Google\Model
+class PosCustomBatchResponseEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
    */
   public $batchId;
+  /**
+   * @var Errors
+   */
+  public $errors;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  /**
+   * @var PosInventory
+   */
+  public $inventory;
   protected $inventoryType = PosInventory::class;
   protected $inventoryDataType = '';
   /**
    * @var string
    */
   public $kind;
+  /**
+   * @var PosSale
+   */
+  public $sale;
   protected $saleType = PosSale::class;
   protected $saleDataType = '';
+  /**
+   * @var PosStore
+   */
+  public $store;
   protected $storeType = PosStore::class;
   protected $storeDataType = '';
 

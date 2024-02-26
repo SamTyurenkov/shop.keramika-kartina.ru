@@ -96,7 +96,7 @@ class AccountController extends BaseOptionsController {
 	 * @return callable
 	 */
 	protected function get_connect_callback(): callable {
-		return function( Request $request ) {
+		return function ( Request $request ) {
 			// Register the site to wp.com.
 			if ( ! $this->manager->is_connected() ) {
 				$result = $this->manager->register();
@@ -118,9 +118,8 @@ class AccountController extends BaseOptionsController {
 			$redirect = admin_url( "admin.php?page=wc-admin&path={$path}" );
 			$auth_url = $this->manager->get_authorization_url( null, $redirect );
 
-			// Payments flow allows redirect back to the site without showing plans.
-			$auth_url = add_query_arg( [ 'from' => 'google-listings-and-ads' ], $auth_url );
-
+			// Payments flow allows redirect back to the site without showing plans. Escaping the URL preventing XSS.
+			$auth_url = esc_url( add_query_arg( [ 'from' => 'google-listings-and-ads' ], $auth_url ), null, 'db' );
 			return [
 				'url' => $auth_url,
 			];
@@ -151,7 +150,7 @@ class AccountController extends BaseOptionsController {
 	 * @return callable
 	 */
 	protected function get_disconnect_callback(): callable {
-		return function() {
+		return function () {
 			$this->manager->remove_connection();
 			$this->options->delete( OptionsInterface::WP_TOS_ACCEPTED );
 			$this->options->delete( OptionsInterface::JETPACK_CONNECTED );
@@ -169,7 +168,7 @@ class AccountController extends BaseOptionsController {
 	 * @return callable
 	 */
 	protected function get_connected_callback(): callable {
-		return function() {
+		return function () {
 			if ( $this->is_jetpack_connected() && ! $this->options->get( OptionsInterface::WP_TOS_ACCEPTED ) ) {
 				$this->log_wp_tos_accepted();
 			}

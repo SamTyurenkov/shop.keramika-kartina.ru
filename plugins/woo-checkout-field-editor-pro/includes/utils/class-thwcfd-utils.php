@@ -14,6 +14,9 @@ if(!class_exists('THWCFD_Utils')):
 
 class THWCFD_Utils {	
 	const OPTION_KEY_ADVANCED_SETTINGS = 'thwcfd_advanced_settings';
+	const OPTION_KEY_BILLING_FIELDS = 'wc_fields_billing';
+	const OPTION_KEY_SHIPPING_FIELDS = 'wc_fields_shipping';
+	const OPTION_KEY_ADDITIONAL_FIELDS = 'wc_fields_additional';
 
 	public function __construct() {
 		
@@ -358,6 +361,20 @@ class THWCFD_Utils {
 			return $settings[$key];
 		}
 		return 'undefined';
+	}
+
+	public static function setup_advanced_settings(){
+		$settings = self::get_advanced_settings();
+		if(!$settings){
+			$settings = array();
+			$instance = new THWCFD_Admin_Settings_Advanced();
+			$setting_fields = $instance->get_advanced_settings_fields();
+			foreach ($setting_fields as $name => $field) {
+				$value = $field['value'];
+				$settings[$name] = $value;
+			}
+			$instance->save_advanced_settings($settings);
+		}
 	}
 	/**************************************
 	 ----- ADVANCED SETTINGS - END --------

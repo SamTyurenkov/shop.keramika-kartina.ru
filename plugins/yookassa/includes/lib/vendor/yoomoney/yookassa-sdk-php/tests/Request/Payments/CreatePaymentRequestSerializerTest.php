@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Airline;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesExternal;
+use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesMobileApplication;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesRedirect;
 use YooKassa\Model\ConfirmationType;
 use YooKassa\Model\CurrencyCode;
@@ -14,7 +15,6 @@ use YooKassa\Model\Passenger;
 use YooKassa\Model\Payment;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataRate;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataType;
-use YooKassa\Model\PaymentData\PaymentDataAlfabank;
 use YooKassa\Model\PaymentData\PaymentDataB2bSberbank;
 use YooKassa\Model\PaymentData\PaymentDataGooglePay;
 use YooKassa\Model\PaymentData\PaymentDataApplePay;
@@ -24,11 +24,13 @@ use YooKassa\Model\PaymentData\PaymentDataMobileBalance;
 use YooKassa\Model\PaymentData\PaymentDataInstallments;
 use YooKassa\Model\PaymentData\PaymentDataQiwi;
 use YooKassa\Model\PaymentData\PaymentDataSberbank;
+use YooKassa\Model\PaymentData\PaymentDataSbp;
 use YooKassa\Model\PaymentData\PaymentDataWebmoney;
 use YooKassa\Model\PaymentData\PaymentDataYooMoney;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\Receipt\PaymentMode;
 use YooKassa\Model\Receipt\PaymentSubject;
+use YooKassa\Model\Transfer;
 use YooKassa\Model\TransferStatus;
 use YooKassa\Request\Payments\CreatePaymentRequest;
 use YooKassa\Request\Payments\CreatePaymentRequestSerializer;
@@ -82,6 +84,9 @@ class CreatePaymentRequestSerializerTest extends TestCase
             }
             if ($options['confirmation']->getType() === ConfirmationType::REDIRECT) {
                 $expected['confirmation']['enforce']    = $options['confirmation']->enforce;
+                $expected['confirmation']['return_url'] = $options['confirmation']->returnUrl;
+            }
+            if ($options['confirmation']->getType() === ConfirmationType::MOBILE_APPLICATION) {
                 $expected['confirmation']['return_url'] = $options['confirmation']->returnUrl;
             }
         }
@@ -201,6 +206,9 @@ class CreatePaymentRequestSerializerTest extends TestCase
                 if (!empty($item['platform_fee_amount'])) {
                     $itemArray['platform_fee_amount'] = $item['platform_fee_amount'];
                 }
+                if (!empty($item['description'])) {
+                    $itemArray['description'] = $item['description'];
+                }
                 if (!empty($item['metadata'])) {
                     $itemArray['metadata'] = $item['metadata'];
                 }
@@ -292,6 +300,7 @@ class CreatePaymentRequestSerializerTest extends TestCase
                                 'value' => sprintf('%.2f', round(Random::float(0.1, 99.99), 2)),
                                 'currency' => Random::value(CurrencyCode::getValidValues())
                             ),
+                            'description' => Random::str(1, Transfer::MAX_LENGTH_DESCRIPTION),
                             'metadata' => array('test' => Random::str(10, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')),
                         )
                     ),
@@ -306,9 +315,10 @@ class CreatePaymentRequestSerializerTest extends TestCase
         $confirmations = array(
             new ConfirmationAttributesExternal(),
             new ConfirmationAttributesRedirect(),
+            new ConfirmationAttributesMobileApplication(),
         );
         $paymentData   = array(
-            new PaymentDataAlfabank(),
+            new PaymentDataSbp(),
             new PaymentDataApplePay(),
             new PaymentDataGooglePay(),
             new PaymentDataBankCard(),
@@ -320,7 +330,6 @@ class CreatePaymentRequestSerializerTest extends TestCase
             new PaymentDataInstallments(),
             new PaymentDataB2bSberbank(),
         );
-        $paymentData[0]->setLogin(Random::str(10));
 
         $paymentData[1]->setPaymentData(Random::str(10));
         $paymentData[2]->setPaymentMethodToken(Random::str(10));
@@ -353,6 +362,7 @@ class CreatePaymentRequestSerializerTest extends TestCase
         $confirmations[0]->setLocale('en_US');
         $confirmations[1]->setEnforce(true);
         $confirmations[1]->setReturnUrl(Random::str(10));
+        $confirmations[2]->setReturnUrl(Random::str(10));
         foreach ($paymentData as $i => $paymentMethodData) {
             $request  = array(
                 'accountId'         => uniqid(),

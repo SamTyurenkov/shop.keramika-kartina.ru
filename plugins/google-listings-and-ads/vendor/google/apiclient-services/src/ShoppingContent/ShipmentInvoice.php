@@ -15,13 +15,21 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShipmentInvoice extends \Google\Collection
+class ShipmentInvoice extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'lineItemInvoices';
+  /**
+   * @var InvoiceSummary
+   */
+  public $invoiceSummary;
   protected $invoiceSummaryType = InvoiceSummary::class;
   protected $invoiceSummaryDataType = '';
+  /**
+   * @var ShipmentInvoiceLineItemInvoice[]
+   */
+  public $lineItemInvoices;
   protected $lineItemInvoicesType = ShipmentInvoiceLineItemInvoice::class;
   protected $lineItemInvoicesDataType = 'array';
   /**

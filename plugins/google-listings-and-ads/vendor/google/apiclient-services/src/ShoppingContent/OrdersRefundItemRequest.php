@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrdersRefundItemRequest extends \Google\Collection
+class OrdersRefundItemRequest extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'items';
+  /**
+   * @var OrdersCustomBatchRequestEntryRefundItemItem[]
+   */
+  public $items;
   protected $itemsType = OrdersCustomBatchRequestEntryRefundItemItem::class;
   protected $itemsDataType = 'array';
   /**
@@ -34,6 +38,10 @@ class OrdersRefundItemRequest extends \Google\Collection
    * @var string
    */
   public $reasonText;
+  /**
+   * @var OrdersCustomBatchRequestEntryRefundItemShipping
+   */
+  public $shipping;
   protected $shippingType = OrdersCustomBatchRequestEntryRefundItemShipping::class;
   protected $shippingDataType = '';
 

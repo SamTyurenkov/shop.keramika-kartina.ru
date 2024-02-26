@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@ use YooKassa\Common\AbstractRequest;
 use YooKassa\Common\Exceptions\InvalidPropertyException;
 use YooKassa\Common\Exceptions\InvalidPropertyValueTypeException;
 use YooKassa\Common\Exceptions\InvalidRequestException;
+use YooKassa\Model\AirlineInterface;
 use YooKassa\Model\Deal\CaptureDealData;
 
 class CreateCaptureRequestBuilder extends AbstractPaymentRequestBuilder
@@ -79,10 +80,21 @@ class CreateCaptureRequestBuilder extends AbstractPaymentRequestBuilder
         if ($this->receipt->notEmpty()) {
             $this->currentObject->setReceipt($this->receipt);
         }
-        if ($this->deal) {
-            $this->currentObject->setDeal($this->deal);
-        }
+
         return parent::build();
+    }
+
+    /**
+     * Устанавливает информацию об авиабилетах
+     * @param AirlineInterface|array $value Объект данных длинной записи или ассоциативный массив с данными
+     *
+     * @return CreateCaptureRequestBuilder
+     */
+    public function setAirline($value)
+    {
+        $this->currentObject->setAirline($value);
+
+        return $this;
     }
 
     /**
@@ -94,21 +106,7 @@ class CreateCaptureRequestBuilder extends AbstractPaymentRequestBuilder
      */
     public function setDeal($value)
     {
-        if ($value === null) {
-            return $this;
-        }
-        if ($value instanceof CaptureDealData) {
-            $this->deal = $value;
-        } elseif (is_array($value)) {
-            $this->deal = new CaptureDealData($value);
-        } else {
-            throw new InvalidPropertyValueTypeException(
-                'Invalid deal value type in CreateCaptureRequest',
-                0,
-                'CreateCaptureRequest.deal',
-                $value
-            );
-        }
+        $this->currentObject->setDeal($value);
         return $this;
     }
 }

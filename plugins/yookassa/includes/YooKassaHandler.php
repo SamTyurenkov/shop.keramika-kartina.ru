@@ -4,6 +4,7 @@ use YooKassa\Client;
 use YooKassa\Model\PaymentInterface;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
+use YooKassa\Model\Receipt;
 use YooKassa\Request\Payments\CreatePaymentRequestBuilder;
 use YooKassa\Request\Payments\Payment\CreateCaptureRequest;
 use YooKassa\Request\Payments\Payment\CreateCaptureRequestBuilder;
@@ -14,15 +15,33 @@ use YooKassa\Request\Payments\Payment\CreateCaptureRequestBuilder;
  */
 class YooKassaHandler
 {
+    const VAT_CODE_1 = 1;
+
     /**
      * @return bool
      */
     public static function isReceiptEnabled()
     {
+        return get_option('yookassa_enable_receipt');
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isLegalEntity()
+    {
         $taxRatesRelations = get_option('yookassa_tax_rate');
         $defaultTaxRate    = get_option('yookassa_default_tax_rate');
 
-        return get_option('yookassa_enable_receipt') && ($taxRatesRelations || $defaultTaxRate);
+        return ($taxRatesRelations || $defaultTaxRate) && !self::isSelfEmployed();
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isSelfEmployed()
+    {
+        return (bool)get_option('yookassa_self_employed', '0');
     }
 
     /**
@@ -31,41 +50,65 @@ class YooKassaHandler
      * @param bool $subscribe
      * @throws Exception
      */
-    public static function setReceiptIfNeeded($builder, $order, $subscribe = false)
+    public static function setReceiptIfNeeded($builder, WC_Order $order, $subscribe = false)
     {
-        if (self::isReceiptEnabled()) {
-            if ($order->get_billing_email()) {
-                $builder->setReceiptEmail($order->get_billing_email());
-            }
-            if ($order->get_billing_phone()) {
-                $builder->setReceiptPhone(preg_replace('/[^\d]/', '', $order->get_billing_phone()));
+        if (!self::isReceiptEnabled()) {
+            return;
+        }
+
+        if ($order->get_billing_email()) {
+            $builder->setReceiptEmail($order->get_billing_email());
+        }
+        if ($order->get_billing_phone()) {
+            $builder->setReceiptPhone(preg_replace('/[^\d]/', '', $order->get_billing_phone()));
+        }
+
+        $items = $order->get_items();
+
+        /** @var WC_Order_Item_Product $item */
+        foreach ($items as $item) {
+            $amount = YooKassaOrderHelper::getAmountByCurrency($item->get_total() / $item->get_quantity() + $item->get_total_tax() / $item->get_quantity());
+            if ($subscribe && $amount <= 0) {
+                $amount = YooKassaGateway::MINIMUM_SUBSCRIBE_AMOUNT;
             }
 
-            $items     = $order->get_items();
-            $orderData = $order->get_data();
-            $shipping  = $orderData['shipping_lines'];
-
-            /** @var WC_Order_Item_Product $item */
-            foreach ($items as $item) {
-                $taxes = $item->get_taxes();
-                $amount = YooKassaOrderHelper::getAmountByCurrency($item->get_total() / $item->get_quantity() + $item->get_total_tax() / $item->get_quantity());
-                if ($subscribe && $amount <= 0) {
-                    $amount = YooKassaGateway::MINIMUM_SUBSCRIBE_AMOUNT;
-                }
+            if (self::isSelfEmployed()) {
                 $builder->addReceiptItem(
                     $item['name'],
                     $amount->getValue(),
                     $item->get_quantity(),
-                    self::getYmTaxRate($taxes),
+                    self::VAT_CODE_1
+                );
+            }
+
+            if (self::isLegalEntity()) {
+                $builder->addReceiptItem(
+                    $item['name'],
+                    $amount->getValue(),
+                    $item->get_quantity(),
+                    self::getYmTaxRate($item->get_taxes()),
                     self::getPaymentMode($item),
                     self::getPaymentSubject($item)
                 );
             }
+        }
 
-            if (count($shipping)) {
-                $shippingData = array_shift($shipping);
-                $amount       = YooKassaOrderHelper::getAmountByCurrency($shippingData['total'] + $shippingData['total_tax']);
-                $taxes        = $shippingData->get_taxes();
+        $orderData = $order->get_data();
+        $shipping = $orderData['shipping_lines'];
+
+        if (count($shipping)) {
+            $shippingData = array_shift($shipping);
+            if (self::isSelfEmployed() && $shippingData['total'] > 0) {
+                $builder->addReceiptShipping(
+                    __('Доставка', 'yookassa'),
+                    $shippingData['total'],
+                    self::VAT_CODE_1
+                );
+            }
+
+            if (self::isLegalEntity()) {
+                $amount = YooKassaOrderHelper::getAmountByCurrency($shippingData['total'] + $shippingData['total_tax']);
+                $taxes = $shippingData->get_taxes();
                 $builder->addReceiptShipping(
                     __('Доставка', 'yookassa'),
                     $amount->getValue(),
@@ -74,7 +117,9 @@ class YooKassaHandler
                     self::getShippingPaymentSubject()
                 );
             }
+        }
 
+        if (self::isLegalEntity()) {
             $defaultTaxSystemCode = get_option('yookassa_default_tax_system_code');
             if (!empty($defaultTaxSystemCode)) {
                 $builder->setTaxSystemCode($defaultTaxSystemCode);
@@ -127,6 +172,10 @@ class YooKassaHandler
         $builder->setAmount(YooKassaOrderHelper::getTotal($order));
         self::setReceiptIfNeeded($builder, $order);
         $captureRequest = $builder->build();
+        $receipt = $captureRequest->getReceipt();
+        if ($receipt instanceof Receipt) {
+            $receipt->normalize($captureRequest->getAmount());
+        }
 
         $payment = $apiClient->capturePayment($captureRequest, $payment->getId());
 
@@ -238,6 +287,34 @@ class YooKassaHandler
         YooKassaLogger::info(sprintf(__('Статус заказа. %1$s', 'yookassa'), $status));
     }
 
+    /**
+     * @param WC_Order $order
+     * @return void
+     * @throws Exception
+     */
+    public static function checkConditionForSelfEmployed(WC_Order $order)
+    {
+        $items = (int)$order->get_shipping_total() > 0 ? $order->get_items(['line_item', 'shipping']) : $order->get_items(['line_item']);
+        if (count($items) > 6) {
+            throw new Exception(
+                __('<b>Нельзя добавить больше 6 разных позиций </b><br>Такое ограничение для владельца магазина. Уберите лишние позиции из корзины — остальные можно добавить в другом заказе.', 'yookassa')
+            );
+        }
+
+        foreach ($items as $item) {
+            if (!is_int($item->get_quantity())) {
+                throw new Exception(
+                    __('<b>Нельзя добавить позицию с дробным количеством </b><br>Только с целым. Свяжитесь с магазином, чтобы исправили значение и помогли сделать заказ.', 'yookassa')
+                );
+            }
+
+            if ((int)$item->get_total() <= 0) {
+                throw new Exception(
+                    __('<b>Не получается создать чек </b><br>Цена позиции должна быть больше 0 ₽. Уберите позицию из корзины и попробуйте ещё раз.', 'yookassa')
+                );
+            }
+        }
+    }
 
     /**
      * @param $taxes

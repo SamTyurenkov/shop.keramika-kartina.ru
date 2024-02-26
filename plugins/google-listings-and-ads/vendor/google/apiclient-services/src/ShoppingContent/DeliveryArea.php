@@ -15,14 +15,18 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class DeliveryArea extends \Google\Model
+class DeliveryArea extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
    */
   public $countryCode;
+  /**
+   * @var DeliveryAreaPostalCodeRange
+   */
+  public $postalCodeRange;
   protected $postalCodeRangeType = DeliveryAreaPostalCodeRange::class;
   protected $postalCodeRangeDataType = '';
   /**

@@ -15,11 +15,15 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class AccountsCustomBatchRequestEntry extends \Google\Collection
+class AccountsCustomBatchRequestEntry extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'labelIds';
+  /**
+   * @var Account
+   */
+  public $account;
   protected $accountType = Account::class;
   protected $accountDataType = '';
   /**
@@ -38,6 +42,10 @@ class AccountsCustomBatchRequestEntry extends \Google\Collection
    * @var string[]
    */
   public $labelIds;
+  /**
+   * @var AccountsCustomBatchRequestEntryLinkRequest
+   */
+  public $linkRequest;
   protected $linkRequestType = AccountsCustomBatchRequestEntryLinkRequest::class;
   protected $linkRequestDataType = '';
   /**

@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class OrderinvoicesCreateRefundInvoiceRequest extends \Google\Collection
+class OrderinvoicesCreateRefundInvoiceRequest extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'shipmentInvoices';
   /**
@@ -28,10 +28,22 @@ class OrderinvoicesCreateRefundInvoiceRequest extends \Google\Collection
    * @var string
    */
   public $operationId;
+  /**
+   * @var OrderinvoicesCustomBatchRequestEntryCreateRefundInvoiceRefundOption
+   */
+  public $refundOnlyOption;
   protected $refundOnlyOptionType = OrderinvoicesCustomBatchRequestEntryCreateRefundInvoiceRefundOption::class;
   protected $refundOnlyOptionDataType = '';
+  /**
+   * @var OrderinvoicesCustomBatchRequestEntryCreateRefundInvoiceReturnOption
+   */
+  public $returnOption;
   protected $returnOptionType = OrderinvoicesCustomBatchRequestEntryCreateRefundInvoiceReturnOption::class;
   protected $returnOptionDataType = '';
+  /**
+   * @var ShipmentInvoice[]
+   */
+  public $shipmentInvoices;
   protected $shipmentInvoicesType = ShipmentInvoice::class;
   protected $shipmentInvoicesDataType = 'array';
 

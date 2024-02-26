@@ -3,7 +3,7 @@
  * Plugin Name: Redis Object Cache
  * Plugin URI: https://wordpress.org/plugins/redis-cache/
  * Description: A persistent object cache backend powered by Redis. Supports Predis, PhpRedis, Relay, replication, sentinels, clustering and WP-CLI.
- * Version: 2.2.0
+ * Version: 2.5.0
  * Text Domain: redis-cache
  * Domain Path: /languages
  * Network: true
@@ -20,9 +20,12 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'WP_REDIS_FILE', __FILE__ );
-define( 'WP_REDIS_PLUGIN_PATH', __DIR__ );
 define( 'WP_REDIS_BASENAME', plugin_basename( WP_REDIS_FILE ) );
 define( 'WP_REDIS_PLUGIN_DIR', plugin_dir_url( WP_REDIS_FILE ) );
+
+if ( ! defined( 'WP_REDIS_PLUGIN_PATH' ) ) {
+    define( 'WP_REDIS_PLUGIN_PATH', __DIR__ );
+}
 
 $meta = get_file_data( WP_REDIS_FILE, [ 'Version' => 'Version' ] );
 
@@ -34,8 +37,13 @@ $autoloader = new Rhubarb\RedisCache\Autoloader();
 $autoloader->register();
 $autoloader->add_namespace( 'Rhubarb\RedisCache', WP_REDIS_PLUGIN_PATH . '/includes' );
 
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
-    WP_CLI::add_command( 'redis', Rhubarb\RedisCache\CLI\Commands::class );
+if ( defined( 'WP_CLI' ) && WP_CLI && ! defined( 'RedisCachePro\Version' ) && ! defined( 'ObjectCachePro\Version' ) ) {
+    add_action(
+        'plugins_loaded',
+        function () {
+            WP_CLI::add_command( 'redis', Rhubarb\RedisCache\CLI\Commands::class );
+        }
+    );
 }
 
 register_activation_hook(

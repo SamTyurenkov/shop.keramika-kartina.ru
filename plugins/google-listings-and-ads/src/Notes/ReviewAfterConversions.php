@@ -4,10 +4,10 @@ declare( strict_types=1 );
 namespace Automattic\WooCommerce\GoogleListingsAndAds\Notes;
 
 use Automattic\WooCommerce\Admin\Notes\Note as NoteEntry;
+use Automattic\WooCommerce\GoogleListingsAndAds\Ads\AdsAwareInterface;
+use Automattic\WooCommerce\GoogleListingsAndAds\Ads\AdsAwareTrait;
 use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\MerchantMetrics;
 use Automattic\WooCommerce\GoogleListingsAndAds\HelperTraits\Utilities;
-use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterAwareInterface;
-use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterAwareTrait;
 use Automattic\WooCommerce\GoogleListingsAndAds\PluginHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
 use Exception;
@@ -21,10 +21,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @package Automattic\WooCommerce\GoogleListingsAndAds\Notes
  */
-class ReviewAfterConversions extends AbstractNote implements MerchantCenterAwareInterface {
+class ReviewAfterConversions extends AbstractNote implements AdsAwareInterface {
 
+	use AdsAwareTrait;
 	use LeaveReviewActionTrait;
-	use MerchantCenterAwareTrait;
 	use PluginHelper;
 	use Utilities;
 
@@ -114,11 +114,14 @@ class ReviewAfterConversions extends AbstractNote implements MerchantCenterAware
 			return false;
 		}
 
+		if ( ! $this->ads_service->is_connected() ) {
+			return false;
+		}
+
 		if ( $this->get_ads_conversions_count() <= 10 ) {
 			return false;
 		}
 
 		return true;
 	}
-
 }

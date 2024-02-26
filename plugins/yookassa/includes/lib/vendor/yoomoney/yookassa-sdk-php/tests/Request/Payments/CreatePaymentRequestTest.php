@@ -8,6 +8,7 @@ use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesExternal;
 use YooKassa\Model\ConfirmationType;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\Deal\PaymentDealInfo;
+use YooKassa\Model\FraudData;
 use YooKassa\Model\Locale;
 use YooKassa\Model\Metadata;
 use YooKassa\Model\MonetaryAmount;
@@ -87,8 +88,31 @@ class CreatePaymentRequestTest extends TestCase
 
         $instance->setAmount($options['amount']);
 
-        self::assertSame($options['amount'], $instance->getAmount());
-        self::assertSame($options['amount'], $instance->amount);
+        self::assertEquals($options['amount'], $instance->getAmount());
+        self::assertEquals($options['amount'], $instance->amount);
+    }
+
+    /**
+     * @dataProvider validDataProvider
+     * @param $options
+     */
+    public function testAirline($options)
+    {
+        $instance = new CreatePaymentRequest();
+
+        self::assertNull($instance->getAirline());
+        self::assertNull($instance->airline);
+
+        if (!empty($options['airline'])) {
+            $instance->setAirline($options['airline']);
+            if (is_array($options['airline'])) {
+                self::assertSame($options['airline'], $instance->getAirline()->toArray());
+                self::assertSame($options['airline'], $instance->airline->toArray());
+            } else {
+                self::assertSame($options['airline'], $instance->getAirline());
+                self::assertSame($options['airline'], $instance->airline);
+            }
+        }
     }
 
     /**
@@ -648,7 +672,7 @@ class CreatePaymentRequestTest extends TestCase
         $metadata = new Metadata();
         $metadata->test = 'test';
         $transfers = array();
-        for($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $transfers[$i][] = array(
                 'account_id' => (string)Random::int(11111111, 99999999),
                 'amount' => array(
@@ -660,6 +684,7 @@ class CreatePaymentRequestTest extends TestCase
                     'value' => sprintf('%.2f', round(Random::float(0.1, 99.99), 2)),
                     'currency' => Random::value(CurrencyCode::getValidValues())
                 ),
+                'description' => Random::str(1, Transfer::MAX_LENGTH_DESCRIPTION),
                 'metadata' => $i == 0 ? $metadata : array('test' => 'test'),
             );
         }
@@ -758,6 +783,51 @@ class CreatePaymentRequestTest extends TestCase
         }
     }
 
+    /**
+     * @dataProvider validDataProvider
+     * @param $options
+     */
+    public function testFraudData($options)
+    {
+        $instance = new CreatePaymentRequest();
+
+        self::assertFalse($instance->hasFraudData());
+        self::assertNull($instance->getFraudData());
+        self::assertNull($instance->fraud_data);
+
+        $expected = $options['fraud_data'];
+        if ($expected instanceof FraudData) {
+            $expected = $expected->toArray();
+        }
+
+        $instance->setFraudData($options['fraud_data']);
+        if (empty($options['fraud_data'])) {
+            self::assertFalse($instance->hasFraudData());
+            self::assertNull($instance->getFraudData());
+            self::assertNull($instance->fraud_data);
+        } else {
+            self::assertTrue($instance->hasFraudData());
+            self::assertSame($expected, $instance->getFraudData()->toArray());
+            self::assertSame($expected, $instance->fraud_data->toArray());
+        }
+
+        $instance->setFraudData(null);
+        self::assertFalse($instance->hasFraudData());
+        self::assertNull($instance->getFraudData());
+        self::assertNull($instance->fraud_data);
+
+        $instance->fraud_data = $options['fraud_data'];
+        if (empty($options['fraud_data'])) {
+            self::assertFalse($instance->hasFraudData());
+            self::assertNull($instance->getFraudData());
+            self::assertNull($instance->fraud_data);
+        } else {
+            self::assertTrue($instance->hasFraudData());
+            self::assertSame($expected, $instance->getFraudData()->toArray());
+            self::assertSame($expected, $instance->fraud_data->toArray());
+        }
+    }
+
     public function testValidate()
     {
         $instance = new CreatePaymentRequest();
@@ -789,7 +859,7 @@ class CreatePaymentRequestTest extends TestCase
         $receipt = new Receipt();
         $instance->setReceipt($receipt);
         $item = new ReceiptItem();
-        $item->setPrice(new MonetaryAmount(10));
+        $item->setPrice(new MonetaryAmount(10, CurrencyCode::RUB));
         $item->setDescription('test');
         $receipt->addItem($item);
         self::assertFalse($instance->validate());
@@ -837,6 +907,17 @@ class CreatePaymentRequestTest extends TestCase
         $instance->setDeal($value);
     }
 
+    /**
+     * @dataProvider invalidFraudDataProvider
+     * @expectedException \InvalidArgumentException
+     * @param $value
+     */
+    public function testSetInvalidFraudData($value)
+    {
+        $instance = new CreatePaymentRequest();
+        $instance->setFraudData($value);
+    }
+
     public function validDataProvider()
     {
         $metadata = new Metadata();
@@ -856,6 +937,7 @@ class CreatePaymentRequestTest extends TestCase
                     'clientIp' => null,
                     'metadata' => null,
                     'deal' => null,
+                    'fraud_data' => null,
                     'merchant_customer_id' => null,
                 ),
             ),
@@ -875,6 +957,9 @@ class CreatePaymentRequestTest extends TestCase
                     'deal' => new PaymentDealInfo(array(
                         'id' => Random::str(36, 50),
                         'settlements' => array()
+                    )),
+                    'fraud_data' => new FraudData(array(
+                        'topped_up_phone' => Random::str(11, 15, '0123456789'),
                     )),
                     'merchant_customer_id' => '',
                 ),
@@ -905,12 +990,33 @@ class CreatePaymentRequestTest extends TestCase
                             'value' => sprintf('%.2f', round(Random::float(0.1, 99.99), 2)),
                             'currency' => Random::value(CurrencyCode::getValidValues())
                         ),
+                        'description' => Random::str(1, Transfer::MAX_LENGTH_DESCRIPTION),
                         'metadata' => $i == 0 ? $metadata : array('test' => 'test'),
                     )
+                ),
+                'airline' => array(
+                    'booking_reference' => 'IIIKRV',
+                    'ticket_number'     => '12342123413',
+                    'passengers'        => array(
+                        array(
+                            'first_name' => 'SERGEI',
+                            'last_name'  => 'IVANOV',
+                        ),
+                    ),
+                    'legs'              => array(
+                        array(
+                            'departure_airport'   => 'LED',
+                            'destination_airport' => 'AMS',
+                            'departure_date'      => '2018-06-20',
+                        ),
+                    ),
                 ),
                 'deal' => array(
                     'id' => Random::str(36, 50),
                     'settlements' => array()
+                ),
+                'fraud_data' => array(
+                    'topped_up_phone' => Random::str(11, 15, '0123456789'),
                 ),
                 'merchant_customer_id' => Random::str(36, 50),
             );
@@ -946,6 +1052,7 @@ class CreatePaymentRequestTest extends TestCase
                             'value' => sprintf('%.2f', round(Random::float(0.1, 99.99), 2)),
                             'currency' => Random::value(CurrencyCode::getValidValues())
                         ),
+                        'description' => Random::str(1, Transfer::MAX_LENGTH_DESCRIPTION),
                         'metadata' => $i == 0 ? $metadata : array('test' => 'test'),
                     )
                 ),
@@ -953,6 +1060,9 @@ class CreatePaymentRequestTest extends TestCase
                     'id' => Random::str(36, 50),
                     'settlements' => array()
                 ),
+                'fraud_data' => new FraudData(array(
+                    'topped_up_phone' => Random::str(11, 15, '0123456789'),
+                )),
                 'merchant_customer_id' => Random::str(36, 50),
             )
         );
@@ -1034,6 +1144,16 @@ class CreatePaymentRequestTest extends TestCase
             array(true),
             array(1),
             array(Random::str(10)),
+        );
+    }
+
+    public function invalidFraudDataProvider()
+    {
+        return array(
+            array(false),
+            array(true),
+            array(new \stdClass()),
+            array(Random::str(16, 30, '0123456789')),
         );
     }
 

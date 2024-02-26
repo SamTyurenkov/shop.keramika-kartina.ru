@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 
 namespace YooKassa\Model\PaymentMethod;
 
+use InvalidArgumentException;
 use YooKassa\Model\PaymentMethodType;
 
 /**
@@ -35,7 +36,11 @@ use YooKassa\Model\PaymentMethodType;
  */
 class PaymentMethodFactory
 {
+    /** @deprecated Для поддержки старых платежей */
+    const YANDEX_MONEY = 'yandex_money';
+
     private $typeClassMap = array(
+        self::YANDEX_MONEY                => 'PaymentMethodYooMoney',
         PaymentMethodType::YOO_MONEY      => 'PaymentMethodYooMoney',
         PaymentMethodType::BANK_CARD      => 'PaymentMethodBankCard',
         PaymentMethodType::SBERBANK       => 'PaymentMethodSberbank',
@@ -52,6 +57,8 @@ class PaymentMethodFactory
         PaymentMethodType::PSB            => 'PaymentMethodPsb',
         PaymentMethodType::WECHAT         => 'PaymentMethodWechat',
         PaymentMethodType::SBP            => 'PaymentMethodSbp',
+        PaymentMethodType::SBER_LOAN      => 'PaymentMethodSberLoan',
+        PaymentMethodType::UNKNOWN        => 'PaymentMethodUnknown',
     );
 
     /**
@@ -64,12 +71,12 @@ class PaymentMethodFactory
     public function factory($type)
     {
         if (!is_string($type)) {
-            throw new \InvalidArgumentException('Invalid payment method type value in payment factory');
+            throw new InvalidArgumentException('Invalid payment method type value in payment factory');
         }
         if (!array_key_exists($type, $this->typeClassMap)) {
-            throw new \InvalidArgumentException('Invalid payment method data type "'.$type.'"');
+            $type = PaymentMethodType::UNKNOWN;
         }
-        $className = __NAMESPACE__.'\\'.$this->typeClassMap[$type];
+        $className = __NAMESPACE__ . '\\' . $this->typeClassMap[$type];
 
         return new $className();
     }
@@ -89,26 +96,15 @@ class PaymentMethodFactory
                 $type = $data['type'];
                 unset($data['type']);
             } else {
-                throw new \InvalidArgumentException(
-                    'Parameter type not specified in PaymentDataFactory.factoryFromArray()'
+                throw new InvalidArgumentException(
+                    'Parameter type not specified in PaymentMethodFactory.factoryFromArray()'
                 );
             }
         }
 
         $paymentData = $this->factory($type);
-        $this->fillModel($paymentData, $data);
+        $paymentData->fromArray($data);
 
         return $paymentData;
-    }
-
-    private function fillModel(AbstractPaymentMethod $paymentData, array $data)
-    {
-        foreach ($data as $key => $value) {
-            if ($paymentData->offsetExists($key)) {
-                $paymentData->offsetSet($key, $value);
-            } else if (is_array($value)) {
-                $this->fillModel($paymentData, $value);
-            }
-        }
     }
 }

@@ -233,4 +233,11 @@
             });
     }
 
+    /**
+     * Переключение radio button между СМЗ и ИП
+     */
+    $(document).on('click', '.custom-switch-radio label', function() {
+        $('div.content').hide().filter('.'+$(this).data('target')).show();
+    });
+
 })(jQuery);

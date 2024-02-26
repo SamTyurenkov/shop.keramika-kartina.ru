@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ShoppingAdsProgramStatusRegionStatus extends \Google\Collection
+class ShoppingAdsProgramStatusRegionStatus extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'reviewIssues';
   /**
@@ -48,6 +48,10 @@ class ShoppingAdsProgramStatusRegionStatus extends \Google\Collection
    * @var string
    */
   public $reviewIneligibilityReasonDescription;
+  /**
+   * @var ShoppingAdsProgramStatusReviewIneligibilityReasonDetails
+   */
+  public $reviewIneligibilityReasonDetails;
   protected $reviewIneligibilityReasonDetailsType = ShoppingAdsProgramStatusReviewIneligibilityReasonDetails::class;
   protected $reviewIneligibilityReasonDetailsDataType = '';
   /**

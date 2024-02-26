@@ -15,20 +15,28 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class Region extends \Google\Model
+class Region extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
   /**
    * @var string
    */
   public $displayName;
+  /**
+   * @var RegionGeoTargetArea
+   */
+  public $geotargetArea;
   protected $geotargetAreaType = RegionGeoTargetArea::class;
   protected $geotargetAreaDataType = '';
   /**
    * @var string
    */
   public $merchantId;
+  /**
+   * @var RegionPostalCodeArea
+   */
+  public $postalCodeArea;
   protected $postalCodeAreaType = RegionPostalCodeArea::class;
   protected $postalCodeAreaDataType = '';
   /**

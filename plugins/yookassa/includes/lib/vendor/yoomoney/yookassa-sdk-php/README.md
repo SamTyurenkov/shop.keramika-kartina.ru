@@ -1,6 +1,5 @@
 # YooKassa API PHP Client Library
 
-[![Build Status](https://img.shields.io/travis/yoomoney/yookassa-sdk-php)](https://travis-ci.org/yoomoney/yookassa-sdk-php)
 [![Latest Stable Version](https://img.shields.io/packagist/v/yoomoney/yookassa-sdk-php?label=stable)](https://packagist.org/packages/yoomoney/yookassa-sdk-php)
 [![Total Downloads](https://img.shields.io/packagist/dt/yoomoney/yookassa-sdk-php)](https://packagist.org/packages/yoomoney/yookassa-sdk-php)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/yoomoney/yookassa-sdk-php)](https://packagist.org/packages/yoomoney/yookassa-sdk-php)
@@ -26,12 +25,12 @@ composer require yoomoney/yookassa-sdk-php
 ```
 
 ### В файле composer.json своего проекта
-1. Добавьте строку `"yoomoney/yookassa-sdk-php": "^2.1"` в список зависимостей вашего проекта в файле composer.json
+1. Добавьте строку `"yoomoney/yookassa-sdk-php": "^2.8"` в список зависимостей вашего проекта в файле composer.json
 ```
 ...
     "require": {
         "php": ">=5.3.2",
-        "yoomoney/yookassa-sdk-php": "^2.1"
+        "yoomoney/yookassa-sdk-php": "^2.8"
 ...
 ```
 2. Обновите зависимости проекта. В консоли перейдите в каталог, где лежит composer.json, и выполните команду:
@@ -71,6 +70,7 @@ $client->setAuth('shopId', 'secretKey');
 ## Примеры использования SDK
 
 #### [Настройки SDK API ЮKassa](docs/examples/01-configuration.md)
+* [Установка дополнительных настроек для Curl](docs/examples/01-configuration.md#Установка-дополнительных-настроек-для-Curl)
 * [Аутентификация](docs/examples/01-configuration.md#Аутентификация)
 * [Статистические данные об используемом окружении](docs/examples/01-configuration.md#Статистические-данные-об-используемом-окружении)
 * [Получение информации о магазине](docs/examples/01-configuration.md#Получение-информации-о-магазине)
@@ -101,7 +101,25 @@ $client->setAuth('shopId', 'secretKey');
 * [Запрос на создание сделки](docs/examples/05-deals.md#Запрос-на-создание-сделки)
 * [Запрос на создание сделки через билдер](docs/examples/05-deals.md#Запрос-на-создание-сделки-через-билдер)
 * [Запрос на создание платежа с привязкой к сделке](docs/examples/05-deals.md#Запрос-на-создание-платежа-с-привязкой-к-сделке)
-* [Запрос на выплату продавцу](docs/examples/05-deals.md#Запрос-на-выплату-продавцу)
 * [Получить информацию о сделке](docs/examples/05-deals.md#Получить-информацию-о-сделке)
 * [Получить список сделок с фильтрацией](docs/examples/05-deals.md#Получить-список-сделок-с-фильтрацией)
-* [Получить информацию о выплате](docs/examples/05-deals.md#Получить-информацию-о-выплате)
+
+#### [Работа с выплатами](docs/examples/06-payouts.md)
+* [Запрос на выплату продавцу](docs/examples/06-payouts.md#Запрос-на-выплату-продавцу)
+  * [Проведение выплаты на банковскую карту](docs/examples/06-payouts.md#проведение-выплаты-на-банковскую-карту)
+  * [Проведение выплаты на кошелек ЮMoney](docs/examples/06-payouts.md#проведение-выплаты-на-кошелек-юmoney)
+  * [Проведение выплаты через СБП](docs/examples/06-payouts.md#проведение-выплаты-через-сбп)
+  * [Выплаты самозанятым](docs/examples/06-payouts.md#выплаты-самозанятым)
+  * [Проведение выплаты по безопасной сделке](docs/examples/06-payouts.md#проведение-выплаты-по-безопасной-сделке)
+* [Получить информацию о выплате](docs/examples/06-payouts.md#Получить-информацию-о-выплате)
+
+#### [Работа с самозанятыми](docs/examples/07-self-employed.md)
+* [Запрос на создание самозанятого](docs/examples/07-self-employed.md#Запрос-на-создание-самозанятого)
+* [Получить информацию о самозанятом](docs/examples/07-self-employed.md#Получить-информацию-о-самозанятом)
+
+#### [Работа с персональными данными](docs/examples/08-personal-data.md)
+* [Создание персональных данных](docs/examples/08-personal-data.md#Создание-персональных-данных)
+* [Получить информацию о персональных данных](docs/examples/08-personal-data.md#Получить-информацию-о-персональных-данных)
+
+#### [Работа со списком участников СБП](docs/examples/09-sbp-banks.md)
+* [Получить список участников СБП](docs/examples/09-sbp-banks.md#Получить-список-участников-СБП)

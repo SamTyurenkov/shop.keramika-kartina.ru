@@ -51,29 +51,33 @@ b>i {
     font-style: normal;
     color: #ff0000;
 }
-a.btn-default, a.btn-default:hover {
-    color: #333 !important;
-    text-decoration: none !important;;
+/* кнопки */
+.btn-default {
+    background-color: #e4e9f1;
+    border-color: #e4e9f1;
 }
-.btn-primary, .btn-primary.active {
-    color: #fff;
-    background-color: #0070F0;
-    border-color: #0067ce;
+.btn-default:hover,
+.btn-default:focus {
+    background: #D4DBE8;
 }
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary.focus {
-    color: #fff;
-    background-color: #005ebb;
-    border-color: #0061bb;
+.btn-primary,
+.btn-primary.active {
+    background-color: #0070f0;
+    border-color: #0070f0;
+    color: white;
 }
+.btn-primary:hover,
+.btn-primary:focus {
+    background: #0066DB;
+}
+/**/
 .form-footer {
     padding-top: 15px;
     margin-top: 15px;
 }
 .form-footer button {
-    padding-left: 25px;
-    padding-right: 25px;
     margin-right: 25px;
+    padding: 0.3rem 1.75rem;
 }
 .btn-light.btn-back {
     border: 1px solid #ccc;
@@ -179,7 +183,7 @@ a:hover, a:focus {
 }
 
 .yoo-tab .tab-content {
-    padding: 70px 0 0;
+    padding: 30px 0 0;
     margin-top: 0;
     font-size: 15px;
     line-height: 21px;
@@ -231,6 +235,43 @@ a:hover, a:focus {
     -webkit-transform: translateX(1rem);
     transform: translateX(1rem);
 }
+/* switch-radio */
+.tab-content .custom-switch-radio {
+    padding-left: 0;
+}
+.tab-content .custom-switch-radio label {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.375em;
+}
+.tab-content .custom-switch-radio label input {
+    position: absolute;
+    left: -9999px;
+}
+.tab-content .custom-switch-radio label input:checked + span:before {
+    box-shadow: inset 0 0 0 0.55em #007bff;
+}
+.tab-content .custom-switch-radio label span {
+    display: flex;
+    align-items: center;
+    padding: 0.375em 0.75em 0.375em 0;
+    border-radius: 99em;
+    transition: 0.25s ease;
+}
+.tab-content .custom-switch-radio label span:before {
+    display: flex;
+    content: "";
+    background-color: #fff;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em #007bff;
+}
 /**/
 h4.success {
     font-size: 20px;
@@ -271,4 +312,9 @@ h4.success {
 
 .oauth-form p {
     font-size: 15px;
+}
+
+.yookassa_self_employed ul {
+    list-style: disc;
+    padding: 10px 40px;
 }

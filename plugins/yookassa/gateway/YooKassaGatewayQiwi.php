@@ -19,7 +19,7 @@ class YooKassaGatewayQiwi extends YooKassaGateway
         parent::__construct();
 
         $this->paymentMethod      = new PaymentDataQiwi();
-        $this->icon               = YooKassa::$pluginUrl.'/assets/images/qw.png';
+        $this->icon               = YooKassa::$pluginUrl.'assets/images/qw.png';
 
         $this->method_description = __('QIWI Wallet', 'yookassa');
         $this->method_title       = __('QIWI Wallet', 'yookassa');

@@ -15,9 +15,9 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class ReturnPolicy extends \Google\Collection
+class ReturnPolicy extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Collection
 {
   protected $collection_key = 'seasonalOverrides';
   /**
@@ -40,14 +40,26 @@ class ReturnPolicy extends \Google\Collection
    * @var string[]
    */
   public $nonFreeReturnReasons;
+  /**
+   * @var ReturnPolicyPolicy
+   */
+  public $policy;
   protected $policyType = ReturnPolicyPolicy::class;
   protected $policyDataType = '';
   /**
    * @var string
    */
   public $returnPolicyId;
+  /**
+   * @var Price
+   */
+  public $returnShippingFee;
   protected $returnShippingFeeType = Price::class;
   protected $returnShippingFeeDataType = '';
+  /**
+   * @var ReturnPolicySeasonalOverride[]
+   */
+  public $seasonalOverrides;
   protected $seasonalOverridesType = ReturnPolicySeasonalOverride::class;
   protected $seasonalOverridesDataType = 'array';
 

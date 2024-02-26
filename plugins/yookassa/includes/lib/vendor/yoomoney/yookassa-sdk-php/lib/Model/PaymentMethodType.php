@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright (c) 2022 "YooMoney", NBСO LLC
+ * Copyright (c) 2023 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,24 +30,24 @@ use YooKassa\Common\AbstractEnum;
 
 /**
  * PaymentMethodType - Тип источника средств для проведения платежа
- * |Код|Описание|
- * --- | ---
- * |yoo_money|Платеж из кошелька ЮMoney|
- * |bank_card|Платеж с произвольной банковской карты|
- * |sberbank|Платеж СбербанкОнлайн|
- * |cash|Платеж наличными|
- * |mobile_balance|Платеж с баланса мобильного телефона|
- * |apple_pay|Платеж ApplePay|
- * |google_pay|Платеж Google Pay|
- * |qiwi|Платеж из кошелька Qiwi|
- * |webmoney|Платеж из кошелька Webmoney|
- * |alfabank|Платеж через Альфа-Клик|
- * |b2b_sberbank|Сбербанк Бизнес Онлайн|
- * |tinkoff_bank|Интернет-банк Тинькофф|
- * |psb|ПромсвязьБанк|
- * |installments|Заплатить по частям|
- * |wechat|Платеж через WeChat|
- * |sbp|Платеж через через сервис быстрых платежей|
+ *
+ * Возможные значения:
+ * - `yoo_money` - Платеж из кошелька ЮMoney
+ * - `bank_card` - Платеж с произвольной банковской карты
+ * - `sberbank` - Платеж СбербанкОнлайн
+ * - `cash` - Платеж наличными
+ * - `mobile_balance` - Платеж с баланса мобильного телефона
+ * - `apple_pay` - Платеж ApplePay
+ * - `google_pay` - Платеж Google Pay
+ * - `qiwi` - Платеж из кошелька Qiwi
+ * - `webmoney` - Платеж из кошелька Webmoney
+ * - `alfabank` - Платеж через Альфа-Клик
+ * - `b2b_sberbank` - Сбербанк Бизнес Онлайн
+ * - `tinkoff_bank` - Интернет-банк Тинькофф
+ * - `psb` - ПромсвязьБанк
+ * - `installments` - Заплатить по частям
+ * - `wechat` - Платеж через WeChat
+ * - `sbp` - Платеж через через сервис быстрых платежей
  */
 class PaymentMethodType extends AbstractEnum
 {
@@ -67,15 +67,24 @@ class PaymentMethodType extends AbstractEnum
     const GOOGLE_PAY     = 'google_pay';
     /** Платеж из кошелька Qiwi */
     const QIWI           = 'qiwi';
-    /** Платеж из кошелька Webmoney */
+    /**
+     * Платеж из кошелька Webmoney
+     * @deprecated Будет удален в следующих версиях
+     */
     const WEBMONEY       = 'webmoney';
-    /** Платеж через Альфа-Клик */
+    /**
+     * Платеж через Альфа-Клик
+     * @deprecated Будет удален в следующих версиях
+     */
     const ALFABANK       = 'alfabank';
     /** Сбербанк Бизнес Онлайн */
     const B2B_SBERBANK   = 'b2b_sberbank';
     /** Интернет-банк Тинькофф */
     const TINKOFF_BANK   = 'tinkoff_bank';
-    /** ПромсвязьБанк */
+    /**
+     * ПромсвязьБанк
+     * @deprecated Будет удален в следующих версиях
+     */
     const PSB            = 'psb';
     /** Заплатить по частям */
     const INSTALLMENTS   = 'installments';
@@ -86,23 +95,32 @@ class PaymentMethodType extends AbstractEnum
     const WECHAT         = 'wechat';
     /** Оплата через сервис быстрых платежей */
     const SBP            = 'sbp';
+    /** Прием оплаты с использованием Кредита от СберБанка */
+    const SBER_LOAN = 'sber_loan';
+    /**
+     * Для неизвестных методов оплаты
+     * @deprecated Не используется для реальных платежей
+     */
+    const UNKNOWN = 'unknown';
 
     protected static $validValues = array(
         self::YOO_MONEY      => true,
         self::BANK_CARD      => true,
         self::SBERBANK       => true,
         self::CASH           => true,
-        self::MOBILE_BALANCE => false,
+        self::MOBILE_BALANCE => true,
         self::APPLE_PAY      => false,
         self::GOOGLE_PAY     => false,
         self::QIWI           => true,
-        self::WEBMONEY       => true,
-        self::ALFABANK       => true,
+        self::WEBMONEY       => false,
+        self::ALFABANK       => false,
         self::TINKOFF_BANK   => true,
         self::INSTALLMENTS   => true,
         self::B2B_SBERBANK   => true,
         self::PSB            => false,
         self::WECHAT         => false,
         self::SBP            => true,
+        self::SBER_LOAN      => true,
+        self::UNKNOWN        => false,
     );
 }

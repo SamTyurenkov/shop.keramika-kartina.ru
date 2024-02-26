@@ -18,7 +18,7 @@ class YooKassaGatewayCard extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon                   = YooKassa::$pluginUrl.'/assets/images/ac_out.png';
+        $this->icon                   = YooKassa::$pluginUrl.'assets/images/ac_out.png';
         $this->method_description     = __('Оплата с произвольной банковской карты', 'yookassa');
         $this->method_title           = __('Банковские карты', 'yookassa');
 

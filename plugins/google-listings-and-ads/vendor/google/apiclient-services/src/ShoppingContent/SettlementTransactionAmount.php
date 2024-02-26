@@ -15,16 +15,24 @@
  * the License.
  */
 
-namespace Google\Service\ShoppingContent;
+namespace Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Service\ShoppingContent;
 
-class SettlementTransactionAmount extends \Google\Model
+class SettlementTransactionAmount extends \Automattic\WooCommerce\GoogleListingsAndAds\Vendor\Google\Model
 {
+  /**
+   * @var SettlementTransactionAmountCommission
+   */
+  public $commission;
   protected $commissionType = SettlementTransactionAmountCommission::class;
   protected $commissionDataType = '';
   /**
    * @var string
    */
   public $description;
+  /**
+   * @var Price
+   */
+  public $transactionAmount;
   protected $transactionAmountType = Price::class;
   protected $transactionAmountDataType = '';
   /**

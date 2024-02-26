@@ -23,7 +23,7 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon               = YooKassa::$pluginUrl.'/assets/images/sb.png';
+        $this->icon               = YooKassa::$pluginUrl.'assets/images/sb.png';
 
         $this->method_description = __('Сбербанк Бизнес Онлайн', 'yookassa');
         $this->method_title       = __('Сбербанк Бизнес Онлайн', 'yookassa');
