@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Woocommerce Russian Post\n"
-"POT-Creation-Date: 2021-03-07 13:35+0300\n"
+"Project-Id-Version: Russian Post EMS integration with Woocommerce\n"
+"POT-Creation-Date: 2023-11-01 00:12+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Maksim <maksim@martirosoff.ru>\n"
 "Language-Team: Woodev <info@woodev.ru>\n"
@@ -17,259 +17,1739 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Generator: Poedit 1.6.10\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: woodev\n"
 
-#: includes/admin/class-wc-russian-post-admin.php:80
-#: includes/class-wc-russian-post-order.php:245
-#: includes/emails/class-wc-russian-post-order-exception-email.php:150
-msgid "N/A"
-msgstr "Неопределено"
-
-#: includes/admin/class-wc-russian-post-admin.php:220
+#: includes/abstracts/abstract-shipping-methods.php:66
 #, php-format
-msgid "%1$s статус изменён."
-msgid_plural "%1$s статусы изменены."
-msgstr[0] "%1$s статус изменён."
-msgstr[1] "%1$s статуса изменёны."
-msgstr[2] "%1$s статусов изменёно."
+msgid ""
+"Changes of settings were not applied because your license key of the plugin "
+"%s is invalid, expired or not entered. Please, check your license key on the "
+"<a href=\"%s\">Licenses Page</a>."
+msgstr ""
+"Изменения настроек небыли применены потому что лицензионный ключ плагина %s "
+"некорректный, истёк или не указан. Пожалуйста, проверьте ваш лицензионный "
+"ключ на <a href=\"%s\">странице лицензий</a>."
 
-#: includes/class-wc-russian-gateway-cod.php:61
-msgid "Pay by card?"
-msgstr "Оплата картой?"
+#: includes/abstracts/abstract-shipping-methods.php:82
+msgid "Method name"
+msgstr "Название метода"
 
-#: includes/class-wc-russian-gateway-cod.php:83
-msgid "Payment method description that the customer will see on your checkout."
+#: includes/abstracts/abstract-shipping-methods.php:84
+msgid "Russian Post Delivery"
+msgstr "Доставка Почты РФ"
+
+#: includes/abstracts/abstract-shipping-methods.php:85
+msgid ""
+"Enter the name for this method. You can use special tag %parcel_type% (it "
+"will be replaced to shipment type name)."
+msgstr ""
+"Введите название для этого метода. Вы можете использовать спецальный тег "
+"%parcel_type% (данный тег будет заменён на название типа доставки)."
+
+#: includes/abstracts/abstract-shipping-methods.php:88
+msgid "Minimal cost"
+msgstr "Минимальная стоимость"
+
+#: includes/abstracts/abstract-shipping-methods.php:95
+msgid "Maximal cost"
+msgstr "Максимальная стоимость"
+
+#: includes/abstracts/abstract-shipping-methods.php:102
+msgid "Free shipping"
+msgstr "Бесплатная доставка"
+
+#: includes/abstracts/abstract-shipping-methods.php:109
+msgid "Delivery time"
+msgstr "Время доставки"
+
+#: includes/abstracts/abstract-shipping-methods.php:111
+#: includes/abstracts/abstract-shipping-methods.php:112
+msgid "Show estimated delivery time"
+msgstr "Показывать расчётное время доставки"
+
+#: includes/abstracts/abstract-shipping-methods.php:116
+msgid "Method description"
+msgstr "Описание метода"
+
+#: includes/abstracts/abstract-shipping-methods.php:119
+msgid "Enter text to describe this shipping method. Leave blank to not use."
+msgstr ""
+"Введите текст который будет описывать данный метод доставки. Оставьте пустым "
+"что бы не использовать."
+
+#: includes/abstracts/abstract-shipping-methods.php:120
+msgid ""
+"This text will be showing under of method title. Leave blank to not use."
+msgstr ""
+"Этот тект будет отображаться под названием этого метода доставки. Оставьте "
+"пустым что бы не использовать."
+
+#: includes/abstracts/abstract-shipping-methods.php:123
+msgid "Shipping class"
+msgstr "Класс доставки"
+
+#: includes/abstracts/abstract-shipping-methods.php:125
+msgid ""
+"Choose a shipping class that will be applied to this shipping method, if you "
+"need it"
+msgstr ""
+"Выберите класс доставки который будет применён к этому методу доставки, если "
+"вам это нужно."
+
+#: includes/abstracts/abstract-shipping-methods.php:131
+msgid "Allowed shipment type"
+msgstr "Доступный тип доставки"
+
+#: includes/abstracts/abstract-shipping-methods.php:133
+msgid "Choose the shipment type that allowed to this shipping method."
+msgstr "Выберите тип достаавки который разрешен для этого метода доставки."
+
+#: includes/abstracts/abstract-shipping-methods.php:138
+msgid "Any type (recommended)"
+msgstr "Любой тип (рекомендуется)"
+
+#: includes/abstracts/abstract-shipping-methods.php:144
+msgid "Allowed payment methods"
+msgstr "Доступные методы отплаты"
+
+#: includes/abstracts/abstract-shipping-methods.php:145
+#: includes/abstracts/abstract-shipping-methods.php:151
+msgid "Choose payment methods"
+msgstr "Выберите методы оплаты"
+
+#: includes/abstracts/abstract-shipping-methods.php:148
+msgid ""
+"Choose payment methods, those will be available for this method. Leave blank "
+"to use any available payment method."
+msgstr ""
+"Выберите методы оплаты которые будут доступны для этого метода доставки. "
+"Оставьте пустым что бы использовать любой доступный метод оплаты."
+
+#: includes/abstracts/abstract-shipping-methods.php:306
+#, php-format
+msgid ""
+"Shipping method %s has been suspended because the zip code was not defined"
+msgstr ""
+"Метод доставки %s был приостановлен потому что не удалось определить "
+"почтовый индекс"
+
+#: includes/abstracts/abstract-shipping-methods.php:432
+msgid "On this order has products that dont match chosen shipping class."
+msgstr ""
+"В этом заказе есть товары которые не совпадают с выбранным классом доставки."
+
+#: includes/abstracts/abstract-shipping-methods.php:535
+msgid "Any shipping classes"
+msgstr "Любые классы доставки"
+
+#: includes/abstracts/abstract-shipping-methods.php:536
+msgid "Without shipping class"
+msgstr "Без класса доставки"
+
+#: includes/admin/admin.php:83
+msgid "Orders per page"
+msgstr "Заказов на странице"
+
+#: includes/admin/admin.php:111 includes/admin/admin.php:119
+#: includes/admin/order-list-table.php:23
+msgid "Russian Post Orders"
+msgstr "Заказы Почты РФ"
+
+#: includes/admin/admin.php:143
+msgid "Manage Russian Post Orders"
+msgstr "Управление заказами почты РФ"
+
+#: includes/admin/admin.php:146
+#, php-format
+msgid "Search results for \"%s\""
+msgstr "Результат поиска для \"%s\""
+
+#: includes/admin/admin.php:155
+msgid "Search Orders"
+msgstr "Поиск заказов"
+
+#: includes/admin/admin.php:184
+#, php-format
+msgid ""
+"Action \"%s\" have not been completed, because you have not selected any "
+"order."
+msgstr ""
+"Действие \"%s\" не было выполнено, потому что вы не выбрали ни одного заказа."
+
+#: includes/admin/admin.php:210
+#, php-format
+msgid "Order %s was successfully exported to Russian Post"
+msgstr "Заказ %s был успешно экспортирован в Почту РФ."
+
+#: includes/admin/admin.php:212
+#, php-format
+msgid "Order %s could not be exported."
+msgstr "Заказ %s не удалось экспортировать."
+
+#: includes/admin/admin.php:216
+#, php-format
+msgid "Order %s could not be exported because it was already exported."
+msgstr ""
+"Заказ %s не может быть экспортирован, так как он уже был экспортирован ранее."
+
+#: includes/admin/admin.php:222
+#, php-format
+msgid "Order %s was successfully updated."
+msgstr "Заказ %s был успешно обновлён."
+
+#: includes/admin/admin.php:224 includes/classes/ajax.php:218
+#, php-format
+msgid "Order %s could not be updated."
+msgstr "Заказ %s не удалось обновить."
+
+#: includes/admin/admin.php:227
+#, php-format
+msgid "Order %s could not be updated because it was not exported yet."
+msgstr "Заказ %s не был обновлён, так как он ещё не экспортирован."
+
+#: includes/admin/admin.php:233
+#, php-format
+msgid "Order %s was successfully canceled."
+msgstr "Заказ %s был успешно отменён."
+
+#: includes/admin/admin.php:235
+#, php-format
+msgid "Order %s could not be canceled."
+msgstr "Заказ %s не может быть отменён."
+
+#: includes/admin/admin.php:238
+#, php-format
+msgid "Order %s could not be canceled because it was not exported yet."
+msgstr "Заказ %s не может быть отменён, так как он ещё не экспортирован."
+
+#: includes/admin/admin.php:277 includes/classes/order.php:381
+#, php-format
+msgid "The order #%s was cancel by manager."
+msgstr "Заказ #%s был отменён менеджером."
+
+#: includes/admin/admin.php:282
+#, php-format
+msgid "Cannot cancel order #%s because it is not editable."
+msgstr ""
+"Невозможно отменить заказ #%s потому что он не доступен для редактирования."
+
+#: includes/admin/order-list-table.php:22
+msgid "Russian Post Order"
+msgstr "Заказ почты РФ"
+
+#: includes/admin/order-list-table.php:59
+#, php-format
+msgctxt "All orders status"
+msgid "All orders <span class=\"count\">(%s)</span>"
+msgid_plural "All orders <span class=\"count\">(%s)</span>"
+msgstr[0] "Все заказы <span class=\"count\">(%s)</span>"
+msgstr[1] "Все <span class=\"count\">(%s)</span> заказа"
+msgstr[2] "Все <span class=\"count\">(%s)</span> заказов"
+
+#: includes/admin/order-list-table.php:107
+msgid "Export"
+msgstr "Экспортировать"
+
+#: includes/admin/order-list-table.php:108
+msgid "Update"
+msgstr "Обновить"
+
+#: includes/admin/order-list-table.php:109
+#: includes/admin/order-list-table.php:409
+msgid "Cancel"
+msgstr "Отменить"
+
+#: includes/admin/order-list-table.php:144
+msgid "Order"
+msgstr "Заказ"
+
+#: includes/admin/order-list-table.php:145
+#: templates/views/html-order-tracking-history.php:49
+msgid "Status"
+msgstr "Статус"
+
+#: includes/admin/order-list-table.php:146
+msgid "Customer"
+msgstr "Покупатель"
+
+#: includes/admin/order-list-table.php:147
+msgid "Delivery"
+msgstr "Доставка"
+
+#: includes/admin/order-list-table.php:148
+msgid "Shipment type"
+msgstr "Тип отправления"
+
+#: includes/admin/order-list-table.php:149
+msgid "Payment"
+msgstr "Оплата"
+
+#: includes/admin/order-list-table.php:150
+msgid "Tracking number"
+msgstr "Номер отслеживания"
+
+#: includes/admin/order-list-table.php:151
+msgid "Order Date"
+msgstr "Дата заказа"
+
+#: includes/admin/order-list-table.php:152
+msgid "Actions"
+msgstr "Действия"
+
+#: includes/admin/order-list-table.php:215
+msgid "Delivery to customer shipping address"
+msgstr "Доставка до адреса покупателя"
+
+#: includes/admin/order-list-table.php:220
+msgid "Delivery to Pochtamat"
+msgstr "Доставка в Почтамат"
+
+#: includes/admin/order-list-table.php:220
+msgid "Delivery to postal office of Russian Post"
+msgstr "Доставка в отделение почты РФ"
+
+#: includes/admin/order-list-table.php:227
+#: includes/admin/order-list-table.php:232
+#: includes/admin/order-list-table.php:243
+#, php-format
+msgid "Address: %s"
+msgstr "Адрес: %s"
+
+#: includes/admin/order-list-table.php:241
+msgid ""
+"Note! The address may not be accurate as it has not been validated. Please "
+"recheck the recipients address before sending."
+msgstr ""
+"Примечание! Адрес может быть неточным, так как он не был подтвержден. "
+"Пожалуйста, перепроверьте адрес получателя перед отправкой."
+
+#: includes/admin/order-list-table.php:276
+msgctxt "shipment type"
+msgid "Courier"
+msgstr "Курьерская доставка"
+
+#: includes/admin/order-list-table.php:280
+msgctxt "shipment type"
+msgid "Postamat"
+msgstr "Доставка в Почтамат"
+
+#: includes/admin/order-list-table.php:283
+msgctxt "shipment type"
+msgid "Postal office"
+msgstr "Доставка в отделение почты"
+
+#: includes/admin/order-list-table.php:298
+#: includes/admin/order-list-table.php:311
+#, php-format
+msgid "Order %s"
+msgstr "Заказ %s"
+
+#: includes/admin/order-list-table.php:310
+msgid "Edit this order"
+msgstr "Редактировать этот заказ"
+
+#: includes/admin/order-list-table.php:325
+#, php-format
+msgid ""
+"Status \"%s\" means the order is only created but was not exported to "
+"Russian Post yet"
+msgstr ""
+"Статус \"%s\" означает, что данный заказ только создан но ещё не был "
+"экспортирован в почту РФ"
+
+#: includes/admin/order-list-table.php:328
+msgid "This order was canceled by the manager of the shop"
+msgstr "Этот заказ был отменён менеджером магазина"
+
+#: includes/admin/order-list-table.php:331
+msgid "This order was successful exported to Russia Post"
+msgstr "Этот заказ был успешно экспортьирован в почту РФ"
+
+#: includes/admin/order-list-table.php:334
+#, php-format
+msgid "Status of Russian Post order is %s"
+msgstr "Статус заказа почты РФ %s"
+
+#: includes/admin/order-list-table.php:353
+#, php-format
+msgctxt "%s = human-readable time difference"
+msgid "%s ago"
+msgstr "%s назад "
+
+#: includes/admin/order-list-table.php:357
+msgid "j M Y"
 msgstr ""
 
-#: includes/class-wc-russian-gateway-cod.php:88
-msgid "Description"
-msgstr "Описание"
+#: includes/admin/order-list-table.php:391
+msgid "Export order"
+msgstr "Экспортировать заказ"
 
-#: includes/class-wc-russian-gateway-cod.php:90
-msgid "Payment method description that the customer will see on your website."
+#: includes/admin/order-list-table.php:392
+msgid "Export order to Russian Post"
+msgstr "Экспортировать заказ в почту РФ"
+
+#: includes/admin/order-list-table.php:400
+msgid "Update order inform"
+msgstr "Обновить информацию заказа"
+
+#: includes/admin/order-list-table.php:401
+msgid ""
+"Force update order information like as delivery status and change order data "
+"in Russian Post"
 msgstr ""
+"Принудительное обновление информации о заказе, например статус доставки и "
+"изменение данных заказа в Почте России"
 
-#: includes/class-wc-russian-gateway-cod.php:95
-msgid "Instructions"
-msgstr "Инструкция"
+#: includes/admin/order-list-table.php:410
+msgid "Remove order from Russian Post"
+msgstr "Удалить заказ из почты РФ"
 
-#: includes/class-wc-russian-gateway-cod.php:97
-msgid "Instructions that will be added to the thank you page."
+#: includes/admin/order-list-table.php:505
+msgid "No Russian Post orders found."
+msgstr "Нет ни одного заказа для почты РФ"
+
+#: includes/admin/orders-admin.php:19
+msgid "Russian Post - Order information"
+msgstr "Почта России - Информация"
+
+#: includes/admin/orders-admin.php:38
+msgid ""
+"The information about the order will become available only after the order "
+"has been sent to Russian Post."
 msgstr ""
+"Информация о заказе станет доступна только после отправки заказа в Почту "
+"России."
 
-#: includes/class-wc-russian-post-checkout.php:119
-msgid "Failed to set pickup point"
-msgstr "Неудалось установить пункт выдачи"
+#: includes/admin/orders-admin.php:51
+msgid "This order doesnt utilize the Russian Post shipping method."
+msgstr "В этом заказе не используется способ доставки Почтой России."
 
-#: includes/class-wc-russian-post-checkout.php:191
-#: includes/class-wc-russian-post-checkout.php:205
-msgid "Follow delivery status"
-msgstr "Смотреть стаутс доставки"
+#: includes/admin/products-admin.php:34
+msgid "TN VED code"
+msgstr "Код ТН ВЭД"
 
-#: includes/class-wc-russian-post-checkout.php:276
-msgid "SMS notices"
-msgstr "СМС уведомление"
+#: includes/admin/products-admin.php:35
+msgid "Enter TN VED code for this product"
+msgstr "Введите ТН ВЭД код для данного товара"
 
-#: includes/class-wc-russian-post-checkout.php:280
-msgid "I would like get SMS notices"
-msgstr "Я хочу получать СМС уведомления"
+#: includes/admin/products-admin.php:37
+msgid ""
+"This code is required for international shipping. If you do not enter the "
+"code, you cannot send this product to a foreign country via Russian Post."
+msgstr ""
+"Этот код необходим для международной доставки. Если вы не введете код, вы не "
+"сможете отправить этот товар в другую страну Почтой России."
 
-#: includes/class-wc-russian-post-checkout.php:522
-#: templates/html-modal-map.php:13
-msgid "Choose delivery point"
-msgstr "Выбрать пункт выдачи"
-
-#: includes/class-wc-russian-post-checkout.php:534
-msgid "You have chosen delivery point"
-msgstr "Вы выбрали пункт выдачи"
-
-#: includes/class-wc-russian-post-checkout.php:535
-msgid "Another delivery point"
-msgstr "Другой пункт выдачи"
-
-#: includes/class-wc-russian-post-checkout.php:541
-#: templates/html-modal-map.php:30
-msgid "Delivery point"
-msgstr "Пункт выдачи"
-
-#: includes/class-wc-russian-post-checkout.php:575
+#. translators: Placeholder: %s - plugin name
+#: includes/admin/setup-wizard.php:145
 #, php-format
-msgid "from %s"
-msgstr "от %s"
+msgid "Welcome to setup of the plugin %s!"
+msgstr "Добро пожаловать в установку плагина %s!"
 
-#: includes/class-wc-russian-post-checkout.php:576
-#: includes/class-wc-russian-post-checkout.php:582
+#: includes/admin/setup-wizard.php:165
 #, php-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] "%d день"
-msgstr[1] "%d дня"
-msgstr[2] "%d дней"
+msgid ""
+"<p><strong>Note:</strong> You must have a <a href=\"%s\" target=\"_blank"
+"\">Russian Post account</a> with a valid contract to complete setup."
+msgstr ""
+"<p><strong>Примечание</strong>. Для завершения настройки у вас должна быть "
+"<a href=\"%s\" target=\"_blank\">учетная запись Почты России</a> с "
+"действующим договором.</p>"
 
-#: includes/class-wc-russian-post-checkout.php:578
+#: includes/admin/setup-wizard.php:167
 #, php-format
-msgctxt "количество дней ДО"
-msgid " to %s"
-msgstr " до %s"
+msgid ""
+"<p>Not ready to setup yet? You can do this later on the <a href=\"%s"
+"\">plugin settings page</a>.</p>"
+msgstr ""
+"<p>Еще не готовы к настройке? Вы можете сделать это позже <a href=\"%s\">на "
+"странице настроек плагина</a>.</p>"
 
-#: includes/class-wc-russian-post-checkout.php:584
+#: includes/admin/setup-wizard.php:175
+msgid "Authorization data from Russian Post API"
+msgstr "Данные авторизации от API Почты России"
+
+#: includes/admin/setup-wizard.php:177
 #, php-format
-msgctxt "количество дней ДО"
-msgid "to %s"
-msgstr "до %s"
+msgid ""
+"The plugin needs authorization data from the Russian Post API to work. If "
+"you do not have access to your personal account of the Russian Post, then "
+"you need to create one <a href=\"%s\" target=\"_blank\">on this page</a>."
+msgstr ""
+"Плагину для работы нужны авторизационные данные от API Почты России. Если у "
+"вас нет доступа к личному кабинету Почты России, то вам необходимо создать "
+"его <a href=\"%s\" target=\"_blank\">на этой странице</a>."
 
-#: includes/class-wc-russian-post-checkout.php:588
+#: includes/admin/setup-wizard.php:184 includes/classes/integration.php:60
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: includes/admin/setup-wizard.php:185 includes/classes/integration.php:62
+msgid "Phone number or email"
+msgstr "Телефон или емайл"
+
+#: includes/admin/setup-wizard.php:186 includes/classes/integration.php:63
+msgid "Enter your username from Russian Post account"
+msgstr "Введите имя пользователя от аккаунта Почты РФ"
+
+#: includes/admin/setup-wizard.php:196 includes/admin/setup-wizard.php:490
+#: includes/classes/integration.php:73 includes/classes/integration.php:261
+msgid "Password"
+msgstr "Пароль"
+
+#: includes/admin/setup-wizard.php:197 includes/admin/setup-wizard.php:491
+#: includes/classes/integration.php:75 includes/classes/integration.php:262
+msgid "Enter your password"
+msgstr "Введите ваш пароль"
+
+#: includes/admin/setup-wizard.php:198 includes/classes/integration.php:76
+msgid ""
+"Enter password from your Russian Post account. Notice: Password should not "
+"includes special symbols like as #,%,&,$,! etc"
+msgstr ""
+"Введите ваш пароль от аккаунта Почты РФ. Заметка: Пароль не должен содержать "
+"такие спец символы как #,%,&,$,! и т.д."
+
+#: includes/admin/setup-wizard.php:208 includes/classes/integration.php:85
+msgid "Auth token"
+msgstr "Токен авторизации"
+
+#: includes/admin/setup-wizard.php:209 includes/classes/integration.php:87
+msgid "Enter your authorization token"
+msgstr "Введите ваш токен авторизации"
+
+#: includes/admin/setup-wizard.php:210 includes/classes/integration.php:88
+msgid ""
+"You can get the token on your account page of Russian Post. It locate on <a "
+"href=\"https://otpravka.pochta.ru/settings#/api-settings\">settings API "
+"page</a>."
+msgstr ""
+"Получить токен можно на странице личного кабинета Почты России. Он находится "
+"на <a href=\"https://otpravka.pochta.ru/settings#/api-settings\">странице "
+"настроек API</a>."
+
+#: includes/admin/setup-wizard.php:227 includes/classes/integration.php:337
+msgid "Can not save settings. Account username must be email or phone number"
+msgstr ""
+"Не возможно сохранить настройки. Имя пользователя (логин) должно быть email "
+"или номером телефона."
+
+#: includes/admin/setup-wizard.php:231
+msgid ""
+"The password cannot be empty. Please enter your correct account password."
+msgstr ""
+"Пароль не может быть пустым. Пожалуйста, введите правильный пароль учетной "
+"записи."
+
+#: includes/admin/setup-wizard.php:235
+msgid "The token cannot be empty. Please enter your API Token."
+msgstr "Токен не может быть пустым. Пожалуйста, введите ваш токен API."
+
+#: includes/admin/setup-wizard.php:248
+msgid "Dimensions and weight parameters of the goods"
+msgstr "Габаритные и весовые параметры товара"
+
+#: includes/admin/setup-wizard.php:250
+msgid ""
+"Specify the average parameters of the dimensions and weight of one product. "
+"These values will be used when calculating the cost of delivery if this or "
+"that parameter is not specified in the product card."
+msgstr ""
+"Укажите средние параметры габаритов и веса одного товара. Эти значения будут "
+"использоваться при расчете стоимости доставки, если тот или иной параметр не "
+"указан в карточке товара."
+
+#: includes/admin/setup-wizard.php:257 includes/classes/integration.php:105
+msgid "Weight, (gram)"
+msgstr "Вес (грамм)"
+
+#: includes/admin/setup-wizard.php:259
+msgid "E.g 500"
+msgstr "Например 500"
+
+#: includes/admin/setup-wizard.php:270 includes/classes/integration.php:111
+msgid "Height, (mm.)"
+msgstr "Высота (мм.)"
+
+#: includes/admin/setup-wizard.php:272 includes/admin/setup-wizard.php:285
+#: includes/admin/setup-wizard.php:298
+msgid "E.g 150"
+msgstr "Например 150"
+
+#: includes/admin/setup-wizard.php:283 includes/classes/integration.php:117
+msgid "Width, (mm.)"
+msgstr "Ширина (мм.)"
+
+#: includes/admin/setup-wizard.php:296 includes/classes/integration.php:123
+msgid "Length, (mm.)"
+msgstr "Длина (мм.)"
+
+#: includes/admin/setup-wizard.php:315
+msgid "Weight"
+msgstr "Вес"
+
+#: includes/admin/setup-wizard.php:316
+msgid "Height"
+msgstr "Высота"
+
+#: includes/admin/setup-wizard.php:317
+msgid "Width"
+msgstr "Ширина"
+
+#: includes/admin/setup-wizard.php:318
+msgid "Length"
+msgstr "Длина"
+
+#: includes/admin/setup-wizard.php:326
+#, php-format
+msgid "Parameter %s cannot be empty"
+msgstr "Параметр %s не может быть пустым"
+
+#: includes/admin/setup-wizard.php:328
+#, php-format
+msgid "Parameter %s must be integer"
+msgstr "Значение параметра %s должно быть целым числом"
+
+#: includes/admin/setup-wizard.php:343
+msgid "Orders parameters"
+msgstr "Параметры заказов"
+
+#: includes/admin/setup-wizard.php:345
+msgid ""
+"Settings for order parameters that will be exported to the personal account "
+"of the Russian Post"
+msgstr ""
+"Настройки параметров заказа, которые будут экспортироваться в личный кабинет "
+"Почты России"
+
+#: includes/admin/setup-wizard.php:350 includes/classes/integration.php:180
+msgid "Order export type"
+msgstr "Тип экспорта заказа"
+
+#: includes/admin/setup-wizard.php:354 includes/classes/integration.php:185
+msgid "Otpravka"
+msgstr "Отправка"
+
+#: includes/admin/setup-wizard.php:355 includes/classes/integration.php:186
+msgid "Widget"
+msgstr "Виджет"
+
+#: includes/admin/setup-wizard.php:363
+#, php-format
+msgid ""
+"The type of export of the order will depend on which personal account the "
+"order will be exported to. <a href=\"%s\" target=\"_blank\">Personal "
+"account  <strong>Widget</strong></a>. <a href=\"%s\" target=\"_blank"
+"\">Personal account <strong>Otpravka</strong></a>."
+msgstr ""
+"Тип экспорта заказа будет зависеть от того, в какой личный кабинет будет "
+"экспортироваться заказ. <a href=\"%s\" target=\"_blank\">Личный кабинет "
+"<strong>Виджета</strong></a>. <a href=\"%s\" target=\"_blank\">Личный "
+"кабинет <strong>Отправки</strong></a>."
+
+#: includes/admin/setup-wizard.php:367 includes/classes/integration.php:191
+msgid "Export orders automatically"
+msgstr "Экспортировать заказы автоматически"
+
+#: includes/admin/setup-wizard.php:372
+msgid ""
+"Orders will be automatically exported to the dashboard of the Russian Post "
+"when the selected status is assigned to the order."
+msgstr ""
+"Заказы будут автоматически экспортироваться в личный кабинет Почты России "
+"при присвоении заказу выбранного статуса."
+
+#: includes/admin/setup-wizard.php:384 includes/classes/integration.php:198
+msgid "Order statuses for export"
+msgstr "Статусы заказа для экспорта"
+
+#: includes/admin/setup-wizard.php:395 includes/classes/integration.php:213
+msgid "Choose order status"
+msgstr "Выберите статус заказа"
+
+#: includes/admin/setup-wizard.php:400 includes/classes/integration.php:211
+msgid "Choose order status for auto export"
+msgstr "Выберите статус заказ для автоматического экспорта"
+
+#: includes/admin/setup-wizard.php:408 includes/classes/integration.php:217
+msgid "VAT rate"
+msgstr "Налоговая ставка"
+
+#: includes/admin/setup-wizard.php:412 includes/classes/integration.php:222
+msgid "Without VAT"
+msgstr "Без НДС"
+
+#: includes/admin/setup-wizard.php:418 includes/classes/integration.php:227
+msgid "Choose your VAT rate"
+msgstr "Выберите вашу налоговую ставку"
+
+#: includes/admin/setup-wizard.php:453
+msgid "Tracking parameters"
+msgstr "Параметры отслеживания"
+
+#: includes/admin/setup-wizard.php:455 includes/classes/integration.php:246
+msgid ""
+"To use this option, you need to provide your credentials for the Tracking "
+"Russian Post service. You can obtain these credentials <a href=\"https://"
+"tracking.pochta.ru/access-settings\" target=\"_blank\">here</a>"
+msgstr ""
+"Чтобы использовать эти опции, вам необходимо указать свои учетные данные от "
+"сервиса «Отслеживание Почты России». Вы можете получить эти данные <a href="
+"\"https://tracking.pochta.ru/access-settings\" target=\"_blank\">здесь</a>"
+
+#: includes/admin/setup-wizard.php:462 includes/classes/integration.php:249
+msgid "Enable tracking"
+msgstr "Включить отслеживание"
+
+#: includes/admin/setup-wizard.php:467
+msgid ""
+"Track changes in delivery status for orders. The status is checked "
+"automatically according to the schedule once a day."
+msgstr ""
+"Отслеживание изменений статуса доставки заказов. Статус проверяется "
+"автоматически по расписанию один раз в сутки."
+
+#: includes/admin/setup-wizard.php:476 includes/classes/integration.php:255
+msgid "Login"
+msgstr "Логин"
+
+#: includes/admin/setup-wizard.php:477 includes/classes/integration.php:256
+msgid "Enter your login"
+msgstr "Введите ваш логин"
+
+#: includes/admin/setup-wizard.php:505 includes/classes/integration.php:267
+msgid "Complete status"
+msgstr "Статус завершеного заказа"
+
+#: includes/admin/setup-wizard.php:509 includes/admin/setup-wizard.php:533
+#: includes/admin/setup-wizard.php:558 includes/classes/integration.php:272
+#: includes/classes/integration.php:287 includes/classes/integration.php:303
+msgid "Non use"
+msgstr "Не использовать"
+
+#: includes/admin/setup-wizard.php:517 includes/classes/integration.php:279
+msgid "Choose the status for delivered orders."
+msgstr "Выберите статус для заказов которые были доставлены до покупателя."
+
+#: includes/admin/setup-wizard.php:529 includes/classes/integration.php:282
+msgid "In delivering status"
+msgstr "Статус \"Доставляется\""
+
+#: includes/admin/setup-wizard.php:542 includes/classes/integration.php:295
+msgid ""
+"Select a status for orders in transit. NOTE: Do not use this option if you "
+"do not have the appropriate status for the order."
+msgstr ""
+"Выберите статус для заказов которые находятся в процессе доставки. "
+"ПРИМЕЧАНИЕ. Не используйте эту опцию, если у вас нет соответствующего "
+"статуса для заказа."
+
+#: includes/admin/setup-wizard.php:554 includes/classes/integration.php:298
+msgid "Cancel status"
+msgstr "Статус \"Отменён\""
+
+#: includes/admin/setup-wizard.php:564 includes/classes/integration.php:308
+msgid ""
+"Select a status for canceled orders. NOTE: Do not use this option if you do "
+"not want the order to be canceled in case of failed delivery.."
+msgstr ""
+"Выберите статус для заказов которые были отменены. ПРИМЕЧАНИЕ. Не "
+"используйте эту опцию, если вы не хотите, чтобы заказ был отменен в случае "
+"неудачной доставки."
+
+#: includes/admin/setup-wizard.php:588
+msgid ""
+"Login and password can not be empty if you want to use Tracking options. "
+"Please enter your credential data from the tracking service or disable the "
+"tracking option."
+msgstr ""
+"Логин и пароль не могут быть пустыми, если вы хотите использовать параметры "
+"отслеживания. Пожалуйста, введите свои учетные данные из службы отслеживания "
+"или отключите опцию отслеживания."
+
+#: includes/admin/setup-wizard.php:611 includes/classes/integration.php:134
+msgid "State suggestions"
+msgstr "Подсказки для \"Область/Район\""
+
+#: includes/admin/setup-wizard.php:616 includes/classes/integration.php:135
+msgid ""
+"Allow auto-suggestions for \"State\" field on checkout page. It works only "
+"Russian`s addresses."
+msgstr ""
+"Разрешить авто-подсказки для поля \"Регион\" на странице оформления заказа. "
+"Работает только для адресов России."
+
+#: includes/admin/setup-wizard.php:624 includes/classes/integration.php:141
+msgid "City suggestions"
+msgstr "Подсказки для \"Населённый пункт\""
+
+#: includes/admin/setup-wizard.php:629 includes/classes/integration.php:142
+msgid ""
+"Allow auto-suggestions for \"City\" field on checkout page. It works only "
+"Russian`s addresses."
+msgstr ""
+"Разрешить авто-подсказки для поля \"Населённый пункт\" на странице "
+"оформления заказа. Работает только для адресов России."
+
+#: includes/admin/setup-wizard.php:637 includes/classes/integration.php:148
+msgid "Address suggestions"
+msgstr "Подсказки для \"Адрес\""
+
+#: includes/admin/setup-wizard.php:642 includes/classes/integration.php:149
+msgid ""
+"Allow auto-suggestions for \"Address\" field on checkout page. It works only "
+"Russian`s addresses."
+msgstr ""
+"Разрешить авто-подсказки для поля \"Адрес\" на странице оформления заказа. "
+"Работает только для адресов России."
+
+#: includes/admin/setup-wizard.php:650
+msgid "Fill postcode field"
+msgstr "Заполнять поле \"Почтовый индекс\""
+
+#: includes/admin/setup-wizard.php:655 includes/classes/integration.php:156
+msgid ""
+"Enable this option to allow to fill the field of zipcode by selected "
+"address. It works only if \"Address suggestions\" option is enabled."
+msgstr ""
+"Включите эту опцию если хотите чтобы поле \"Почтовый индекс\" заполнялось "
+"автоматически при выборе адреса. Работает только если включена опция "
+"\"Подсказки для поля адрес\"."
+
+#: includes/admin/setup-wizard.php:663
+msgid "Debug mode"
+msgstr "Режим отладки"
+
+#: includes/admin/setup-wizard.php:669
+#, php-format
+msgid ""
+"In debug mode, all requests and responses from the Russian Post server will "
+"be written to <a href=\"%s\">a log file</a>. It is necessary in case of "
+"finding out the reasons for a malfunctioning plugin. Do not use this option "
+"unless necessary."
+msgstr ""
+"В режиме отладки все запросы и ответы от сервера Почты России будут "
+"записываться в <a href=\"%s\">лог</a>. Это необходимо в случае выяснения "
+"причин некорректной работы плагина. Не используйте эту опцию без "
+"необходимости."
+
+#: includes/admin/setup-wizard.php:715
+msgid "Activate license"
+msgstr "Активировать лицензию"
+
+#: includes/admin/setup-wizard.php:716
+msgid "Activate your license key"
+msgstr "Активировать ваш лицензионный ключ"
+
+#: includes/admin/setup-wizard.php:717
+msgid ""
+"To correct the plugin work, need to enter and activate a license key. Keep "
+"in your mind, without a license key, you will not be able to get updates, "
+"support and many functions will not be available to use."
+msgstr ""
+"Для корректной работы плагина необходимо ввести и активировать лицензионный "
+"ключ. Имейте в виду, без лицензионного ключа вы не сможете получать "
+"обновления, поддержку и многие функции будут недоступны для использования."
+
+#: includes/admin/setup-wizard.php:724
+msgid "Go to Dashboard"
+msgstr "Войти в аккаунт"
+
+#: includes/admin/setup-wizard.php:725
+msgid "Account settings"
+msgstr "Настройки аккаунта"
+
+#: includes/admin/setup-wizard.php:726
+msgid ""
+"Be sure to configure the settings of the user personal account. To log-in, "
+"you will need credential data from your account."
+msgstr ""
+"Обязательно настройте параметры личного кабинета пользователя. Для входа вам "
+"потребуются учетные данные от вашего аккаунта."
+
+#: includes/admin/setup-wizard.php:732
+msgid "Setup shipping"
+msgstr "Настроить доставку"
+
+#: includes/admin/setup-wizard.php:733
+msgid "Setup shipping methods"
+msgstr "Настроить способы доставки"
+
+#: includes/admin/setup-wizard.php:734
+msgid "Create shipping method of Russian Post and setup it."
+msgstr "Создайте способ доставки Почтой России и настройте его."
+
+#: includes/admin/setup-wizard.php:743
+msgid "Setup notification"
+msgstr "Настроить уведомления"
+
+#: includes/admin/setup-wizard.php:744
+msgid "Setup users email notifications"
+msgstr "Настроить емайл уведомления пользователя"
+
+#: includes/admin/setup-wizard.php:745
+msgid ""
+"You can also change users email notification settings. E.g email message and "
+"heading."
+msgstr ""
+"Вы также можете изменить настройки уведомлений по емайл для пользователей. "
+"Например, сообщение и заголовок емайла."
+
+#: includes/admin/setup-wizard.php:767
+msgid "Visit docs"
+msgstr "Документация"
+
+#: includes/admin/setup-wizard.php:768
+msgid "Get Support"
+msgstr "Поддержка"
+
+#: includes/admin/setup-wizard.php:769
+msgid "Leave a Review"
+msgstr "Оставить отзыв"
+
+#: includes/admin/setup-wizard.php:775
+msgid "Well, it is almost done. Just a little further."
+msgstr "Ну почти готов. Осталось совсем чуть-чуть."
+
+#: includes/admin/setup-wizard.php:778
+#, php-format
+msgid ""
+"<p>It seems you have not entered your credential data. You can <a href=\"%s"
+"\">go back and enter your credetial</a> or visit the <a href=\"%s\">plugin "
+"settings page</a></p>"
+msgstr ""
+"<p>Похоже, вы не ввели свои учетные данные. Вы можете <a href=\"%s"
+"\">вернуться и ввести свои учетные данные</a> или сделать это на <a href=\"%s"
+"\">странице настроек плагина</a></p>"
+
+#: includes/admin/setup-wizard.php:782
+#, php-format
+msgid "<small class=\"description\">Your licanse key: %s</small>"
+msgstr "<small class=\"description\">Ваш лицензионный ключ: %s</small>"
+
+#: includes/admin/setup-wizard.php:794
+msgid "Want to keep in touch?"
+msgstr "Хотите оставаться на связи?"
+
+#: includes/admin/setup-wizard.php:795
+msgid ""
+"To receive timely information about new versions of the plugin and other "
+"news related to the work of our plugins, join to our telegram channel."
+msgstr ""
+"Чтобы получать своевременную информацию о новых версиях плагина и других "
+"новостях, связанных с работой наших плагинов, присоединяйтесь к нашему "
+"каналу в Telegram."
+
+#: includes/admin/setup-wizard.php:796
+msgid "Join us"
+msgstr "Присоединяйтесь к нам"
+
+#: includes/classes/ajax.php:151
+msgid ""
+"Delivery to Postamat is not available for this type of shipment. Please "
+"choose a postal office or another shipping method."
+msgstr ""
+"Доставка в Почтамат не доступна для данного типа отправления. Пожалуйста, "
+"выберите почтовое отделение или другой метод доставки."
+
+#: includes/classes/ajax.php:200
+#, php-format
+msgid "The order %d was successfully exported to Russian"
+msgstr "Заказ %d был успешно экспортирован в Почту России"
+
+#: includes/classes/ajax.php:202
+#, php-format
+msgid ""
+"Failed to export orders to Russian Post. You can see the reason in the <a "
+"href=\"%s\" target=\"_blank\">notes to the order</a>."
+msgstr ""
+"Не удалось экспортировать заказ в Почту России. Вы можете посмотреть причину "
+"в <a href=\"%s\" target=\"_blank\">заметках заказа</a>."
+
+#: includes/classes/ajax.php:208
+#, php-format
+msgid "The order %d was successfully canceled"
+msgstr "Заказ %d был успешно отменён."
+
+#: includes/classes/ajax.php:210
+msgid "Failed to cancel orders from Russian Post."
+msgstr "Не удалось отменить заказ из Почты России."
+
+#: includes/classes/ajax.php:216
+#, php-format
+msgid "Information of order %d was updated"
+msgstr "Информация о заказе %d была обновлена."
+
+#: includes/classes/checkout.php:123
+msgid "I got it!"
+msgstr "Я понял!"
+
+#: includes/classes/checkout.php:264 templates/views/html-modal-map.php:13
+msgid "Choose postal office"
+msgstr "Выберите почтовое отделение"
+
+#: includes/classes/checkout.php:275
+msgid "Another postal office"
+msgstr "Другое почтовое отделение"
+
+#: includes/classes/checkout.php:285
+msgid "Postal office"
+msgstr "Почтовое отделение"
+
+#: includes/classes/checkout.php:308
 msgid "Time of delivery"
 msgstr "Время доставки"
 
-#: includes/class-wc-russian-post-checkout.php:694
-msgid "To continue you must select delivery point (post office) on the map"
+#: includes/classes/checkout.php:443
+msgid ""
+"You didnt select a postal office. Please choose a postal office to delivery "
+"your order."
 msgstr ""
-"Для продолжения вам нужно выбрать пункт выдачи (почтовое отделение) на карте"
+"Вы не выбрали почтовое отделение. Пожалуйста, выберите отделение Почты "
+"России для доставки вашего заказа."
 
-#: includes/emails/class-wc-russian-post-order-exception-email.php:162
-msgid "Plain text"
-msgstr "Обычый текст"
+#: includes/classes/checkout.php:445
+msgid ""
+"The city of chosen delivery point is not matched with your shipping city. "
+"Please select the correct delivery point, either change your shipping "
+"address or select another shipping method."
+msgstr ""
+"Город выбранного пункта доставки не совпадает с вашим городом доставки. "
+"Пожалуйста, выберите правильный пункт доставки, либо измените адрес "
+"доставки, либо выберите другой способ доставки."
 
-#: includes/emails/class-wc-russian-post-order-exception-email.php:163
-msgid "HTML"
+#: includes/classes/checkout.php:451
+#, php-format
+msgid ""
+"The payment method <strong>%s</strong> is unavailable for Postamat and ECOM "
+"shipping type. To continue with your order, please choose another payment or "
+"shipping method."
+msgstr ""
+"Метод оплаты <strong>%s</strong> недоступен для такого вида отпраления как "
+"ЕКОМ и Почтамат. Для продолжения оформления заказа, пожалуйста, выберите "
+"другой метод оплаты или метод доставки."
+
+#: includes/classes/checkout.php:458
+#, php-format
+msgid ""
+"Delivery to Postamat is available only for such types of shipment as \"%s\" "
+"and \"%s\""
+msgstr ""
+"Доставка в Почтаматы доступна только для таких видов отправления как \"%s\" "
+"и \"%s\""
+
+#: includes/classes/checkout.php:462
+msgid ""
+"The total dimensions of all products exceed the maximum allowable cell sizes "
+"of the chosen parcel locker. Please choose another parcel locker or shipping "
+"method."
+msgstr ""
+"Суммарные размеры всех товаров превышают максимально допустимые размеры "
+"ячеек выбранного постамата. Пожалуйста, выберите другой почтамат или способ "
+"доставки."
+
+#: includes/classes/checkout.php:482
+#, php-format
+msgid ""
+"The address \"%s\" you entered is unavailable to deliver by Russian Post. "
+"Please ensure your shipping address is correct."
+msgstr ""
+"Введенный вами адрес \"%s\" недоступен для доставки Почтой России. "
+"Пожалуйста, убедитесь, что ваш адрес доставки правильный."
+
+#: includes/classes/checkout.php:498
+msgid "The $order variable is not an object of the WC_Order class."
+msgstr "Переменная $order не является объектом класса WC_Order."
+
+#: includes/classes/checkout.php:517
+#, php-format
+msgid ""
+"Attention! The shipping method type has been changed from %s to %s. This "
+"means that the final shipping cost may also change both up and down."
+msgstr ""
+"Внимание! Тип метода дсотавки был изменён с %s на %s. Это означает, что "
+"итоговая стоимость доставки может измениться как в большую так и в меньшую "
+"сторону."
+
+#: includes/classes/checkout.php:554
+#, php-format
+msgid "Details of chosen %s"
+msgstr "Детали выбраного %s"
+
+#: includes/classes/checkout.php:554
+msgctxt "Предложный падеж"
+msgid "Postamat"
+msgstr "Постамата"
+
+#: includes/classes/checkout.php:554
+msgctxt "Предложный падеж"
+msgid "Postal office"
+msgstr "Почтового отделения"
+
+#: includes/classes/integration.php:18
+#, php-format
+msgid "Russian Post (v%s)"
+msgstr "Почта России (v%s)"
+
+#: includes/classes/integration.php:19
+#, php-format
+msgid "Main settings of <a href=\"%s\">%s</a>."
+msgstr "Основные настройки <a href=\"%s\">%s</a>."
+
+#: includes/classes/integration.php:55
+msgid "Authorization"
+msgstr "Авторизация"
+
+#: includes/classes/integration.php:100
+msgid "Goods dimensions"
+msgstr "Размеры товаров"
+
+#: includes/classes/integration.php:102
+msgid ""
+"Enter product`s default parameters. These parameters using only in case when "
+"product doesnt have it."
+msgstr ""
+"Введите параметры товара по умолчанию. Эти параметры используются только в "
+"том случае, если у товара они не указаны в карточке."
+
+#: includes/classes/integration.php:108
+msgid "Enter weight for single product."
+msgstr "Введите вес одного товара"
+
+#: includes/classes/integration.php:114
+msgid "Enter height for single product."
+msgstr "Введите высоту одного товара."
+
+#: includes/classes/integration.php:120
+msgid "Enter width for single product."
+msgstr "Введите ширину одного товара"
+
+#: includes/classes/integration.php:126
+msgid "Enter length for single product."
+msgstr "Введите длину одного товара."
+
+#: includes/classes/integration.php:129
+msgid "Order fields params"
+msgstr "Параметры полей формы заказа"
+
+#: includes/classes/integration.php:131
+msgid ""
+"Set up behaves fields of checkout form like as Address, City, Postal Code etc"
+msgstr ""
+"Настройте поведение полей формы оформления заказа, таких как адрес, город, "
+"почтовый индекс и т. д."
+
+#: includes/classes/integration.php:137 includes/classes/integration.php:144
+#: includes/classes/integration.php:151 includes/classes/integration.php:194
+msgid "Enable/Disable"
+msgstr "Вкл/Выкл"
+
+#: includes/classes/integration.php:155
+msgid "Fill postcode"
+msgstr "Заполнять \"Почтовый индекс\""
+
+#: includes/classes/integration.php:158
+msgid "Yes/No"
+msgstr "Да/Нет"
+
+#: includes/classes/integration.php:162
+msgid "Hide address & post code fields"
+msgstr "Прятать поля \"Адрес\" и \"Почтовый индекс\""
+
+#: includes/classes/integration.php:163
+msgid ""
+"Enable this option if you want to hide the address and postal code fields "
+"when the chosen shipping method type is \"To postal office\"."
+msgstr ""
+"Включите эту опцию если хотите что бы поля \"Адрес\" и \"Почтовый индекс\" "
+"не отображались в случае если выбран метод доставки с типом \"В отделение "
+"почты\"."
+
+#: includes/classes/integration.php:166 includes/classes/integration.php:173
+msgid "Enable or disable this option as you need"
+msgstr "Включите или отключите эту опцию, как вам нужно"
+
+#: includes/classes/integration.php:169
+msgid "Automatically close the map"
+msgstr "Автоматически закрывать карту"
+
+#: includes/classes/integration.php:170
+msgid "Close the map automatically when the customer has chosen postal office"
+msgstr "Автоматически закрывать карту, когда клиент выбрал почтовое отделение"
+
+#: includes/classes/integration.php:176
+msgid "Orders"
+msgstr "Заказы"
+
+#: includes/classes/integration.php:188
+msgid ""
+"Choose type of order export. Depending on the service you choose, orders "
+"will be sent to that service. For more information, please see the plugin "
+"documentation."
+msgstr ""
+"Выберите тип экспорта заказа. В зависимости от выбранной вами службы, заказы "
+"будут отправляться в эту службу. Для получения дополнительной информации см. "
+"документацию плагина."
+
+#: includes/classes/integration.php:192
+msgid "Enable auto orders export to Russian Post dashboard"
+msgstr "Включить автоматический экспорт заказов в ЛК Почты России"
+
+#: includes/classes/integration.php:230
+msgid "Debug"
+msgstr "Отладка"
+
+#: includes/classes/integration.php:234
+msgid "Enable debug mode"
+msgstr "Включить режим отладки/логирования"
+
+#: includes/classes/integration.php:236
+#, php-format
+msgid "All logs will be <a href=\"%s\">saved here</a>"
+msgstr "Все логи будут <a href=\"%s\">сохраняться тут</a>"
+
+#: includes/classes/integration.php:244
+msgid "Tracking"
+msgstr "Отслеживание"
+
+#: includes/classes/integration.php:251
+msgid "Enable delivery status tracking"
+msgstr "Включить отслеживание статуса доставки"
+
+#: includes/classes/integration.php:257
+msgid "Your login"
+msgstr "Ваш логин"
+
+#: includes/classes/integration.php:263
+msgid "Your password"
+msgstr "Ваш пароль"
+
+#: includes/classes/integration.php:355
+#, php-format
+msgid ""
+"<span class=\"status-successful-connect\">Account is connected</span> Count "
+"of requests %d from %d"
+msgstr ""
+"<span class=\"status-successful-connect\">Учётная запись Почты РФ "
+"подключена</span> Кол-во запросов %d из %d"
+
+#: includes/classes/integration.php:358
+msgid ""
+"<span class=\"status-fail-connect\">Your account is not connected</span> You "
+"are probably having a mistake in your account credential data. Make sure you "
+"have entered your account information correctly."
+msgstr ""
+"<span class=\"status-fail-connect\">Ваша учётная запись не подключена</span> "
+"Вероятно, у вас есть ошибка в данных вашей учетной записи. Убедитесь, что вы "
+"правильно ввели данные своей учетной записи."
+
+#: includes/classes/integration.php:360
+msgid ""
+"<span class=\"status-fail-connect\">Your account is not connected</span> You "
+"need to enter your credential data."
+msgstr ""
+"<span class=\"status-fail-connect\">Ваша учётная запись не подключена</span> "
+"Вам необходимо ввести свои учетные данные."
+
+#: includes/classes/integration.php:378
+#, php-format
+msgid ""
+"<p>Provide your authorization data from <a href=\"%s\" target=\"_blank"
+"\">Russian Post account</a></p>"
+msgstr ""
+"<p>Укажите свои данные авторизации от <a href=\"%s\" target=\"_blank"
+"\">учётной записи Почты РФ</a></p>"
+
+#: includes/classes/integration.php:384
+#, php-format
+msgid ""
+"<p>Before beginning usage of this plugin, please <a href=\"%s\" target="
+"\"_blank\">read documentation</a></p>"
+msgstr ""
+"<p>Перед началом использования плагина, пожалуйста <a href=\"%s\" target="
+"\"_blank\">почтите документацию</a></p>"
+
+#: includes/classes/integration.php:391
+#, php-format
+msgid ""
+"<p><a href=\"%s\" target=\"_blank\" class=\"button-secondary\">Your account "
+"dashboard here</a></p>"
+msgstr ""
+"<p><a href=\"%s\" target=\"_blank\" class=\"button-secondary\">Ваш личный "
+"кабинет здесь</a></p>"
+
+#: includes/classes/lifecycle.php:92
+msgid "Your dashboard link was updated"
+msgstr "Ссылка на ваш личный кабинет была обновлена"
+
+#: includes/classes/lifecycle.php:92
+msgid "Your new dashboard link was created"
+msgstr "Ссылка для вашего нового личного кабинета была создана"
+
+#: includes/classes/lifecycle.php:93
+#, php-format
+msgid "The plugin %s was activated"
+msgstr "Плагин %s был активирован"
+
+#: includes/classes/lifecycle.php:94
+#, php-format
+msgid ""
+"<p>To enter to your dashboard page, click the button below</p><center><a "
+"href=\"%s\" class=\"button\">Enter to dashboard</a></center>"
+msgstr ""
+"<p>Чтобы войти в ваш аккаунт, нажмите кнопку ниже</p><center><a href=\"%s\" "
+"class=\"button\">Войти в личный кабинет</a></center>"
+
+#: includes/classes/order.php:69
+#, php-format
+msgid "Cannot get delivery point data by ID %d"
+msgstr "Не удается получить данные точки доставки по ID %d"
+
+#: includes/classes/order.php:138
+msgid "The order has been assigned a tracking number"
+msgstr "Заказу присвоен номер отслеживания"
+
+#: includes/classes/order.php:186
+#, php-format
+msgid "The order status of Russian Post was changed from %s to %s"
+msgstr "Статус Почты России изменился с %s на %s"
+
+#: includes/classes/order.php:189
+#, php-format
+msgid "The order status of Russian Post was changed to %s"
+msgstr "Статус Почты России изменился на %s"
+
+#: includes/classes/order.php:212
+msgid "N/A"
+msgstr "Н/Д"
+
+#: includes/classes/order.php:243
+msgid "Undefined export order type"
+msgstr "Недопустимый тип экспорта заказа"
+
+#: includes/classes/order.php:261
+msgid "and"
+msgstr "и"
+
+#: includes/classes/order.php:263
+msgid "An error occurred during the order has been exported."
+msgstr "Во время экспорта заказа произошла неизвестная ошибка."
+
+#: includes/classes/order.php:285
+msgid "Cannot export order to Russian Post"
+msgstr "Невозможно экспортировать заказ в почту РФ"
+
+#: includes/classes/order.php:290
+#, php-format
+msgid "Error occurred in process export the order: %s"
+msgstr "Произошла ошибка в процессе экспорта заказа: %s"
+
+#: includes/classes/order.php:294
+#, php-format
+msgid "Failed to export the order %s. Error: %s"
+msgstr "Не удалось экспортировать заказ %s. Ошибка: %s"
+
+#: includes/classes/order.php:312
+msgid "Invalid export type parameter."
+msgstr "Недопустимый параметр типа экспорта."
+
+#: includes/classes/order.php:318 includes/classes/order.php:373
+msgid "Invalid external ID parameter."
+msgstr "Недопустимый параметр внешнего идентификатора."
+
+#: includes/classes/order.php:343
+msgid "Cannot update the order to Russian Post"
+msgstr "Невозможно обновить заказ в Почте России"
+
+#: includes/classes/order.php:348
+#, php-format
+msgid "Failed to get remote order data. Error: %s"
+msgstr "Не удалось получить данные удаленного заказа. Ошибка: %s"
+
+#: includes/classes/order.php:367
+msgid "Unsupported export type parameter."
+msgstr "Неподдерживаемый параметр типа экспорта."
+
+#: includes/classes/order.php:388
+#, php-format
+msgid "Failed to remove the order %s from Russian Post. Error: %s"
+msgstr "Не удалось удалить заказ %s из Почты России. Ошибка: %s"
+
+#: includes/classes/order.php:423
+msgid ""
+"The order has been automatically completed because it was delivered to "
+"receipt."
+msgstr ""
+"Заказ был автоматически завершен, потому что он был доставлен  до покупателя."
+
+#: includes/classes/order.php:438
+msgid "The order now is in delivering process."
+msgstr "Заказ сейчас находится в процессе доставки."
+
+#: includes/classes/order.php:447
+#, php-format
+msgid "The order was canceled. Reason: %s"
+msgstr "Заказ был отменён. Причина: %s"
+
+#: includes/classes/shipping-method-courier.php:12
+msgid "Russian Post - Courier (Woodev)"
+msgstr "Почта России - Курьер (Woodev)"
+
+#: includes/classes/shipping-method-courier.php:13
+msgid "Shipping method via Russian Post a courier to door"
+msgstr "Способ доставки через Почту России курьером до двери"
+
+#: includes/classes/shipping-method-postal.php:12
+msgid "Russian Post - Postal Office (Woodev)"
+msgstr "Почта России - Почтовое отделение (Woodev)"
+
+#: includes/classes/shipping-method-postal.php:13
+msgid "Shipping method via Russian Post to postal office"
+msgstr "Способ доставки через Почту России в почтовое отделение"
+
+#: includes/classes/soap/tracking.php:27
+msgid "Credentials of Tracking service cannot be empty."
+msgstr "Учетные данные службы отслеживания не могут быть пустыми."
+
+#: includes/classes/tracking-email.php:19
+msgid "Tracking number sending - Russian Post"
+msgstr "Отправка номера отслеживания - Почта России"
+
+#: includes/classes/tracking-email.php:20
+msgid ""
+"The tracking number email is sent to the customer as soon as the order is "
+"assigned a tracking number."
+msgstr ""
+"Письмо с номером отслеживания отправляется клиенту, как только заказу "
+"присваивается номер отслеживания."
+
+#: includes/classes/tracking-email.php:91
+#, php-format
+msgid "Available placeholders: %s"
 msgstr ""
 
-#: includes/emails/class-wc-russian-post-order-exception-email.php:164
-msgid "Multipart"
+#: includes/classes/tracking-email.php:95
+msgid "Message text"
+msgstr "Текст письма"
+
+#: includes/classes/tracking-email.php:98
+#, php-format
+msgid "Enter message that will be showing on email body. %s"
+msgstr "Введите сообщение, которое будет отображаться в теле письма. %s"
+
+#: includes/classes/tracking-email.php:108
+msgid "[{site_title}] - Order #{order_number} was exported to Russian Post."
 msgstr ""
+"[{site_title}] - Заказ #{order_number} был экспортирован в Почту России."
 
-#: templates/html-modal-map.php:15
-msgid "Close"
-msgstr "Закрыть"
+#: includes/classes/tracking-email.php:112
+msgid "Your order #{order_number} has been assigned a tracking number."
+msgstr "Вашему заказу #{order_number} был присвоен номер отслеживания."
 
-#: templates/html-modal-map.php:30
-msgid "Office"
-msgstr "Почтовое отделение"
+#: includes/classes/tracking-email.php:116
+msgid ""
+"Your order #{order_number} on web-site <a href=\"{site_url}\" target=\"_blank"
+"\">{site_title}</a> has been exported to Russian Post with tracking number "
+"{tracking_number}. You can track your order status {tracking_url}."
+msgstr ""
+"Ваш заказ #{order_number} на сайте <a href=\"{site_url}\" target=\"_blank"
+"\">{site_title}</a> был экспортирован в Почту России с номером отслеживания "
+"{tracking_number}. Вы можете отслеживать статус доставки вашего заказа по "
+"это ссылке {tracking_url}."
 
-#: templates/html-modal-map.php:52
-msgid "Pay by card"
-msgstr "Оплата картой"
+#: includes/classes/tracking-email.php:120
+msgid ""
+"Thanks for shopping with us. If you have any problems with delivery, please "
+"let us know."
+msgstr ""
+"Благодарим что покупаете у нас. Если у вас возникли проблемы с доставкой, "
+"пожалуйста, сообщите нам об этом."
 
-#: templates/html-modal-map.php:53
-msgid "Pay by cash"
-msgstr "Оплата наличными"
+#: includes/classes/webhooks.php:18
+#, php-format
+msgid "Webhook Request Body: %s"
+msgstr "Тело запроса веб-хука: %s"
 
-#: templates/html-modal-map.php:54
-msgid "Prepay only"
-msgstr "Только предоплата"
+#: includes/classes/webhooks.php:25
+#, php-format
+msgid "[Webhook Error]: %s"
+msgstr "[Веб-хук ошибка]: %s"
 
-#: templates/html-modal-map.php:64
-msgid "Content checking"
-msgstr "Проверка вложения"
+#: includes/classes/webhooks.php:29
+msgid "Bad request"
+msgstr "Неверный запрос"
 
-#: templates/html-modal-map.php:65
-msgid "Partian redemption"
-msgstr "Частичная доставка"
+#: includes/classes/webhooks.php:41
+msgid "Invalid data."
+msgstr "Неверные данные."
 
-#: templates/html-modal-map.php:66
-msgid "Fitting"
-msgstr "Примерка"
+#: includes/classes/webhooks.php:45
+msgid "Invalid GUID ID."
+msgstr "Недопустимый идентификатор GUID."
 
-#: templates/html-modal-map.php:67
-msgid "Functionality checking"
-msgstr "Проверка функциональности"
+#: includes/classes/webhooks.php:49
+msgid "Invalid GUID key."
+msgstr "Недопустимый ключ GUID."
 
-#: templates/html-modal-map.php:72
-msgid "Show more..."
-msgstr "Показать ещё..."
+#: includes/classes/webhooks.php:61
+#, php-format
+msgid "The order %s is not found."
+msgstr "Заказ %s не найден."
 
-#: templates/html-modal-map.php:74
-msgid "Pick-up here"
-msgstr "Забрать здесь"
+#: includes/functions.php:15
+msgid "Parcel"
+msgstr "Посылка"
 
-#: templates/html-modal-map.php:76
-msgid "Unable to deliver to this pickup point"
-msgstr "Невозможно доставить в этот пункт выдачи"
+#: includes/functions.php:16
+msgid "Online parcel"
+msgstr "Посылка онлайн"
 
-#: woodev-russian-post.php:307
+#: includes/functions.php:17
+msgid "Online courier"
+msgstr "Онлайн курьер"
+
+#: includes/functions.php:18
+msgid "EMS"
+msgstr "EMS"
+
+#: includes/functions.php:19
+msgid "EMS optimal"
+msgstr "EMS оптимальный"
+
+#: includes/functions.php:20
+msgid "EMS RT"
+msgstr "EMS RT"
+
+#: includes/functions.php:21
+msgid "Business courier"
+msgstr "Бизнес курьер"
+
+#: includes/functions.php:22
+msgid "Business courier express"
+msgstr "Бизнес курьер экспресс"
+
+#: includes/functions.php:23
+msgid "Parcel 1-st class"
+msgstr "Посылка 1-го класса"
+
+#: includes/functions.php:24
+msgid "Small packet"
+msgstr "Мелкий пакет"
+
+#: includes/functions.php:25
+msgid "ECOM"
+msgstr "ЕКОМ"
+
+#: includes/functions.php:26
+msgid "ECOM Marketplace"
+msgstr "ЕКОМ Маркетплейс"
+
+#: includes/functions.php:27
+msgid "ECOM Marketplace courier"
+msgstr "ЕКОМ Маркетплейс курьер"
+
+#: includes/functions.php:28
+msgid "Combined parcel"
+msgstr "Комбинированная посылка"
+
+#: includes/functions.php:48
+msgid "International"
+msgstr "Международная"
+
+#: includes/functions.php:191
 msgid "New"
 msgstr "Новый"
 
-#: woodev-russian-post.php:308
+#: includes/functions.php:192
+msgid "Exported"
+msgstr "Экспортирован"
+
+#: includes/functions.php:193
+msgid "Accepted"
+msgstr "Принят в обработку"
+
+#: includes/functions.php:194
+msgid "In delivery"
+msgstr "В процессе доставки"
+
+#: includes/functions.php:195
 msgid "Failed"
 msgstr "Неудавшийся"
 
-#: woodev-russian-post.php:309
-msgid "Shipped"
-msgstr "Доставляется"
+#: includes/functions.php:196
+msgid "Delivered"
+msgstr "Доставлен"
+
+#: includes/functions.php:197
+msgid "Canceled"
+msgstr "Отменён"
+
+#: includes/functions.php:561
+#, php-format
+msgid "Updated information for %d order."
+msgid_plural "Updated information for %d orders."
+msgstr[0] "Обновлена информация для %d заказа."
+msgstr[1] "Обновлена информация для %d заказов."
+msgstr[2] "Обновлена информация для %d заказов."
+
+#: includes/integrations/integration-edostavka.php:37
+msgid ""
+"This option unavailable because you are using suggestions options by CDEK "
+"plugin."
+msgstr ""
+"Эта опция недоступна потому что вы уже используете опции подсказок в плагине "
+"СДЭК."
+
+#: includes/integrations/integration-edostavka.php:136
+msgid ""
+"Unfortunately, we were unable to update the information about the "
+"settlement. Please try reloading the page and try again."
+msgstr ""
+"К сожалению, нам не удалось обновить информацию о населённом пункте. "
+"Пожалуйста, попробуйте перезагрузить страницу и повторите попытку."
+
+#: templates/emails/plain/tracking-number.php:20
+#: templates/emails/tracking-number.php:21
+msgid "More details of your order is below."
+msgstr "Более подробная информация о вашем заказе ниже."
+
+#: templates/views/html-authorization-status.php:29
+msgid "Current status connection"
+msgstr "Текущий статус соединения"
+
+#: templates/views/html-modal-map.php:16
+msgid "Close"
+msgstr "Закрыть"
+
+#: templates/views/html-order-delivery-point.php:39
+msgid "Name:"
+msgstr "Имя:"
+
+#: templates/views/html-order-delivery-point.php:44
+msgid "Address:"
+msgstr "Адрес:"
+
+#: templates/views/html-order-delivery-point.php:48
+msgid "Show address on the Yandex map"
+msgstr "Показать адрес на Яндекс картах"
+
+#: templates/views/html-order-delivery-point.php:55
+msgid "Pickup points note:"
+msgstr "Примечание пункта выдачи:"
+
+#: templates/views/html-order-delivery-point.php:62
+msgid "Office schedule:"
+msgstr "Режим работы:"
+
+#: templates/views/html-order-meta-box.php:16
+msgid "Status:"
+msgstr "Статус:"
+
+#: templates/views/html-order-meta-box.php:27
+msgid "Tracking code:"
+msgstr "Номер отслеживания:"
+
+#: templates/views/html-order-meta-box.php:34
+msgid "Latest update:"
+msgstr "Последнее обновление:"
+
+#: templates/views/html-order-meta-box.php:37
+#: templates/views/html-order-tracking-history.php:66
+#, php-format
+msgid "%s at %s"
+msgstr "%s в %s"
+
+#: templates/views/html-order-meta-box.php:45
+msgid "History:"
+msgstr "История:"
+
+#: templates/views/html-order-tracking-history.php:34
+msgid "Tracking history"
+msgstr "История отслеживания"
+
+#: templates/views/html-order-tracking-history.php:43
+msgid "Current delivery status"
+msgstr "Текущий статус доставки"
+
+#: templates/views/html-order-tracking-history.php:50
+msgid "Date"
+msgstr "Дата"
+
+#: templates/views/html-order-tracking-history.php:51
+msgid "Location"
+msgstr "Локация"
+
+#: woodev-russian-post.php:30 woodev-russian-post.php:419
+msgid "Russian Post EMS integration with Woocommerce"
+msgstr "Интеграция Почты России EMS с Woocommerce"
+
+#: woodev-russian-post.php:239
+msgid "You have successfully exported your first order to Russian Post!"
+msgstr "Вы успешно экспортировали свой первый заказ в Почту России!"
+
+#: woodev-russian-post.php:246
+msgid "You have the first order that was delivered to the recipient."
+msgstr "У вас есть первый заказ, который был доставлен получателю."
+
+#: woodev-russian-post.php:285
+msgid "The order was successfully auto-exported to Russian Post."
+msgstr ""
+"Заказ был успешно экспортирован в Почту России в автоматическом режиме."
 
 #: woodev-russian-post.php:310
-msgid "Deleted"
-msgstr "Удалён"
-
-#: woodev/bootstrap.php:133
-msgid ""
-"Следующий плагин отключен, потому что он устарел и несовместим с новыми "
-"плагинами на вашем сайте:"
-msgid_plural ""
-"Следующие плагины отключены, потому что они устарели и несовместимы с новыми "
-"плагинами на вашем сайте:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: woodev/bootstrap.php:144
 #, php-format
 msgid ""
-"Что бы решить эту проблему, пожалуйста %1$sобновите%2$s (рекомендуется) "
-"%3$sили%4$s %5$sдеактивируйте%6$s вышеуказанный плагин, или "
-"%7$sдеактивируйте эти%8$s:"
-msgid_plural ""
-"Что бы решить эту проблему, пожалуйста %1$sобновите%2$s (рекомендуется) "
-"%3$sили%4$s %5$sдеактивируйте%6$s вышеуказанные плагины, или "
-"%7$sдеактивируйте эти%8$s:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: woodev/class-helper.php:393
-msgctxt "coordinating conjunction for a list of items: a, b, and c"
-msgid "and"
+"Hi there! It looks like you have upgraded %1$s from an older version. We "
+"have added lots of new features, please %2$scheck out the documentation%3$s "
+"for an overview and some helpful upgrading tips!"
 msgstr ""
+"Привет! Похоже, вы обновили %1$s со старой версии. Мы добавили множество "
+"новых функций. %2$sознакомьтесь с документацией%3$s, чтобы получить "
+"актуальную информацию и несколько полезных советов по обновлению!"
 
-#: woodev/class-plugin-compatibility.php:141
-msgid "WooCommerce"
-msgstr ""
-
-#: woodev/class-plugin.php:167
-msgid "Указать лицензию"
-msgstr ""
-
-#: woodev/class-plugin.php:168
-msgid "Закрыть"
-msgstr ""
-
-#: woodev/class-plugin.php:170
-msgid ""
-"Во время загрузки данных о лицензии произошла ошибка. Закройте это окно и "
-"попробуйте снова."
-msgstr ""
-
-#: woodev/class-plugin.php:257
+#: woodev-russian-post.php:321
 #, php-format
 msgid ""
-"Для работы %1$s необходимо PHP расширение %2$s. Свяжитесь с вашим хостинг "
-"провайдером, что бы установить нужное расширение/библиотеку."
-msgid_plural ""
-"Для работы %1$s необходимы PHP расширения %2$s. Свяжитесь с вашим хостинг "
-"провайдером, что бы установить все нужные для работы расширения/библиотеки."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+"Thanks for installing <strong>%1$s</strong>! To get started, take a few "
+"minutes to %2$sread the documentation%3$s"
+msgstr ""
+"Спасибо за установку <strong>%1$s</strong>!  Перед началом, потратьте "
+"несколько минут что бы %2$sпрочитать документацию%3$s"
 
-#: woodev/class-plugin.php:277
+#: woodev-russian-post.php:591
 #, php-format
-msgid ""
-"Для %1$s необходимо наличие PHP функции %2$s. Свяжитесь с вашим хостинг "
-"провайдером, что бы установить нужную функцию."
-msgid_plural ""
-"Для %1$s необходимо наличие PHP функций %2$s. Свяжитесь с вашим хостинг "
-"провайдером, что бы установить нужные функции."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgid "Cannot get site settings. Error: %s"
+msgstr "Не возможно получить настрйоки сайта пользователя. Ошибка: %s"
+
+#~ msgid "Replace City, State and Postcode"
+#~ msgstr "Заменять Город, Регион и Индекс"
+
+#~ msgid ""
+#~ "This option allows replacing City, State and Postcode fields from "
+#~ "suggestions options. It works only if \"Auto-suggestions\" option is "
+#~ "enabled and only for Russia`s localities."
+#~ msgstr ""
+#~ "Эта опция позволяет заменять значение полей Город, Регион и Индекс из "
+#~ "выбранного значения подсказок. Работает только если включена опция \"Авто-"
+#~ "подсказки\" и только для населённых пукнтов России."
+
+#~ msgid "Additional"
+#~ msgstr "Дополнительно"
+
+#~ msgid "Welcome"
+#~ msgstr "Добро пожаловать"
+
+#~ msgid "Let's Go!"
+#~ msgstr "Поехали!"
+
+#~ msgid "No items to pack!"
+#~ msgstr "Нет елементов для упаковки!"
+
+#~ msgid "Wow"
+#~ msgstr "Вау"
+
+#~ msgid "Perfect"
+#~ msgstr "Превосходно"
+
+#~ msgid "Any type"
+#~ msgstr "Любой тип"

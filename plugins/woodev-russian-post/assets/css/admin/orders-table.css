@@ -1,0 +1,133 @@
+.order-status,
+.shipment-type {
+    display: inline-flex;
+    line-height: 2.5em;
+    color: #777;
+    background: #e5e5e5;
+    border-radius: 4px;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    margin: -0.25em 0;
+    cursor: inherit!important;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.order-status > span,
+.shipment-type > span {
+    margin: 0 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-status.status-russian-post-exported {
+    background: #c8d7e1;
+    color: #2e4453
+}
+
+.order-status.status-russian-post-new {
+    background: #f8dda7;
+    color: #94660c
+}
+
+.order-status.status-russian-post-canceled,
+.order-status.status-russian-post-failed {
+    background: #eba3a3;
+    color: #761919
+}
+
+.order-status.status-russian-post-delivered {
+    background: #c6e1c6;
+    color: #5b841b
+}
+
+.shipment-type.shipment-type--courier {
+    background: var(--wc-blue);
+    color: var(--wc-primary-text);
+}
+.shipment-type.shipment-type--postamat {
+    background: var(--wc-primary);
+    color: var(--wc-primary-text);
+}
+.shipment-type.shipment-type--office {
+    background: var(--wc-highlight);
+    color: var(--wc-highligh-text);
+}
+
+.wc-russian-post-orders-wrapper table.widefat th,
+.wc-russian-post-orders-wrapper table.widefat td {
+    vertical-align: middle;
+}
+
+.wc-russian-post-orders-wrapper table.widefat td .description {
+    display: block;
+    color: #999;
+    font-size: .9em;
+}
+
+.wc-russian-post-orders-wrapper table.widefat td .description.not-paid {
+    padding: 1px 5px;
+    background-color: var(--wc-primary);
+    color: var(--wc-primary-text);
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.widefat .column-actions a.button {
+    display: block;
+    text-indent: 9999px;
+    margin: 2px 0 2px 4px;
+    position: relative;
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    padding: 0!important;
+    height: 2em!important;
+    width: 2em;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.widefat .column-actions a.button::after {
+    font-family: Dashicons;
+    speak: never;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    margin: 2px 0 0;
+    text-indent: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 1.85;
+}
+
+.widefat .column-actions .russian-post-export::after {
+    content: "\f317";
+}
+
+.widefat .column-actions .russian-post-update::after {
+    content: "\f463";
+}
+
+.widefat .column-actions .russian-post-cancel {
+    background-color: var(--wc-orange);
+}
+
+.widefat .column-actions .russian-post-cancel::after {
+    content: "\f14f";
+}
+
+.wc-russian-post-orders-wrapper table.widefat td .description.dashicons-before::before,
+.wc-russian-post-orders-wrapper table.widefat td .description .dashicons::before{
+    font-size: .9em;
+    vertical-align: baseline;
+    width: .9em;
+    height: .9em;
+}
+
+.wc-russian-post-orders-wrapper table.widefat td.column-customer .description {
+    margin-top: 7px;
+}

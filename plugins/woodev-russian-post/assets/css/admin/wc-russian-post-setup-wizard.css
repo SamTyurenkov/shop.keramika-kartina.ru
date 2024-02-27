@@ -1,0 +1,76 @@
+h1.woodev-wc-russian-post-logo {
+    padding: 0;
+    border: none;
+}
+
+.woodev-wc-russian-post-setup-content p.woodev-plugin-admin-setup-control {
+    margin: 0;
+}
+
+.woodev-wc-russian-post-setup-content p.woodev-plugin-admin-setup-control input[type="text"],
+.woodev-wc-russian-post-setup-content p.woodev-plugin-admin-setup-control input[type="number"],
+.woodev-wc-russian-post-setup-content p.woodev-plugin-admin-setup-control input[type="password"] {
+    height: 40px;
+    width: 100%;
+}
+
+.woodev-wc-russian-post-setup-content .newsletter-prompt {
+    text-align: center;
+}
+
+.woodev-wc-russian-post-setup-content .newsletter-prompt p {
+    font-size: 14px;
+    line-height: 23px;
+}
+
+.woodev-wc-russian-post-setup-content small.description {
+    color: #888;
+    margin-top: 10px;
+    display: inline-block;
+    line-height: 1.7em;
+}
+
+.woodev-wc-russian-post-setup-content small.description a {
+    color: inherit;
+}
+
+.woodev-plugin-admin-setup-control label span.optional {
+    display: none;
+}
+
+.woodev-plugin-admin-setup-control .select2-selection {
+    border-radius: 4px;
+}
+
+.woodev-plugin-admin-setup-control .select2-container--default.select2-container--focus .select2-selection--multiple {
+    background-color: #fff;
+    border: 1px solid #aaa;
+}
+
+.woodev-plugin-admin-setup-control .select2-selection--multiple .select2-search--inline .select2-search__field {
+    border: none;
+}
+
+.woodev-wc-russian-post-setup-content .woodev-plugin-admin-setup-control.toggle .name {
+    text-align: left;
+}
+
+@media screen and (min-width: 767px) {
+
+    .woodev-wc-russian-post-setup-content .form-row.one-four.woodev-plugin-admin-setup-control {
+        width: 25%;
+        display: block;
+        float: left;
+    }
+
+    .woodev-wc-russian-post-setup-content .form-row.one-half.woodev-plugin-admin-setup-control {
+        width: 50%;
+        float: left;
+    }
+
+    .woodev-wc-russian-post-setup-content .form-row.one-four.woodev-plugin-admin-setup-control:not(:last-of-type) input,
+    .woodev-wc-russian-post-setup-content .form-row.one-half.woodev-plugin-admin-setup-control:nth-child(even) input {
+        width:95%;
+    }
+
+}

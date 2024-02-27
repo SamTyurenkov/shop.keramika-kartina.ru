@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) or exit;
 
-if ( ! class_exists( '\\SkyVerge\\WooCommerce\\PluginFramework\\v5_7_1\\SV_WC_Plugin_Compatibility' ) ) :
+if ( ! class_exists( 'Woodev_Plugin_Compatibility' ) ) :
 
 class Woodev_Plugin_Compatibility {
 

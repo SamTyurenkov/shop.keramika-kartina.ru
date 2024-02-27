@@ -1,128 +1,265 @@
 <?php
 
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'Woodev_Payment_Gateway_Helper' ) ) :
 
-class Woodev_Payment_Gateway_Helper {
-	
-	public static function get_payment_gateway_configuration_url( $gateway_class_name ) {
-		return admin_url( 'admin.php?page=wc-settings&tab=checkout&section=' . strtolower( $gateway_class_name ) );
-	}
-	
-	public static function is_payment_gateway_configuration_page( $gateway_class_name ) {
+	/**
+	 * Woodev Payment Gateway Helper Class
+	 *
+	 * The purpose of this class is to centralize common utility functions that
+	 * are commonly used in Woodev payment gateway plugins
+	 *
+	 */
+	class Woodev_Payment_Gateway_Helper {
 
-		return 'wc-settings' == Woodev_Helper::get_request( 'page' ) &&
-			'checkout' == Woodev_Helper::get_request( 'tab' ) &&
-			strtolower( $gateway_class_name ) == Woodev_Helper::get_request( 'section' );
-	}
-	
-	public static function luhn_check( $account_number ) {
+		/** @var string the Visa card type ID * */
+		const CARD_TYPE_VISA = 'visa';
 
-		for ( $sum = 0, $i = 0, $ix = strlen( $account_number ); $i < $ix - 1; $i++) {
+		/** @var string the MasterCard card type ID * */
+		const CARD_TYPE_MASTERCARD = 'mastercard';
 
-			$weight = substr( $account_number, $ix - ( $i + 2 ), 1 ) * ( 2 - ( $i % 2 ) );
-			$sum += $weight < 10 ? $weight : $weight - 9;
+		/** @var string the American Express card type ID * */
+		const CARD_TYPE_AMEX = 'amex';
 
-		}
+		/** @var string the Diners Club card type ID * */
+		const CARD_TYPE_DINERSCLUB = 'dinersclub';
 
-		return substr( $account_number, $ix - 1 ) == ( ( 10 - $sum % 10 ) % 10 );
-	}
-	
-	public static function card_type_from_account_number( $account_number ) {
+		/** @var string the Discover card type ID * */
+		const CARD_TYPE_DISCOVER = 'discover';
 
-		$types = array(
-			'visa'     => '/^4/',
-			'mc'       => '/^5[1-5]/',
-			'amex'     => '/^3[47]/',
-			'discover' => '/^(6011|65|64[4-9]|622)/',
-			'diners'   => '/^(36|38|30[0-5])/',
-			'jcb'      => '/^35/',
-			'maestro'  => '/^(5018|5020|5038|6304|6759|676[1-3])/',
-			'laser'    => '/^(6706|6771|6709)/',
-		);
+		/** @var string the JCB card type ID * */
+		const CARD_TYPE_JCB = 'jcb';
 
-		foreach ( $types as $type => $pattern ) {
-			if ( 1 === preg_match( $pattern, $account_number ) ) {
-				return $type;
+		/** @var string the CarteBleue card type ID * */
+		const CARD_TYPE_CARTEBLEUE = 'cartebleue';
+
+		/** @var string the Maestro card type ID * */
+		const CARD_TYPE_MAESTRO = 'maestro';
+
+		/** @var string the Laser card type ID * */
+		const CARD_TYPE_LASER = 'laser';
+
+		/** @var string the Laser card type ID * */
+		const CARD_TYPE_MIR = 'mir';
+
+
+		/**
+		 * Perform standard luhn check.  Algorithm:
+		 *
+		 * 1. Double the value of every second digit beginning with the second-last right-hand digit.
+		 * 2. Add the individual digits comprising the products obtained in step 1 to each of the other digits in the original number.
+		 * 3. Subtract the total obtained in step 2 from the next higher number ending in 0.
+		 * 4. This number should be the same as the last digit (the check digit). If the total obtained in step 2 is a number ending in zero (30, 40 etc.), the check digit is 0.
+		 *
+		 * @param string $account_number the credit card number to check
+		 *
+		 * @return bool true if $account_number passes the check, false otherwise
+		 */
+		public static function luhn_check( $account_number ) {
+
+			for ( $sum = 0, $i = 0, $ix = strlen( $account_number ); $i < $ix - 1; $i ++ ) {
+
+				$weight = substr( $account_number, $ix - ( $i + 2 ), 1 ) * ( 2 - ( $i % 2 ) );
+				$sum    += $weight < 10 ? $weight : $weight - 9;
+
 			}
+
+			return substr( $account_number, $ix - 1 ) == ( ( 10 - $sum % 10 ) % 10 );
 		}
 
-		return null;
-	}
-	
-	public static function payment_type_to_name( $payment_type ) {
 
-		$name = '';
-		$type = strtolower( $payment_type );
-		
-		switch ( $type ) {
+		/**
+		 * Normalize a card type to a standard type ID and account for variations.
+		 *
+		 * @param string $card_type the card type to normalize
+		 *
+		 * @return string
+		 */
+		public static function normalize_card_type( $card_type ) {
 
-			case 'mc':         $name = 'MasterCard';          break;
-			case 'amex':       $name = 'American Express';    break;
-			case 'disc':       $name = 'Discover';            break;
-			case 'jcb':        $name = 'JCB';                 break;
-			case 'cartebleue': $name = 'CarteBleue';          break;
-			case 'paypal':     $name = 'PayPal';              break;
-			case 'checking':   $name = 'Checking Account';    break;
-			case 'savings':    $name = 'Savings Account';     break;
-			case 'card':       $name = 'Credit / Debit Card'; break;
-			case 'bank':       $name = 'Bank Account';        break;
-			case '':           $name = 'Account';             break;
-		}
-		
-		if ( ! $name ) {
-			$name = ucwords( str_replace( '-', ' ', $type ) );
-		}
+			$card_types = self::get_card_types();
 
-		return apply_filters( 'wc_payment_gateway_payment_type_to_name', $name, $type );
-	}
-	
-	public static function get_order_line_items( $order ) {
+			$card_type = strtolower( $card_type );
 
-		$line_items = array();
-
-		foreach ( $order->get_items() as $id => $item ) {
-
-			$line_item = new stdClass();
-
-			$product = $order->get_product_from_item( $item );
-
-			$item_desc = array();
-				
-			if ( is_callable( array( $product, 'get_sku' ) ) && $product->get_sku() ) {
-				$item_desc[] = sprintf( 'SKU: %s', $product->get_sku() );
+			// stop here if the provided card type is already normalized
+			if ( in_array( $card_type, array_keys( $card_types ) ) ) {
+				return $card_type;
 			}
-				
-			$item_meta = new WC_Order_Item_Meta( $item );
 
-			$item_meta = $item_meta->get_formatted();
+			$variations = wp_list_pluck( $card_types, 'variations' );
 
-			if ( ! empty( $item_meta ) ) {
+			// if the provided card type matches a known variation, return the normalized card type
+			foreach ( $variations as $valid_type => $vars ) {
 
-				foreach ( $item_meta as $meta ) {
-					$item_desc[] = sprintf( '%s: %s', $meta['label'], $meta['value'] );
+				if ( in_array( $card_type, $vars ) ) {
+					$card_type = $valid_type;
+					break;
 				}
 			}
 
-			$item_desc = implode( ', ', $item_desc );
-
-			$line_item->id          = $id;
-			$line_item->name        = htmlentities( $item['name'], ENT_QUOTES, 'UTF-8', false );
-			$line_item->description = htmlentities( $item_desc, ENT_QUOTES, 'UTF-8', false );
-			$line_item->quantity    = $item['qty'];
-			$line_item->item_total  = isset( $item['recurring_line_total'] ) ? $item['recurring_line_total'] : $order->get_item_total( $item );
-			$line_item->line_total  = $order->get_line_total( $item );
-			$line_item->meta        = $item_meta;
-			$line_item->product     = is_object( $product ) ? $product : null;
-			$line_item->item        = $item;
-
-			$line_items[] = $line_item;
+			// otherwise, let it through unaltered
+			return $card_type;
 		}
 
-		return $line_items;
+
+		/**
+		 * Determines the credit card type from a given account number (only first 4 required).
+		 *
+		 *
+		 * @param string $account_number the credit card account number
+		 *
+		 * @return string the credit card type
+		 */
+		public static function card_type_from_account_number( $account_number ) {
+
+			$types = array(
+				self::CARD_TYPE_VISA       => '/^4/',
+				self::CARD_TYPE_MASTERCARD => '/^(5[1-5]|2[2-7])/',
+				self::CARD_TYPE_AMEX       => '/^3[47]/',
+				self::CARD_TYPE_DINERSCLUB => '/^(36|38|30[0-5])/',
+				self::CARD_TYPE_DISCOVER   => '/^(6011|65|64[4-9]|622)/',
+				self::CARD_TYPE_JCB        => '/^35/',
+				self::CARD_TYPE_MAESTRO    => '/^(5018|5020|5038|6304|6759|676[1-3])/',
+				self::CARD_TYPE_LASER      => '/^(6706|6771|6709)/',
+			);
+
+			foreach ( $types as $type => $pattern ) {
+
+				if ( 1 === preg_match( $pattern, $account_number ) ) {
+					return $type;
+				}
+			}
+
+			return null;
+		}
+
+		/**
+		 * Translates a loan type name to a full name
+		 *
+		 * @param string $type the loan type
+		 *
+		 * @return string the kind of loan name, ei 'Installment', 'Credit'
+		 */
+		public static function get_loan_type_name( $type ) {
+
+			$types = array(
+				'credit'      => esc_html__( 'Loan', 'woodev-plugin-framework' ),
+				'installment' => esc_html__( 'Installment', 'woodev-plugin-framework' )
+			);
+
+			$name = isset( $types[ $type ] ) ? $types[ $type ] : $type;
+
+			return apply_filters( 'wc_payment_gateway_loan_type_to_name', $name, $type );
+		}
+
+
+		/**
+		 * Translates a credit card type or bank account name to a full name,
+		 * e.g. 'mastercard' => 'MasterCard' or 'savings' => 'eCheck'
+		 *
+		 * @param string $payment_type the credit card or bank type, ie 'mastercard', 'amex', 'checking'
+		 *
+		 * @return string the credit card or bank account name, ie 'MasterCard', 'American Express', 'Checking Account'
+		 */
+		public static function payment_type_to_name( $payment_type ) {
+
+			// normalize for backwards compatibility with gateways that pass the card type directly from Woodev_Payment_Gateway::get_card_types()
+			$type = self::normalize_card_type( $payment_type );
+
+			// known payment type names, excluding credit cards
+			$payment_types = array(
+				'paypal'   => esc_html__( 'PayPal', 'woodev-plugin-framework' ),
+				'checking' => esc_html__( 'Checking Account', 'woodev-plugin-framework' ),
+				'savings'  => esc_html__( 'Savings Account', 'woodev-plugin-framework' ),
+				'card'     => esc_html__( 'Credit / Debit Card', 'woodev-plugin-framework' ),
+				'bank'     => esc_html__( 'Bank Account', 'woodev-plugin-framework' ),
+				'loan'     => esc_html__( 'Loan', 'woodev-plugin-framework' )
+			);
+
+			// add the credit card names
+			$payment_types = array_merge( wp_list_pluck( self::get_card_types(), 'name' ), $payment_types );
+
+			if ( isset( $payment_types[ $type ] ) ) {
+				$name = $payment_types[ $type ];
+			} elseif ( '' === $type ) {
+				$name = esc_html_x( 'Account', 'payment method type', 'woodev-plugin-framework' );
+			} else {
+				$name = ucwords( str_replace( '-', ' ', $type ) );
+			}
+
+			/**
+			 * Payment Gateway Type to Name Filter.
+			 *
+			 * Allow actors to modify the name returned given a payment type.
+			 *
+			 * @param string $name nice payment type name, e.g. American Express
+			 * @param string $type payment type, e.g. amex
+			 */
+			return apply_filters( 'wc_payment_gateway_payment_type_to_name', $name, $type );
+		}
+
+
+		/**
+		 * Gets the known card types and their variations.
+		 *
+		 * Returns the card types in the format:
+		 *
+		 * 'mastercard' {
+		 *     'name'       => 'MasterCard',
+		 *     'variations' => array( 'mc' ),
+		 * }
+		 *
+		 * @return array
+		 */
+		public static function get_card_types() {
+
+			return array(
+				self::CARD_TYPE_VISA       => array(
+					'name'       => esc_html_x( 'Visa', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array(),
+				),
+				self::CARD_TYPE_MASTERCARD => array(
+					'name'       => esc_html_x( 'MasterCard', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array( 'mc', 'master-card' ),
+				),
+				self::CARD_TYPE_AMEX       => array(
+					'name'       => esc_html_x( 'American Express', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array( 'americanexpress' ),
+				),
+				self::CARD_TYPE_DINERSCLUB => array(
+					'name'       => esc_html_x( 'Diners Club', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array( 'diners' ),
+				),
+				self::CARD_TYPE_DISCOVER   => array(
+					'name'       => esc_html_x( 'Discover', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array( 'disc' ),
+				),
+				self::CARD_TYPE_JCB        => array(
+					'name'       => esc_html_x( 'JCB', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array(),
+				),
+				self::CARD_TYPE_CARTEBLEUE => array(
+					'name'       => esc_html_x( 'CarteBleue', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array(),
+				),
+				self::CARD_TYPE_MAESTRO    => array(
+					'name'       => esc_html_x( 'Maestro', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array(),
+				),
+				self::CARD_TYPE_LASER      => array(
+					'name'       => esc_html_x( 'Laser', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array(),
+				),
+				self::CARD_TYPE_MIR        => array(
+					'name'       => esc_html_x( 'MIR', 'credit card type', 'woodev-plugin-framework' ),
+					'variations' => array(),
+				)
+			);
+		}
 	}
-}
 
 endif;

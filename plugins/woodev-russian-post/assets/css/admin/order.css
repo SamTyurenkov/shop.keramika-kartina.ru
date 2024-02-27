@@ -1,0 +1,36 @@
+.wc-russian-post-order-table tr td {
+    vertical-align: middle;
+}
+
+.wc-russian-post-order-table mark.status-russian-post-exported {
+    background-color: var(--wc-highlight);
+    color: var(--wc-highligh-text);
+}
+.wc-russian-post-order-table mark.status-russian-post-dispatched {
+    background-color: var(--wc-blue);
+    color: var(--wc-secondary);
+}
+.wc-russian-post-order-table mark.status-russian-post-delivered {
+    background-color: var(--wc-primary);
+    color: var(--wc-primary-text);
+}
+
+.wc-russian-post-order-actions {
+    margin-left: -12px;
+    margin-right: -12px;
+    margin-top: 6px;
+    padding: 12px 12px 0;
+    border-top: 1px solid #c3c4c7;
+}
+
+.wc-russian-post-order-actions .wc-action-button {
+    margin: 2px 0 2px 4px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.wc-russian-post-order-actions .wc-action-button.russian-post-cancel {
+    background-color: var(--wc-orange);
+}

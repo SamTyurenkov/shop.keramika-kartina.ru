@@ -2,125 +2,210 @@
 
 defined( 'ABSPATH' ) or exit;
 
-function wc_russian_post_get_courier_types() {
-	return apply_filters( 'wc_russian_post_courier_types', array(
-		'ONLINE_COURIER',
-		'EMS',
-		'EMS_OPTIMAL',
-		'EMS_RT',
-		'EMS_TENDER',
-		'BUSINESS_COURIER',
-		'BUSINESS_COURIER_ES'
+function wc_russian_post_get_user_options() {
+	return get_option( 'wc_russian_post_user_options', false );
+}
+
+/**
+ * @see https://otpravka.pochta.ru/specification#/enums-base-mail-type
+ * @return array|null
+ */
+function wc_russian_post_get_parcel_types() {
+	return apply_filters( 'wc_russian_post_parcel_types', array(
+		'POSTAL_PARCEL'            => __( 'Parcel', 'woocommerce-russian-post' ),
+		'ONLINE_PARCEL'            => __( 'Online parcel', 'woocommerce-russian-post' ),
+		'ONLINE_COURIER'           => __( 'Online courier', 'woocommerce-russian-post' ),
+		'EMS'                      => __( 'EMS', 'woocommerce-russian-post' ),
+		'EMS_OPTIMAL'              => __( 'EMS optimal', 'woocommerce-russian-post' ),
+		'EMS_RT'                   => __( 'EMS RT', 'woocommerce-russian-post' ),
+		'BUSINESS_COURIER'         => __( 'Business courier', 'woocommerce-russian-post' ),
+		'BUSINESS_COURIER_ES'      => __( 'Business courier express', 'woocommerce-russian-post' ),
+		'PARCEL_CLASS_1'           => __( 'Parcel 1-st class', 'woocommerce-russian-post' ),
+		'SMALL_PACKET'             => __( 'Small packet', 'woocommerce-russian-post' ),
+		'ECOM'                     => __( 'ECOM', 'woocommerce-russian-post' ),
+		'ECOM_MARKETPLACE'         => __( 'ECOM Marketplace', 'woocommerce-russian-post' ),
+		'ECOM_MARKETPLACE_COURIER' => __( 'ECOM Marketplace courier', 'woocommerce-russian-post' ),
+		'COMBINED'                 => __( 'Combined parcel', 'woocommerce-russian-post' )
 	) );
 }
 
-function wc_russian_post_get_fragile_allowed_mail_types() {
-	return apply_filters( 'wc_russian_post_fragile_allowed_mail_types', array( 'POSTAL_PARCEL' ) );
-}
+function wc_russian_post_get_parcel_type( $type = '' ) {
 
-function wc_russian_post_get_allowed_sms_notice_mail_types() {
-	return apply_filters( 'wc_russian_post_allowed_sms_notice_mail_types', array(
-		'EMS',
-		'EMS_OPTIMAL',
-		'POSTAL_PARCEL',
-		'PARCEL_CLASS_1',
-		'ONLINE_PARCEL'
-	) );
-}
+	$parcel_types     = wc_russian_post_get_parcel_types();
+	$type             = wc_strtoupper( $type );
+	$is_international = false;
 
-function wc_russian_post_get_allowed_content_check_mail_types() {
-	return apply_filters( 'wc_russian_post_allowed_content_check_mail_types', array(
-		'EMS_OPTIMAL',
-		'POSTAL_PARCEL',
-		'ONLINE_PARCEL'
-	) );
-}
-
-function wc_russian_post_get_kind_of_parcel( $key = '' ) {
-	
-	$kinds = apply_filters( 'wc_russian_post_kind_of_parcel', array(
-		'GIFT'				=> 'Подарок',
-		'DOCUMENT'			=> 'Документы',
-		'SALE_OF_GOODS'		=> 'Продажа товара',
-		'COMMERCIAL_SAMPLE'	=> 'Коммерческий образец',
-		'OTHER'				=> 'Прочее'
-	) );
-	
-	if( ! empty( $key ) && isset( $kinds[ $key ] ) ) {
-		return $kinds[ $key ];
+	if ( Woodev_Helper::str_ends_with( $type, '_INT' ) ) {
+		$type             = str_replace( '_INT', '', $type );
+		$is_international = true;
 	}
-	
-	return $kinds;
+
+	if ( isset( $parcel_types[ $type ] ) ) {
+
+		$name = $parcel_types[ $type ];
+
+		if ( $is_international ) {
+			$name = sprintf( '%s %s', $name, __( 'International', 'woocommerce-russian-post' ) );
+		}
+
+		return $name;
+	}
+
+	return $type;
 }
 
-function wc_russian_post_get_category_parcel( $key = '' ) {
-	
-	$categories = apply_filters( 'wc_russian_post_category_parcel', array(
-		'SIMPLE'										=> 'Простое',
-		'ORDERED'										=> 'Заказное',
-		'ORDINARY'										=> 'Обыкновенное',
-		'WITH_DECLARED_VALUE'							=> 'С объявленной ценностью',
-		'WITH_DECLARED_VALUE_AND_CASH_ON_DELIVERY'		=> 'С объявленной ценностью и наложенным платежом',
-		'WITH_DECLARED_VALUE_AND_COMPULSORY_PAYMENT'	=> 'С объявленной ценностью и обязательным платежом',
-		'WITH_COMPULSORY_PAYMENT'						=> 'С обязательным платежом',
+function wc_russian_post_is_allow_edostavka_address_suggestions() {
+
+	$edostavka_instance = wc_russian_post_shipping()->get_integrations_instance()->get_edostavka_instance();
+
+	if ( $edostavka_instance ) {
+
+		return in_array( true, array(
+			( ! in_array( $edostavka_instance->get_settings( 'enable_dropdown_city_field', 'enable' ), array(
+					'enable',
+					'zone'
+				), true ) && in_array( true, array(
+					wc_string_to_bool( $edostavka_instance->get_settings( 'enable_suggestions_state', 'no' ) ),
+					wc_string_to_bool( $edostavka_instance->get_settings( 'enable_suggestions_city', 'no' ) )
+				), true ) ),
+			wc_string_to_bool( $edostavka_instance->get_settings( 'enable_suggestions_address', 'no' ) )
+		), true );
+	}
+
+	return false;
+}
+
+function wc_russian_post_is_enable_address_suggestions() {
+
+	if( wc_russian_post_is_allow_edostavka_address_suggestions() ) {
+		return false;
+	}
+
+	$settings_instance = get_option( sprintf( 'woocommerce_%s_settings', wc_russian_post_shipping()->get_method_id() ), array() );
+
+	return in_array( true, array(
+		wc_string_to_bool( $settings_instance[ 'enable_state_suggestions' ] ?: 'yes' ),
+		wc_string_to_bool( $settings_instance[ 'enable_city_suggestions' ] ?: 'yes' ),
+		wc_string_to_bool( $settings_instance[ 'enable_address_suggestions' ] ?: 'yes' )
+	), true );
+}
+
+/**
+ * @return bool|Woodev\Russian_Post\Abstracts\Abstract_Shipping_Method
+ */
+function wc_russian_post_get_chosen_method_instance() {
+
+	$is_frontend = is_cart() || is_account_page() || is_checkout() || is_customize_preview();
+
+	if ( $is_frontend && WC()->session ) {
+
+		$chosen_shipping_methods_session = WC()->session->get( 'chosen_shipping_methods', array() );
+
+		if ( ! empty( $chosen_shipping_methods_session ) ) {
+
+			$method_instance = false;
+
+			foreach ( $chosen_shipping_methods_session as $package_key => $chosen_package_rate_id ) {
+
+				if ( Woodev_Helper::str_starts_with( $chosen_package_rate_id, wc_russian_post_shipping()->get_method_id() ) ) {
+
+					list( $method_id, $instance_id ) = explode( ':', $chosen_package_rate_id );
+
+					$method_instance = WC_Shipping_Zones::get_shipping_method( $instance_id );
+
+					if ( $method_instance instanceof \Woodev\Russian_Post\Abstracts\Abstract_Shipping_Method ) {
+						break;
+					}
+				}
+			}
+
+			if ( $method_instance ) {
+				return $method_instance;
+			}
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Removes prefix of address part if it exists
+ *
+ * @param string $address Original address part string
+ * @param string $type    Type of address part. Must be city or region
+ *
+ * @return false|string
+ */
+function wc_russian_post_clear_address_part( $address = '', $type = 'city' ) {
+	if ( empty( $address ) ) {
+		return false;
+	}
+
+	switch ( $type ) {
+		case 'city' :
+			$address = str_ireplace(
+				array(
+					'г. ',
+					' г.',
+					'г ',
+					'город',
+					' дер.',
+					'дер. ',
+					'дер ',
+					'пос. ',
+					' пос.',
+					'пос ',
+					'c ',
+					'c. ',
+					'cел ',
+					'cел. ',
+					'поселок',
+					'деревня',
+					'село'
+				),
+				__return_empty_string(),
+				$address
+			);
+			break;
+		case 'region' :
+			$address = str_ireplace(
+				array(
+					'обл. ',
+					'обл ',
+					' обл.',
+					'область',
+					'р-н',
+					'район'
+				),
+				__return_empty_string(),
+				$address
+			);
+			break;
+	}
+
+	return trim( $address );
+}
+
+function wc_russian_post_get_order_statuses() {
+	return apply_filters( 'wc_russian_post_order_statuses', array(
+		'new'        => __( 'New', 'woocommerce-russian-post' ),
+		'exported'   => __( 'Exported', 'woocommerce-russian-post' ),
+		'accepted'   => __( 'Accepted', 'woocommerce-russian-post' ),
+		'dispatched' => __( 'In delivery', 'woocommerce-russian-post' ),
+		'failed'     => __( 'Failed', 'woocommerce-russian-post' ),
+		'delivered'  => __( 'Delivered', 'woocommerce-russian-post' ),
+		'canceled'   => __( 'Canceled', 'woocommerce-russian-post' ),
 	) );
-	
-	if( ! empty( $key ) && isset( $categories[ $key ] ) ) {
-		return $categories[ $key ];
-	}
-	
-	return $categories;
 }
 
-function wc_russian_post_get_transport_types( $key = '' ) {
-	
-	$types = apply_filters( 'wc_russian_post_transport_types', array(
-		'SURFACE'	=> 'Наземный',
-		'AVIA'		=> 'Авиа',
-		'COMBINED'	=> 'Комбинированный',
-		'EXPRESS'	=> 'Системой ускоренной почты',
-		'STANDARD'	=> 'EMS Оптимальное'
-	) );
-	
-	if( ! empty( $key ) && isset( $types[ $key ] ) ) {
-		return $types[ $key ];
-	}
-	
-	return $types;
-}
+function wc_russian_post_get_order_status( $key = '' ) {
+	$statuses = wc_russian_post_get_order_statuses();
 
-function wc_russian_post_get_payment_method_types( $key = '' ) {
-	
-	$types = apply_filters( 'wc_russian_post_get_payment_method_types', array(
-		'CASHLESS'				=> 'Безналичный расчет',
-		'STAMP'					=> 'Оплата марками',
-		'FRANKING'				=> 'Франкирование',
-		'TO_FRANKING'			=> 'На франкировку',
-		'ONLINE_PAYMENT_MARK'	=> 'Оплата онлайн'
-	) );
-	
-	if( ! empty( $key ) && isset( $types[ $key ] ) ) {
-		return $types[ $key ];
-	}
-	
-	return $types;
-}
-
-function wc_russian_post_get_mail_types( $key = '' ) {
-	
-	$mail_types = wc_russian_post_shipping()->get_license_instance()->get_license_data();
-	
-	$types = apply_filters( 'wc_russian_post_mail_types', isset( $mail_types->mail_types ) ? ( array ) $mail_types->mail_types : array() );
-	
-	if( ! empty( $key ) && isset( $types[ $key ] ) ) {
-		return $types[ $key ];
-	}
-	
-	return $types;
+	return isset( $statuses[ $key ] ) ? $statuses[ $key ] : null;
 }
 
 function wc_russian_post_get_allow_country_codes( $key = '' ) {
-	
+
 	$codes = apply_filters( 'wc_russian_post_allow_country_codes', array(
 		'RU' => 643,
 		'AU' => 36,
@@ -371,132 +456,147 @@ function wc_russian_post_get_allow_country_codes( $key = '' ) {
 		'JM' => 388,
 		'JP' => 392
 	) );
-	
-	if( ! empty( $key ) && isset( $codes[ $key ] ) ) {
+
+	if ( ! empty( $key ) && isset( $codes[ $key ] ) ) {
 		return $codes[ $key ];
 	}
-	
+
 	return $codes;
 }
 
-function wc_russian_post_get_eeu_countries() {
-	return apply_filters( 'wc_russian_post_eeu_countries', array(
-		'KZ',
-		'RU',
-		'BY',
-		'AM'
-	) );
+/**
+ * @see https://otpravka.pochta.ru/specification#/enums-dimension-type
+ *
+ * @return array[]
+ */
+function wc_russian_post_get_dimension_type_sizes() {
+	return array(
+		'S'  => array( 260, 170, 80 ),
+		'M'  => array( 300, 200, 150 ),
+		'L'  => array( 400, 270, 180 ),
+		'XL' => array( 530, 260, 220 )
+	);
 }
 
-function wc_russian_post_get_custom_order_fields() {
-	return apply_filters( 'wc_russian_post_custom_order_fields', array(
-		'is_russian_post',
-		'index_from',
-		'entries_type',
-		'dimension_type',
-		'declared_value',
-		'courier',
-		'mail_type',
-		'mail_category',
-		'transport_type',
-		'fragile',
-		'package_height',
-		'package_length',
-		'package_width',
-		'package_mass',
-		'customer_notice',
-		'completeness_checking',
-		'contents_checking',
-		'min_days',
-		'max_days',
-		'delivery_point_index'
-	) );
-}
+function wc_russian_post_get_dimension_by_key( $key ) {
 
-function wc_russian_post_get_ecom_services( $code = '' ) {
-	
-	$services = apply_filters( 'wc_russian_post_ecom_services', array(
-		'WITHOUT_SERVICE'			=> 'Без сервиса',
-		'WITHOUT_OPENING'			=> 'Без вскрытия',
-		'CONTENTS_CHECKING'			=> 'С проверкой вложения',
-		'WITH_FITTING'				=> 'С примеркой',
-		'COURIER_DELIVERY'			=> 'Доставка курьером',
-		'PARTIAL_REDEMPTION'		=> 'С частичным выкупом',
-		'FUNCTIONALITY_CHECKING'	=> 'С проверкой работоспособности',
-	) );
-	
-	if( ! empty( $code ) && isset( $services[ $code ] ) ) {
-		return $services[ $code ];
+	$sizes = wc_russian_post_get_dimension_type_sizes();
+	$key   = wc_strtoupper( $key );
+
+	if ( ! in_array( $key, array_keys( $sizes ), true ) ) {
+		return false;
 	}
-	
-	return $services;
+
+	return array(
+		'dimensions' => $sizes[ $key ],
+		'max_value'  => max( $sizes[ $key ] ),
+		'volume'     => array_product( $sizes[ $key ] )
+	);
 }
 
-function wc_russian_post_get_user_options() {
-	return get_option( 'wc_russian_post_user_options', false );
+function wc_russian_post_get_best_match_postal_code( array $codes ) {
+
+	$filtered_codes = array_filter( $codes, function ( $code ) {
+		return substr( strval( $code ), - 3 ) === '000';
+	} );
+
+	if ( count( $filtered_codes ) > 0 ) {
+		return reset( $filtered_codes );
+	}
+
+	return reset( $codes );
 }
 
-function wc_russian_user_is_cod_enabled() {
-	$user_options = wc_russian_post_get_user_options();
-	return $user_options && isset( $user_options['cod_enabled'] ) && $user_options['cod_enabled'] ? true : false;
-}
-
-function wc_russian_post_delivery_points_table_is_empty() {
-	
+function wc_russian_post_get_counts_order_status() {
 	global $wpdb;
-	
-	$table_name = sprintf( '%s%s%s', $wpdb->prefix, wc_russian_post_shipping()->get_method_id(), '_delivery_points' );
-	
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}';" ) ) {
-		
-		$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name} WHERE city_name IS NOT NULL" );	
-		
-		return $count == 0 ? false : true;
-	}
-	
-	return false;
+
+	$query = "
+				SELECT {$wpdb->postmeta}.meta_value AS status, COUNT(*) AS count
+				FROM {$wpdb->posts}
+				INNER JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id)
+				WHERE {$wpdb->posts}.post_type = 'shop_order'
+				AND ({$wpdb->postmeta}.meta_key = '_wc_russian_post_status')
+				AND {$wpdb->posts}.post_status NOT IN ( 'auto-draft', 'draft', 'trash' )
+				GROUP BY {$wpdb->postmeta}.meta_value";
+
+	return $wpdb->get_results( $query );
 }
 
-function wc_russian_post_get_customer_coordinates() {
-	
-	$lang = get_locale() == 'ru_RU' ? 'ru' : 'en';
-	$customer_ip = WC_Geolocation::get_ip_address();
-	$transient_name = 'wc_russian_post_customer_ip_' . md5( $customer_ip ) . '_lang_' .$lang;
-	$coorditanes = get_transient( $transient_name );
-				
-	if ( false === $coorditanes ) {
-		
-		$service_url = add_query_arg( array( 'lang' => $lang ), sprintf( 'http://ip-api.com/json/%s', $customer_ip ) );
-		$response = wp_safe_remote_get( $service_url, array( 'timeout' => 2 ) );
-					
-		if ( ! is_wp_error( $response ) && $response['body'] ) {
-						
-			$data = json_decode( $response['body'] );
-			$coorditanes = array(
-				'lat'		=> isset( $data->lat ) ? $data->lat : '',
-				'lon'		=> isset( $data->lon ) ? $data->lon : '',
-				'country' 	=> isset( $data->countryCode ) ? $data->countryCode : '',
-				'state' 	=> isset( $data->regionName ) ? $data->regionName : '',
-				'postcode' 	=> isset( $data->zip ) ? $data->zip : '',
-				'city' 		=> isset( $data->city ) ? $data->city : '',
-				'IP'		=> $customer_ip,
-				'lang'		=> $lang
+//Add cron action hook. It updates the history of delivering
+add_action( 'wc_russian_post_orders_update', 'wc_russian_post_update_all_orders' );
+
+function wc_russian_post_update_all_orders() {
+
+	$query = new WP_Query( apply_filters( 'wc_russian_post_update_orders_query_args', array(
+		'post_type'   => wc_get_order_types( 'view-orders' ),
+		'post_status' => array_keys( wc_get_order_statuses() ),
+		'nopaging'    => true,
+		'meta_query'  => array(
+			array(
+				'key'     => '_wc_russian_post_is_russian_post',
+				'compare' => 'EXISTS'
+			),
+			array(
+				'key'     => '_wc_russian_post_tracking_number',
+				'compare' => 'EXISTS'
+			),
+			array(
+				'key'     => '_wc_russian_post_status',
+				'value'   => array( 'new', 'failed', 'delivered', 'canceled' ),
+				'compare' => 'NOT IN'
+			),
+		)
+	) ) );
+
+	$query->set( 'fields', 'ids' );
+
+	foreach ( $query->get_posts() as $order_id ) {
+
+		$order = new Woodev\Russian_Post\Classes\Order( $order_id );
+
+		$order->update_tracking_history( true );
+	}
+
+	if ( $query->post_count ) {
+		wc_russian_post_shipping()->log( sprintf( _n( 'Updated information for %d order.', 'Updated information for %d orders.', $query->post_count, 'woocommerce-russian-post' ), $query->post_count ) );
+	}
+
+	return $query->post_count;
+}
+
+function wc_russian_post_get_site_setting( $setting, $default = null, $force = false ) {
+
+	$site_settings = wc_russian_post_shipping()->get_site_settings( $force );
+
+	if ( isset( $site_settings->$setting ) ) {
+		return $site_settings->$setting;
+	}
+
+	return $default;
+}
+
+function wc_russian_post_get_allowed_shipment_types() {
+
+	$types          = array();
+	$shipment_types = wc_russian_post_get_site_setting( 'shipmentPriorities', array() );
+
+	foreach ( $shipment_types as $shipment ) {
+		if ( $shipment->enabled && in_array( wc_strtoupper( $shipment->shipmentType ), array_keys( wc_russian_post_get_parcel_types() ), true ) ) {
+			$types[ $shipment->shipmentType ] = array(
+				'id'       => $shipment->id,
+				'type'     => wc_strtoupper( $shipment->shipmentType ),
+				'priority' => $shipment->priority
 			);
-						
-			set_transient( $transient_name, $coorditanes, WEEK_IN_SECONDS );
 		}
 	}
-				
-	return $coorditanes;
-}
 
-/**
-* Передавать значения в cm.
-*/
-function wc_russian_post_is_oversize_dimension( $length = 0, $width = 0, $height = 0 ) {
-	$size = array( $length, $width, $height );
-	/*
-	* Негабарит, если сумма сторон более 1400 мм или одна из сторон более 600 мм
-	*/
-	return ( array_sum( $size ) >= 140 ) || ( max( $size ) >= 60 );
+	uasort( $types, function ( $a, $b ) {
+		if ( $a['priority'] === $b['priority'] ) {
+			return 0;
+		}
+
+		return ( $a['priority'] > $b['priority'] ) ? 1 : - 1;
+	} );
+
+	return $types;
 }
